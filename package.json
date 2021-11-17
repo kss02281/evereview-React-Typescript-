@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "prettier-eslint": "^13.0.0"
+  },
+  "dependencies": {
+    "eslint-config-airbnb": "^19.0.0"
+  }
+}

@@ -7,6 +7,7 @@ import ROUTES from '../constants/routes';
 import { UilArrowUp, UilArrowDown } from '@iconscout/react-unicons';
 import VerticalCarousel from '../Components/verticalSlider/VerticalCarousel';
 import mockData from '../constants/mockData.json';
+import AnimationPage from '../Components/AnimationPage';
 
 const cx = classNames.bind(styles);
 
@@ -34,8 +35,8 @@ function MainPage() {
             <VerticalCarousel data={mockData.data} leadingText="" />
           </div>
           <div className={cx('rightContainer')}>
-            <img src='https://www.cisconsulting.io/hs-fs/hubfs/CIS-Homepage-Cover-v3.png?width=1015&height=885&name=CIS-Homepage-Cover-v3.png' alt='' />
-          </div>
+            <AnimationPage />
+            </div>
           <div></div>
         </div>
     </Fragment>

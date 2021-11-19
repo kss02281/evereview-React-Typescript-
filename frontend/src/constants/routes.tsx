@@ -1,7 +1,8 @@
 const ROUTES = {
-    DETAIL: '/detail',
+    HOME: '/',
+    ABOUT: '/about',
     LOGIN: '/login',
-    NotFound: '/notfound',
+    NOTFOUND: '/notfound',
     SIGNUP: {
       INDEX: '/signup',
       STEP1: '/signup/step1',
@@ -9,7 +10,6 @@ const ROUTES = {
       COMPLETE: '/signup/complete',
     },
     MY_PAGE: '/my-page',
-    MAIN: '/',
   };
   
   export default ROUTES;

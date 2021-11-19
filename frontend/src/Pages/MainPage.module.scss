@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Rochester&display=swap');
+
+$notoSans: 'Noto Sans KR', sans-serif;
+$subLogo: 'Rochester', cursive;
+
+.mainContainer{
+    height: 94vh;
+    display: grid;
+    grid-template-columns: 0.05fr 1fr 1fr 0.05fr;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-image: url('../img/bgpattern4.png'); 
+    background-position: top right; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+.leftContainer{
+    .mainDescription{
+        width: 570px;
+        margin-left: 200px;
+        font-family: $notoSans;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 41px;
+        color: #2f2f2f;
+        
+    }
+    p{
+        margin-left: 200px;
+        font-family: $subLogo;
+        font-size: 100px;
+        margin-bottom: 0;
+    }
+    .startButton{
+        display: inline-block;
+        width: 180px;
+        height: 30px;
+        margin-top: 35px;
+        margin-left: 250px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        background-color: #6157FF;
+        color: white;
+        font-family: Noto Sans;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 27px;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+    
+}
+
+.rightContainer{
+    margin: 0 auto;
+    margin-top: 17vh;
+    img{
+        width: 650px;
+        padding-right: 50px;
+    }
+}

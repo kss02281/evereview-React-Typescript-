@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { MainPage, NotFound } from './Pages';
+import { MainPage, LoginPage, NotFound } from './Pages';
 import { Navbar } from './Components/common';
+import ROUTES from './constants/routes';
 
 const Root: React.FC = () => (
   <BrowserRouter>
     <Navbar />
     <Switch>
-      <Route exact path="/" component={MainPage} />
-      <Route path="/notFound/" component={NotFound} />
-      <Redirect path="*" to="/notFound" />
+      <Route exact path={ROUTES.MAIN} component={MainPage} />
+      <Route path={ROUTES.LOGIN} component={LoginPage} />
+      <Route path={ROUTES.NotFound} component={NotFound} />
+      <Redirect path="*" to={ROUTES.NotFound} />
     </Switch>
   </BrowserRouter>
 );

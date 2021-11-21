@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "types": ["node"],
+    "typeRoots" : ["./node_modules","./node_modules/@types"],
     "target": "es5",
-    "lib": [
+    "lib": [ 
       "dom",
       "dom.iterable",
       "esnext"

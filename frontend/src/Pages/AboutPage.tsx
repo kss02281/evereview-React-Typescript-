@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { Navbar } from '../Components/common';
 
-function LoginPage() {
+function AboutPage() {
   return (
     <Fragment>
       <Navbar />
-      <h1>Login Page</h1>
+      <h1>About Page</h1>
     </Fragment>
   );
 }
 
-export default LoginPage;
+export default AboutPage;

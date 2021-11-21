@@ -5,15 +5,17 @@ import { Navbar } from '../Components/common';
 import GoogleLogin from 'react-google-login';
 import loginPageImg from '../img/loginPageImg.png';
 import { UilEditAlt } from '@iconscout/react-unicons';
+import { useHistory } from 'react-router';
+import ROUTES from '../constants/routes';
 
 const cx = classNames.bind(styles);
 
 function LoginPage() {
+  const history = useHistory();
   const clientId: string = '437704144690-7heveppoq437luskbpavuf89rairq4ip.apps.googleusercontent.com' || '';
-  const [userObj, setUserObj] = useState({ email: '', name: '' });
   const onLoginSuccess = (res: any) => {
     console.log(res);
-    setUserObj({ ...userObj, email: res.profileObj.email, name: res.profileObj.name });
+    history.push(`${ROUTES.SIGNUP.INDEX}/step1/userInfo?email=${res.profileObj.email}&name=${res.profileObj.name}`);
   };
 
   return (

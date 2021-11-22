@@ -6,4 +6,9 @@ venv
 .DS_Store
 node_modules
 
-*.ai
+/**/*/.ai
+
+.eslintrc
+
+yarn.lock
+package-lock.json

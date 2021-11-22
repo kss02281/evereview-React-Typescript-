@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
  */
 
 const VerticalCarousel = ({ data, leadingText }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(2);
   const [btnColor, setBtnColor] = useState(false);
   // Used to determine which items appear above the active item
   const halfwayIndex = Math.ceil(data.length / 2);

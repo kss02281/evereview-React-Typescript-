@@ -4,3 +4,4 @@ export { default as SignUpPage } from './SignUpPage';
 export { default as SignUpStep2Page } from './SignUpStep2Page';
 export { default as NotFound } from './NotFound';
 export { default as AboutPage } from './AboutPage';
+export { default as OverviewPage } from './OverviewPage';

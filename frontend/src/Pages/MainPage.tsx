@@ -27,7 +27,7 @@ function MainPage() {
         <div className={cx('mainContainer')}>
           <div></div>
           <div className={cx('leftContainer')}>
-            <p>EveReview</p>
+            <div className={cx('mainTitle')}>EveReview</div>
             <div className={cx('mainDescription')}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan placerat tellus, a finibus justo facilisis euismod. 
             </div>

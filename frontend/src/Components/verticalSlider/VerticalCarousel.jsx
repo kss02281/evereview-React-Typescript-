@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import cn from "classnames";
-import styles from '../../Pages/MainPage.module.scss';
 import classNames from 'classnames/bind';
 import { UilArrowUp, UilArrowDown } from '@iconscout/react-unicons';
-import "./style.css";
+import styles from "./verticalCarousel.module.scss";
 
 
 const cx = classNames.bind(styles);
@@ -73,8 +72,8 @@ const VerticalCarousel = ({ data, leadingText }) => {
   };
 
   return (
-    <div className="container">
-      <section className="outer-container">
+    <div className={cx("container")}>
+      <section className={cx("outer-container")}>
       <div className={cx('arrowUpWrap')} onClick={() => handleClick("prev")}>
             <UilArrowUp className={cx('arrowUp')} style={btnColor ? {color:'#2f2f2f'} : {color:'#2f2f2f54'}}/>
             </div>
@@ -87,17 +86,17 @@ const VerticalCarousel = ({ data, leadingText }) => {
               <div className={cx('mockCategory3')}>총 댓글 수</div>
               <div className={cx('mockCategory4')}>좋아요</div>
             </div>
-        <div className="carousel-wrapper">
+        <div className={cx("carousel-wrapper")}>
           
-          <div className="carousel">
-            <div className="slides">
-              <div className="carousel-inner">
+          <div className={cx("carousel")}>
+            <div className={cx("slides")}>
+              <div className={cx("carousel-inner")}>
                 <div className={cx('gradient')}></div>
                 {data.map((item, i) => (
                   <button
                     type="button"
                     onClick={() => setActiveIndex(i)}
-                    className={cn("carousel-item", {
+                    className={cx("carousel-item", {
                       active: activeIndex === i,
                       visible:
                         Math.abs(determinePlacement(i)) <= visibleStyleThreshold
@@ -107,11 +106,11 @@ const VerticalCarousel = ({ data, leadingText }) => {
                       transform: `translateY(${determinePlacement(i)}px)`
                     }}
                   >
-                    <div className="itemWrap">
-                      <div className="itemFeedback">{item.feedback}위</div>
-                      <div className="itemComment">{item.commentN}</div>
-                      <div className="itemLike">{item.like} 개</div>
-                      <div className="itemDislike">{item.dislike} 개</div>
+                    <div className={cx("itemWrap")}>
+                      <div className={cx("itemFeedback")}>{item.feedback}위</div>
+                      <div className={cx("itemComment")}>{item.commentN}</div>
+                      <div className={cx("itemLike")}>{item.like} 개</div>
+                      <div className={cx("itemDislike")}>{item.dislike} 개</div>
                     </div>
                   </button>
                 ))}

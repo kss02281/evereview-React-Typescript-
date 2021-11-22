@@ -4,7 +4,16 @@ import ROUTES from '../../constants/routes';
 import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
 import logo from '../../img/logo_transparent.png';
-import { UilDashboard, UilChart, UilUserCircle, UilSetting, UilBell, UilReact, UilSignOutAlt, UilUserSquare } from '@iconscout/react-unicons'
+import {
+  UilDashboard,
+  UilChart,
+  UilUserCircle,
+  UilSetting,
+  UilBell,
+  UilReact,
+  UilSignOutAlt,
+  UilUserSquare,
+} from '@iconscout/react-unicons';
 
 const cx = classNames.bind(styles);
 
@@ -38,7 +47,9 @@ function Sidebar () {
         <>
             <div className={cx('sideBarContainer')}>
                 <div className={cx('sideLogo')}>
+                    <Link className={cx('logo')} to={ROUTES.HOME}> 
                     <UilReact className={cx('sideLogoImage')}/>
+                    </Link>
                 </div>
                 <div className={cx('sideIcon')}>
                     <UilDashboard className={cx('sideDashBoard')} id={1} style={dashBoardColor ? {color:'#2f2f2f50'} : {color:'#6563FF'}} onClick={sideColorClick}/>

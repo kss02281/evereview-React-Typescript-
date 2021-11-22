@@ -3,3 +3,6 @@
 React Native
 Typescript + scss
 Axios
+redux-toolkit
+redux-persist
+redux-logger

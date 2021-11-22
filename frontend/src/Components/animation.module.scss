@@ -1,25 +1,25 @@
-img {
-  position: absolute !important;
-}
-
 .container {
   display: grid;
   grid-template-columns: 0.05fr 1fr 1fr 0.05fr;
 }
 
 .imgWrap {
-  width: 80vw;
+  margin: 0 auto;
   margin-top: -5vw;
+  img {
+    position: absolute !important;
+  }
 }
+
 .NLayer1 {
   margin-top: 14.4vw !important;
-  margin-left: -8vw !important;
+  margin-left: 2vw !important;
   opacity: 100%;
   width: 43vw !important;
 }
 .NLayer2 {
   margin-top: 21.8vw;
-  margin-left: -0.7vw;
+  margin-left: 9.3vw;
   opacity: 100%;
   width: 28.9vw;
 }
@@ -58,7 +58,7 @@ img {
 }
 .NLayer3 {
   margin-top: 25vw;
-  margin-left: 0.3vw;
+  margin-left: 10.3vw;
   width: 9.1vw;
   opacity: 100%;
   animation-name: circleDegree;
@@ -69,24 +69,24 @@ img {
 
 @-webkit-keyframes move3 {
   from {
-    top: 0px;
+    margin-top: 25vw;
   }
   to {
-    top: -0.3vw;
+    margin-top: 24.5vw;
   }
 }
 @keyframes move3 {
   from {
-    top: 0px;
+    margin-top: 25vw;
   }
   to {
-    top: -0.3vw;
+    margin-top: 24.5vw;
   }
 }
 
 .NLayer4 {
-  margin-top: 23.8vw;
-  margin-left: 16.4vw;
+  margin-top: 24.5vw;
+  margin-left: 26.4vw;
   width: 10.4vw;
   opacity: 100%;
   animation-name: move3;
@@ -98,19 +98,31 @@ img {
 
 @-webkit-keyframes move2 {
   from {
-    top: 0px;
+    margin-top: 25vw;
   }
   to {
-    top: -0.5vw;
+    margin-top: 24.6vw;
   }
 }
+
 @keyframes move2 {
   from {
-    top: 0px;
+    margin-top: 25vw;
   }
   to {
-    top: -0.5vw;
+    margin-top: 24.6vw;
   }
+}
+
+.NLayer5 {
+  margin-top: 25vw;
+  margin-left: 26.2vw;
+  width: 10.4vw;
+  opacity: 100%;
+  animation-name: move2;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .NLayer5 {
@@ -127,41 +139,41 @@ img {
 
 @-webkit-keyframes move1 {
   from {
-    top: 0px;
+    margin-top: 27.7vw;
   }
   to {
-    top: -0.15vw;
+    margin-top: 27.5vw;
   }
 }
+
 @keyframes move1 {
   from {
-    top: 0px;
+    margin-top: 27.7vw;
   }
   to {
-    top: -0.15vw;
+    margin-top: 27.5vw;
   }
 }
 
 .NLayer6 {
-  margin-top: 25.8vw;
-  margin-left: 16.4vw;
+  margin-top: 27.7vw;
+  margin-left: 26.4vw;
   width: 10.4vw;
   opacity: 100%;
   animation-name: move1;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  animation-timing-function: ease-in;
 }
 .NLayer7 {
   margin-top: 24.5vw;
-  margin-left: 16.2vw;
+  margin-left: 26.2vw;
   width: 11vw;
   opacity: 100%;
 }
 .NLayer8 {
   margin-top: 28vw;
-  margin-left: 10vw;
+  margin-left: 20vw;
   width: 4.7vw;
   opacity: 100%;
 }
@@ -169,76 +181,64 @@ img {
 @-webkit-keyframes armdegree {
   0% {
     -webkit-transform: rotate(0deg);
-    top: 0vw;
-    left: 1vw;
   }
   40% {
-    -webkit-transform: rotate(20deg);
-    top: -0.2vw;
-    left: 0.9vw;
+    -webkit-transform: rotate(30deg);
   }
   60% {
-    -webkit-transform: rotate(20deg);
-    top: -0.2vw;
-    left: 0.9vw;
+    -webkit-transform: rotate(30deg);
   }
   100% {
     -webkit-transform: rotate(0deg);
-    top: 0vw;
-    left: 1vw;
   }
 }
 
 @keyframes armdegree {
   0% {
     -webkit-transform: rotate(0deg);
-    top: 0vw;
-    left: 1vw;
+    margin-top: 29.75vw;
   }
   40% {
-    -webkit-transform: rotate(20deg);
-    top: -0.2vw;
-    left: 0.9vw;
+    -webkit-transform: rotate(30deg);
+    margin-top: 29.45vw;
   }
   60% {
-    -webkit-transform: rotate(20deg);
-    top: -0.2vw;
-    left: 0.9vw;
+    -webkit-transform: rotate(30deg);
+    margin-top: 29.45vw;
   }
   100% {
     -webkit-transform: rotate(0deg);
-    top: 0vw;
-    left: 1vw;
+    margin-top: 1vw;
+    margin-top: 29.75vw;
   }
 }
 
 .NLayer9 {
   margin-top: 30.8vw;
-  margin-left: 12.8vw;
+  margin-left: 22.8vw;
   width: 2.5vw;
   opacity: 100%;
 }
 .NLayer10 {
-  margin-top: 28vw;
-  margin-left: 70.2vw;
-  width: 2.5vw;
+  margin-top: 29.55vw;
+  margin-left: 24.4vw;
+  width: 2.6vw;
   opacity: 100%;
-  transform-origin: left bottom;
   animation-name: armdegree;
-  animation-duration: 3.5s;
+  animation-duration: 3s;
   animation-iteration-count: infinite;
+  transform-origin: left bottom;
   animation-direction: alternate;
-  animation-timing-function: ease-in;
 }
 .NLayer11 {
   margin-top: 17vw;
-  margin-left: 12.9vw;
+  margin-left: 22.9vw;
   width: 7.3vw;
   opacity: 100%;
 }
 .NLayer12 {
   margin-top: 20.2vw;
-  margin-left: 9.2vw;
+  margin-left: 19.2vw;
   width: 4.5vw;
   opacity: 100%;
 }
@@ -263,7 +263,7 @@ img {
 
 .NLayer13 {
   margin-top: 17.3vw;
-  margin-left: 9.2vw;
+  margin-left: 19.2vw;
   width: 1.1vw;
   opacity: 100%;
   transform-origin: bottom;
@@ -274,7 +274,7 @@ img {
 }
 .NLayer14 {
   margin-top: 18.2vw;
-  margin-left: 10.2vw;
+  margin-left: 20.2vw;
   width: 1.2vw;
   opacity: 100%;
   transform-origin: left bottom;
@@ -286,7 +286,7 @@ img {
 }
 .NLayer15 {
   margin-top: 34.4vw;
-  margin-left: 0vw;
+  margin-left: 10vw;
   width: 27vw;
   opacity: 100%;
 }

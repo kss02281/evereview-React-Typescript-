@@ -21,6 +21,9 @@ class Navbar extends React.Component {
           <Link className={cx('link')} to={ROUTES.ABOUT}>
             About
           </Link>
+          <Link className={cx('link')} to={ROUTES.OVERVIEW}>
+            Overview
+          </Link>
           <Link className={cx('link')} to={ROUTES.LOGIN}>
             Login
           </Link>

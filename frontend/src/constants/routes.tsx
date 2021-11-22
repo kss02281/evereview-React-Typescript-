@@ -3,6 +3,7 @@ const ROUTES = {
   ABOUT: '/about',
   LOGIN: '/login',
   NOTFOUND: '/notfound',
+  OVERVIEW: '/overview',
   SIGNUP: {
     INDEX: '/signup',
     STEP1: '/signup/step1',

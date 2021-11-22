@@ -20,7 +20,6 @@ const cx = classNames.bind(styles);
 
 function AnimationPage(): JSX.Element {
     return (
-      <Fragment>
           <div className={cx('imgWrap')}>
             <img className={cx('NLayer1')} src={NLayer1} alt='' />
             <img className={cx('NLayer14')} src={NLayer14} alt='' />
@@ -38,7 +37,6 @@ function AnimationPage(): JSX.Element {
             <img className={cx('NLayer8')} src={NLayer8} alt='' />
             <img className={cx('NLayer15')} src={NLayer15} alt='' />
           </div>
-      </Fragment>
     );
   }
   

@@ -5,8 +5,6 @@
     --orange: #f36c00;
   }
   
-  * {
-  }
   
   body {
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -18,20 +16,20 @@
     cursor: pointer;
   }
   .arrowUp{
-    margin-top: 12.5px;
+    margin-top: 0.7vw;
     color: #2f2f2f54;
 }
 .arrowDown{
-    margin-top: 12.5px;
+    margin-top: 0.7vw;
 }
 .arrowUpWrap{
     position: absolute;
-    top: 445px;
-    left: 470px;
+    margin-top: -3.6vw;
+    left: 25vw;
     display: inline-block;
     margin-left: 20px;
-    width: 50px;
-    height: 50px;
+    width: 2.5vw;
+    height: 2.5vw;
     padding: 0 !important;
     text-align: center !important;
     border: 1px solid #2f2f2f54;
@@ -40,12 +38,12 @@
 }
 .arrowDownWrap{
   position: absolute;
-  top: 445px;
-  left: 560px;
+  margin-top: -3.6vw;
+  left: 29vw;
   display: inline-block;
   margin-left: 20px;
-  width: 50px;
-  height: 50px;
+  width: 2.5vw;
+  height: 2.5vw;
   padding: 0 !important;
   text-align: center !important;
   border: 1px solid #2f2f2f54;
@@ -53,6 +51,7 @@
   cursor: pointer;
 }
 .mockCategory{
+  width: 28.5vw;
   height: 20px;
   display: grid;
   grid-template-columns: 1.5fr 4fr 3fr 2fr;
@@ -72,8 +71,9 @@
   }
   
   .outer-container {
-    margin: 20px 0 0 200px;
-    width: 550px;
+    margin: 0 auto;
+    margin-top: 1.1vw;
+    width: 30vw;
   }
   
   .outer-container > div {
@@ -144,8 +144,8 @@
   
   .carousel-inner {
     position: relative;
-    max-height: 250px;
-    height: 250px;
+    max-height: 300px;
+    height: 300px;
   }
   
   .carousel-inner::before,
@@ -181,20 +181,20 @@
   }
   
   .itemWrap{
-    width: 550px;
-    height: 35px;
+    width: 28.5vw;
+    height: 2vw;
     display: grid;
     grid-template-columns: 1.5fr 4fr 3fr 2fr;
     background-color: #ffd5d5;
     border-radius: 20px;
     padding: 0 !important;
     padding-left: 0px !important;
-    padding-top: 14px !important;
+    padding-top: 0.5vw !important;
     text-align: center;
     font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 0.9vw;
   }
   .itemFeedback{
     display: inline-block;
@@ -209,8 +209,8 @@
     display: inline-block;
   }
   .gradient{
-    width: 550px;
-    height: 250px;
+    width: 28.5vw;
+    height: 300px;
     background: linear-gradient(transparent, rgba(255, 255, 255, 0.952));
     position: relative;
     z-index: 2;

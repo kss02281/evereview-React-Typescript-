@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../constants/routes';
 import styles from './Navbar.module.scss';
 import classNames from 'classnames/bind';
+import logo from '../../img/logo_transparent.png';
 
 const cx = classNames.bind(styles);
 
@@ -11,7 +12,7 @@ class Navbar extends React.Component {
     return (
       <div className={cx('header')}>
         <Link className={cx('logo')} to={ROUTES.HOME}>
-          LOGO
+          <img style={{ width: 'auto', height: '6vh' }} src={logo} alt="logo" />
         </Link>
         <div className={cx('linkWrapper')}>
           <Link className={cx('link')} to={ROUTES.HOME}>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames/bind';
 import styles from './LoginPage.module.scss';
 import { Navbar } from '../Components/common';
@@ -8,14 +8,19 @@ import { UilEditAlt } from '@iconscout/react-unicons';
 import { useHistory } from 'react-router';
 import ROUTES from '../constants/routes';
 
+import { useDispatch } from 'react-redux';
+import { actions } from '../store/modules';
+
 const cx = classNames.bind(styles);
 
 function LoginPage() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const clientId: string = '437704144690-7heveppoq437luskbpavuf89rairq4ip.apps.googleusercontent.com' || '';
   const onLoginSuccess = (res: any) => {
     console.log(res);
-    history.push(`${ROUTES.SIGNUP.INDEX}/step1/userInfo?email=${res.profileObj.email}&name=${res.profileObj.name}`);
+    dispatch(actions.saveUser({ email: `${res.profileObj.email}`, name: `${res.profileObj.name}` }));
+    history.push(`${ROUTES.SIGNUP.INDEX}`);
   };
 
   return (
@@ -28,7 +33,10 @@ function LoginPage() {
         <div className={cx('rightContainer')}>
           <div className={cx('title')}>
             <UilEditAlt size="95" />
-            <span>EverReview</span>
+            <span>
+              {' '}
+              <span> </span> EverReview
+            </span>
           </div>
           <h1>로그인하기</h1>
           <p>

@@ -1,8 +1,7 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SignUpPage.module.scss';
 import { Navbar } from '../../Components/common';
-import loginPageImg from '../img/loginPageImg.png';
 import { UilEditAlt } from '@iconscout/react-unicons';
 import { useHistory } from 'react-router';
 import ROUTES from '../../constants/routes';
@@ -13,7 +12,6 @@ const cx = classNames.bind(styles);
 
 function SignUpPage() {
   const history = useHistory();
-  //const email = useSelector<ReducerType>((state) => state.user.email);
   const name = useSelector<ReducerType>((state) => state.user.name);
 
   const clickEventHandler = () => {

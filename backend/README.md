@@ -1,7 +1,16 @@
 ## 실행 순서
 ### development 환경
 - export FLASK_APP=evereview.app 명령으로 환경변수 설정
+- requirements.txt 설치
 - backend 폴더에서 flask run 실행
+
+## 라이브러리
+- flask
+- flask-cors
+- flask-jwt-extended
+- flask-migrate
+- flask-restx
+- flask-sqlalchemy
 
 ## API 문서
 - http://tanficial-dev.kro.kr:5000/api/

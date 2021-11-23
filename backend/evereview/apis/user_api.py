@@ -14,7 +14,7 @@ parser.add_argument(
 )
 
 
-@user_namespace.route("/<string:user_id>")
+@user_namespace.route("/<int:user_id>")
 @user_namespace.doc(params={"user_id": "유저 식별을 위한 user_id"})
 class User(Resource):
     def get(self, user_id):

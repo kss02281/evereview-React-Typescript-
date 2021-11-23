@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames/bind';
 import styles from './LoginPage.module.scss';
-import { Navbar } from '../Components/common';
+import { Navbar } from '../../Components/common';
 import GoogleLogin from 'react-google-login';
-import loginPageImg from '../img/loginPageImg.png';
+import loginPageImg from '../../img/loginPageImg.png';
 import { UilEditAlt } from '@iconscout/react-unicons';
 import { useHistory } from 'react-router';
-import ROUTES from '../constants/routes';
+import ROUTES from '../../constants/routes';
 
 import { useDispatch } from 'react-redux';
-import { actions } from '../store/modules';
+import { actions } from '../../store/modules';
 
 const cx = classNames.bind(styles);
 
@@ -32,11 +32,10 @@ function LoginPage() {
         </div>
         <div className={cx('rightContainer')}>
           <div className={cx('title')}>
-            <UilEditAlt size="95" />
-            <span>
-              {' '}
-              <span> </span> EverReview
-            </span>
+            <div className={cx('pencilLogo')}>
+              <UilEditAlt size="95" />
+            </div>
+            <div className={cx('titleText')}>EverReview</div>
           </div>
           <h1>로그인하기</h1>
           <p>
@@ -56,6 +55,8 @@ function LoginPage() {
               onSuccess={(result) => onLoginSuccess(result)}
               onFailure={(result) => console.log(result)}
               cookiePolicy={'single_host_origin'}
+              // responseType="code"
+              // accessType="offline"
             />
           </div>
         </div>

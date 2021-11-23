@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { AboutPage, LoginPage, MainPage, NotFound, OverviewPage, SignUpPage, SignUpStep2Page } from './Pages';
-import { Navbar } from './Components/common';
+import { AboutPage, MainPage, NotFound, OverviewPage, LoginPage, SignUpPage, SignUpStep2Page } from './Pages';
 import ROUTES from './constants/routes';
 
 const Root: React.FC = () => (

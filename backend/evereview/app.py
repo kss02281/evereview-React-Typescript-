@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
 from flask_restx import Api
 
 from evereview import config
@@ -18,6 +19,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
     CORS(app, supports_credentials=True)
+    JWTManager(app)
 
     db.init_app(app)
     Migrate().init_app(app, db)

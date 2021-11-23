@@ -1,25 +1,18 @@
 import React, { Fragment } from 'react';
-import { Navbar } from '../Components/common';
+import { Navbar } from '../../Components/common';
 import styles from './MainPage.module.scss';
 import classNames from 'classnames/bind';
 import { useHistory } from 'react-router-dom';
-import ROUTES from '../constants/routes';
-import { UilArrowUp, UilArrowDown } from '@iconscout/react-unicons';
-import VerticalCarousel from '../Components/verticalSlider/VerticalCarousel';
-import mockData from '../constants/mockData.json';
-import AnimationPage from '../Components/AnimationPage';
+import ROUTES from '../../constants/routes';
+import VerticalCarousel from '../../Components/verticalSlider/VerticalCarousel';
+import mockData from '../../constants/mockData.json';
+import AnimationPage from '../../Components/Animation/AnimationPage';
 
 const cx = classNames.bind(styles);
 
 function MainPage() {
   const history = useHistory();
   const handleStart = () => history.push(ROUTES.LOGIN);
-  const handleArrowUp = () => {
-    
-  };
-  const handleArrowDown = () => {
-    
-  };
 
   return (
     <Fragment>

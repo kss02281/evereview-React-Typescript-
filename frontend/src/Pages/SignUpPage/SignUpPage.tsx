@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SignUpPage.module.scss';
-import { Navbar } from '../Components/common';
+import { Navbar } from '../../Components/common';
 import loginPageImg from '../img/loginPageImg.png';
 import { UilEditAlt } from '@iconscout/react-unicons';
 import { useHistory } from 'react-router';
-import ROUTES from '../constants/routes';
+import ROUTES from '../../constants/routes';
 import { useSelector } from 'react-redux';
-import { ReducerType } from '../store/modules';
+import { ReducerType } from '../../store/modules';
 
 const cx = classNames.bind(styles);
 

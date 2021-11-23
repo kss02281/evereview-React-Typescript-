@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { AboutPage, LoginPage, MainPage, NotFound, OverviewPage, SignUpPage, SignUpStep2Page } from './Pages';
-import { Navbar } from './Components/common';
+import { AboutPage, LoginPage, MainPage, NotFound, OverviewPage, SignUpPage, SignUpStep2Page, DashBoard, Contents, Profile, Setting, Notification } from './Pages';
 import ROUTES from './constants/routes';
 
 const Root: React.FC = () => (
@@ -9,7 +8,11 @@ const Root: React.FC = () => (
     <Switch>
       <Route exact path={ROUTES.HOME} component={MainPage} />
       <Route path={ROUTES.ABOUT} component={AboutPage} />
-      <Route path={ROUTES.OVERVIEW} component={OverviewPage} />
+      <Route path={ROUTES.DASHBOARD} component={DashBoard} />
+      <Route path={ROUTES.CONTENTS} component={Contents} />
+      <Route path={ROUTES.PROFILE} component={Profile} />
+      <Route path={ROUTES.SETTING} component={Setting} />
+      <Route path={ROUTES.NOTIFICATION} component={Notification} />
       <Route path={ROUTES.LOGIN} component={LoginPage} />
       <Switch>
         <Route path={ROUTES.SIGNUP.STEP1} component={SignUpPage} />

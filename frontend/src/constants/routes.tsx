@@ -3,7 +3,12 @@ const ROUTES = {
   ABOUT: '/about',
   LOGIN: '/login',
   NOTFOUND: '/notfound',
-  OVERVIEW: '/overview',
+  OVERVIEW: '/mypage/overview',
+  DASHBOARD: '/mypage/dashboard',
+  CONTENTS: '/mypage/contents',
+  PROFILE: '/mypage/profile',
+  SETTING: '/mypage/setting',
+  NOTIFICATION: '/mypage/notification',
   SIGNUP: {
     INDEX: '/signup',
     STEP1: '/signup/step1',

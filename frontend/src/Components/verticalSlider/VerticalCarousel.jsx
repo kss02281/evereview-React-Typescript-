@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from 'classnames/bind';
 import { UilArrowUp, UilArrowDown } from '@iconscout/react-unicons';
-import styles from "./verticalCarousel.module.scss";
+import styles from "./VerticalCarousel.module.scss";
 
 
 const cx = classNames.bind(styles);

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SignUpStep2Page.module.scss';
-import { Navbar } from '../Components/common';
+import { Navbar } from '../../Components/common';
 import { UilEditAlt } from '@iconscout/react-unicons';
 
 const cx = classNames.bind(styles);

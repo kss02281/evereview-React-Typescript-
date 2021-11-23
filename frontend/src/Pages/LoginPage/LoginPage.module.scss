@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Rochester&display=swap');
-
-$notoSans: 'Noto Sans KR', sans-serif;
-$subLogo: 'Rochester', cursive;
+@import '../style/font.scss'; 
 
 .wrapper {
   display: flex;
@@ -24,13 +21,14 @@ $subLogo: 'Rochester', cursive;
     height: 50vh;
   }
 }
+
 .rightContainer {
   display: flex;
   flex-direction: column;
-  width: 50vw;
-  text-align: center;
   justify-content: center;
   align-items: center;
+  width: 50vw;
+  text-align: center;
   .title {
     font-family: $subLogo;
     font-size: 100px;
@@ -45,9 +43,5 @@ $subLogo: 'Rochester', cursive;
     margin: 7vh 0 7vh 0;
     width: 30vw;
     text-align: left;
-  }
-
-  .btn {
-    border: 1px solid black;
   }
 }

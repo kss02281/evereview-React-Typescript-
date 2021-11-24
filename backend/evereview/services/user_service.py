@@ -11,9 +11,16 @@ def get_user_by_email(email):
     return result
 
 
-def insert_user(email, name, img_url):
+def insert_user(email, name, nickname, upload_term, contents_category, img_url):
     try:
-        new_user = User(email=email, name=name, img_url=img_url)
+        new_user = User(
+            email=email,
+            name=name,
+            nickname=nickname,
+            upload_term=upload_term,
+            contents_category=contents_category,
+            img_url=img_url,
+        )
         db.session.add(new_user)
         db.session.commit()
         return new_user

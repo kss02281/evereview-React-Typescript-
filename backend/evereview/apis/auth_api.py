@@ -172,9 +172,14 @@ class Signout(Resource):
     response_success = auth_namespace.model(
         "signout_success", {"result": fields.String(example="success")}
     )
+    response_fail = auth_namespace.model(
+        "signout_fail",
+        {"result": fields.String(example="success"), "message": fields.String},
+    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Signout Success", response_success)
+    @auth_namespace.response(403, "Signout Fail(토큰 만료)", response_fail)
     @jwt_required()
     def get():
         user_id = get_jwt_identity()
@@ -206,7 +211,7 @@ class Refresh(Resource):
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Refresh Success", response_success)
     @auth_namespace.response(404, "Refresh Fail(not exist)", response_fail)
-    @auth_namespace.response(403, "Refresh Fail(expired)", response_fail)
+    @auth_namespace.response(403, "Refresh Fail(token expired)", response_fail)
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()

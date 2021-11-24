@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_restx import Api
+import jwt
 
 from evereview import config
 from evereview.db_connect import db
@@ -40,6 +41,14 @@ def create_app():
     restx.add_namespace(comment_namespace)
     restx.add_namespace(chart_namespace)
     restx.add_namespace(analysis_namespace)
+
+    @restx.errorhandler
+    def default_error_handler(error):
+        # default status code
+        status_code = getattr(error, "status_code", 500)
+
+        if isinstance(error, jwt.exceptions.ExpiredSignatureError):
+            return {"result": "fail", "message": "토큰이 만료되었습니다."}, 403
 
     app.register_blueprint(restx_bp)
 

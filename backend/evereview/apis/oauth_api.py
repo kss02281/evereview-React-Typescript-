@@ -1,4 +1,4 @@
-from flask_restx import Namespace, Resource, reqparse, fields
+from flask_restx import Namespace, Resource, fields
 
 from evereview.services.oauth_service import CLIENT_ID, SCOPE
 

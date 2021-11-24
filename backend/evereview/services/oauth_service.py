@@ -3,7 +3,13 @@ import jwt
 
 CLIENT_ID = "437704144690-7heveppoq437luskbpavuf89rairq4ip.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
-SCOPE = []
+SCOPE = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/youtube",
+]
 API_KEY = "AIzaSyD4u2jxa6T1zSetBsTWB548DKB6B7qanT0"
 
 

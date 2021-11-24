@@ -1,0 +1,22 @@
+@import '../../../Pages/style/font.scss';
+
+.basic-multi-select{
+    font-family: $notoSans !important;
+    font-weight: 700;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 39vw;
+    min-width: 170px;
+    box-shadow: 4px 4px 35px -11px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    
+}
+.select__control .css-1s2u09g-control{
+    width: 30vw !important;
+}
+
+.select__single-value .css-1s2u09g-control{
+    font-family: $notoSans !important;
+    font-size: 10px !important;    
+    font-weight: 700;
+}

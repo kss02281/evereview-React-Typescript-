@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './DashBoard.module.scss';
 import classNames from 'classnames/bind';
 import { Sidebar } from '../../../Components/common';
+import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +19,7 @@ function DashBoard() {
             <div className={cx('dashBoardDescription')}>댓글들을 분석하고 사용자들의 피드백을 확인해보세요!</div>
           </div>
           <div className={cx('dashBoardSearch')}>
-            <div>search</div>
+            <SearchBar />
           </div>
         </div>
         <div></div>

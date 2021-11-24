@@ -2,33 +2,20 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from 'classnames/bind';
 import { UilArrowUp, UilArrowDown } from '@iconscout/react-unicons';
-import styles from "./VerticalCarousel.module.scss";
+import styles from "./verticalCarousel.module.scss";
 
 
 const cx = classNames.bind(styles);
 
-/*
- * Read the blog post here:
- * https://letsbuildui.dev/articles/building-a-vertical-carousel-component-in-react
- */
-
 const VerticalCarousel = ({ data, leadingText }) => {
   const [activeIndex, setActiveIndex] = useState(2);
   const [btnColor, setBtnColor] = useState(false);
-  // Used to determine which items appear above the active item
   const halfwayIndex = Math.ceil(data.length / 2);
-
-  // Usd to determine the height/spacing of each item
   const itemHeight = 52;
-
-  // Used to determine at what point an item is moved from the top to the bottom
   const shuffleThreshold = halfwayIndex * itemHeight;
-
-  // Used to determine which items should be visible. this prevents the "ghosting" animation
   const visibleStyleThreshold = shuffleThreshold / 2;
 
   const determinePlacement = (itemIndex) => {
-    // If these match, the item is active
     if (activeIndex === itemIndex) return 0;
 
     if (itemIndex >= halfwayIndex) {

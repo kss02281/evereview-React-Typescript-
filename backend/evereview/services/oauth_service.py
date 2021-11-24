@@ -25,6 +25,9 @@ def authorization(code):
     res = requests.post("https://oauth2.googleapis.com/token", data=data)
     oauth_info = res.json()
 
+    if res.status_code == 400:
+        return oauth_info
+
     id_token = oauth_info.get("id_token")
     decoded_id_token = jwt.decode(id_token, options={"verify_signature": False})
 
@@ -33,4 +36,9 @@ def authorization(code):
     user_name = decoded_id_token.get("name")
     user_img = decoded_id_token.get("picture")
 
-    return oauth_token, user_email, user_name, user_img
+    return {
+        "oauth_token": oauth_token,
+        "user_email": user_email,
+        "user_name": user_name,
+        "user_img": user_img,
+    }

@@ -52,13 +52,26 @@ class Signin(Resource):
             "img_url": fields.String(description="이미지 url"),
         },
     )
+    invalide_code = auth_namespace.model(
+        "invalide_code",
+        {
+            "error": fields.String(description="error 유형"),
+            "error_description": fields.String(description="error 설명"),
+        },
+    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Signin Success", response_success)
-    @auth_namespace.response(404, "Signin Fail", response_fail)
+    @auth_namespace.response(400, "Signin Fail(Invalid code)", invalide_code)
+    @auth_namespace.response(404, "Signin Fail(it's not member)", response_fail)
     def post(self):
         code = self.parser.parse_args().get("code")
-        oauth_token, user_email, user_name, user_img = authorization(code)
+        oauth_result = authorization(code)
+        if "oauth_token" not in oauth_result.keys():
+            return oauth_result, 400
+
+        oauth_token, user_email, user_name, user_img = oauth_result
+
         user = get_user_by_email(user_email)
         if user is None:
             return {
@@ -111,9 +124,16 @@ class Signup(Resource):
     response_success = auth_namespace.model(
         "signup_success", {"result": fields.String(example="success")}
     )
+    response_fail = auth_namespace.model(
+        "signup_fail",
+        {"result": fields.String(example="fail"), "message": fields.String},
+    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Signup Success", response_success)
+    @auth_namespace.response(
+        409, "Signup Fail(already registered email)", response_fail
+    )
     def post(self):
         form_data = self.parser.parse_args()
         email = form_data.get("email")
@@ -122,6 +142,10 @@ class Signup(Resource):
         img_url = form_data.get("img_url")
         upload_term = form_data.get("upload_term")
         contents_category = form_data.get("contents_category")
+
+        user = get_user_by_email(email)
+        if user is not None:
+            return {"result": "fail", "message": "aleady signed up"}, 409
 
         insert_user(
             email=email,
@@ -135,6 +159,36 @@ class Signup(Resource):
         return {"result": "success"}, 200
 
 
+@auth_namespace.route("/signout")
+class Signout(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        "Authorization",
+        location="headers",
+        required=True,
+        help='"Bearer {access_token}"',
+    )
+
+    response_success = auth_namespace.model(
+        "signout_success", {"result": fields.String(example="success")}
+    )
+    response_fail = auth_namespace.model(
+        "signout_fail",
+        {"result": fields.String(example="success"), "message": fields.String},
+    )
+
+    @auth_namespace.expect(parser)
+    @auth_namespace.response(200, "Signout Success", response_success)
+    @auth_namespace.response(403, "Signout Fail(토큰 만료)", response_fail)
+    @jwt_required()
+    def get():
+        user_id = get_jwt_identity()
+        update_token(
+            user_id=user_id, oauth_token=None, access_token=None, refresh_token=None
+        )
+        return {"result": "success"}, 200
+
+
 @auth_namespace.route("/refresh")
 class Refresh(Resource):
     parser = reqparse.RequestParser()
@@ -145,7 +199,19 @@ class Refresh(Resource):
         help='"Bearer {access_token}"',
     )
 
+    response_success = auth_namespace.model(
+        "refresh_success",
+        {"result": fields.String(example="success"), "access_token": fields.String},
+    )
+    response_fail = auth_namespace.model(
+        "refresh_fail",
+        {"result": fields.String(example="fail"), "message": fields.String},
+    )
+
     @auth_namespace.expect(parser)
+    @auth_namespace.response(200, "Refresh Success", response_success)
+    @auth_namespace.response(404, "Refresh Fail(not exist)", response_fail)
+    @auth_namespace.response(403, "Refresh Fail(token expired)", response_fail)
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()

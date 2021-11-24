@@ -16,7 +16,7 @@
 - http://tanficial-dev.kro.kr:5000/api/
 
 ## 데이터베이스 ERD
-![evereview_erd](/uploads/345ae3a2a32e5385f595aa7b43ed51af/evereview_erd.JPG)
+![evereview_erd_v2](/uploads/e11a751a158b118724966f7c63d48cd7/evereview_erd_v2.JPG)
 
 ## oauth 인증 절차
 ![oauth_sequence](/uploads/a5785721e24df9662cdd48b23e9c7848/oauth_sequence.png)

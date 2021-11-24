@@ -31,14 +31,11 @@ def authorization(code):
     id_token = oauth_info.get("id_token")
     decoded_id_token = jwt.decode(id_token, options={"verify_signature": False})
 
-    oauth_token = oauth_info.get("access_token")
-    user_email = decoded_id_token.get("email")
-    user_name = decoded_id_token.get("name")
-    user_img = decoded_id_token.get("picture")
-
-    return {
-        "oauth_token": oauth_token,
-        "user_email": user_email,
-        "user_name": user_name,
-        "user_img": user_img,
+    result = {
+        "oauth_token": oauth_info.get("access_token"),
+        "user_email": decoded_id_token.get("email"),
+        "user_name": decoded_id_token.get("name"),
+        "user_img": decoded_id_token.get("picture"),
     }
+
+    return result

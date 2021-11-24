@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint
 from flask_cors import CORS
 from flask_migrate import Migrate
+import flask_jwt_extended
 from flask_jwt_extended import JWTManager
 from flask_restx import Api
 import jwt
@@ -44,11 +45,14 @@ def create_app():
 
     @restx.errorhandler
     def default_error_handler(error):
-        # default status code
-        status_code = getattr(error, "status_code", 500)
-
         if isinstance(error, jwt.exceptions.ExpiredSignatureError):
             return {"result": "fail", "message": "토큰이 만료되었습니다."}, 403
+        elif isinstance(error, jwt.exceptions.DecodeError):
+            return {"result": "fail", "message": "올바른 토큰이 아닙니다."}, 400
+        elif isinstance(error, flask_jwt_extended.exceptions.NoAuthorizationError):
+            return {"result": "fail", "message": "Bearer 타입이 아닙니다."}, 400
+
+        raise error
 
     app.register_blueprint(restx_bp)
 

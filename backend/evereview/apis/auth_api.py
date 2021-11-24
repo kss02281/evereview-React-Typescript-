@@ -21,6 +21,14 @@ from evereview.services.user_service import (
 
 auth_namespace = Namespace(name="auth", description="evereview auth api")
 
+simple_success = auth_namespace.model(
+    "auth_success",
+    {"result": fields.String(example="success"), "message": fields.String},
+)
+simple_fail = auth_namespace.model(
+    "auth_fail", {"result": fields.String(example="fail"), "message": fields.String}
+)
+
 
 @auth_namespace.route("/signin")
 class Signin(Resource):
@@ -33,23 +41,21 @@ class Signin(Resource):
         help="google login을 통해 얻은 authorization code",
     )
 
-    response_success = auth_namespace.model(
-        "signin_success",
-        {
-            "is_member": fields.Boolean(example=True),
-            "email": fields.String(description="이메일"),
-            "name": fields.String(description="이름"),
-            "img_url": fields.String(description="이미지 url"),
-            "access_token": fields.String(description="엑세스 토큰"),
-        },
-    )
-    response_fail = auth_namespace.model(
+    signin_fail = auth_namespace.model(
         "signin_fail",
         {
             "is_member": fields.Boolean(example=False),
             "email": fields.String(description="이메일"),
             "name": fields.String(description="이름"),
             "img_url": fields.String(description="이미지 url"),
+        },
+    )
+    signin_success = auth_namespace.inherit(
+        "signin_success",
+        signin_fail,
+        {
+            "is_member": fields.Boolean(example=True),
+            "access_token": fields.String(description="엑세스 토큰"),
         },
     )
     invalide_code = auth_namespace.model(
@@ -61,9 +67,9 @@ class Signin(Resource):
     )
 
     @auth_namespace.expect(parser)
-    @auth_namespace.response(200, "Signin Success", response_success)
-    @auth_namespace.response(400, "Signin Fail(Invalid code)", invalide_code)
-    @auth_namespace.response(404, "Signin Fail(it's not member)", response_fail)
+    @auth_namespace.response(200, "Signin Success", signin_success)
+    @auth_namespace.response(400, "Signin Fail(잘못된 authorization 코드)", invalide_code)
+    @auth_namespace.response(404, "Signin Fail(회원이 아님)", signin_fail)
     def post(self):
         code = self.parser.parse_args().get("code")
         oauth_result = authorization(code)
@@ -121,19 +127,9 @@ class Signup(Resource):
         help="주력 컨텐츠 카테고리",
     )
 
-    response_success = auth_namespace.model(
-        "signup_success", {"result": fields.String(example="success")}
-    )
-    response_fail = auth_namespace.model(
-        "signup_fail",
-        {"result": fields.String(example="fail"), "message": fields.String},
-    )
-
     @auth_namespace.expect(parser)
-    @auth_namespace.response(200, "Signup Success", response_success)
-    @auth_namespace.response(
-        409, "Signup Fail(already registered email)", response_fail
-    )
+    @auth_namespace.response(200, "Signup Success", simple_success)
+    @auth_namespace.response(409, "Signup Fail(이미 가입된 이메일)", simple_fail)
     def post(self):
         form_data = self.parser.parse_args()
         email = form_data.get("email")
@@ -145,7 +141,7 @@ class Signup(Resource):
 
         user = get_user_by_email(email)
         if user is not None:
-            return {"result": "fail", "message": "aleady signed up"}, 409
+            return {"result": "fail", "message": "이미 가입된 이메일입니다."}, 409
 
         insert_user(
             email=email,
@@ -169,24 +165,17 @@ class Signout(Resource):
         help='"Bearer {access_token}"',
     )
 
-    response_success = auth_namespace.model(
-        "signout_success", {"result": fields.String(example="success")}
-    )
-    response_fail = auth_namespace.model(
-        "signout_fail",
-        {"result": fields.String(example="success"), "message": fields.String},
-    )
-
     @auth_namespace.expect(parser)
-    @auth_namespace.response(200, "Signout Success", response_success)
-    @auth_namespace.response(403, "Signout Fail(토큰 만료)", response_fail)
+    @auth_namespace.response(200, "Signout Success", simple_success)
+    @auth_namespace.response(403, "Signout Fail(토큰 만료)", simple_fail)
+    @auth_namespace.response(400, "Signout Fail(잘못된 요청)", simple_fail)
     @jwt_required()
     def get():
         user_id = get_jwt_identity()
         update_token(
             user_id=user_id, oauth_token=None, access_token=None, refresh_token=None
         )
-        return {"result": "success"}, 200
+        return {"result": "success", "message": "로그아웃 성공"}, 200
 
 
 @auth_namespace.route("/refresh")
@@ -203,15 +192,12 @@ class Refresh(Resource):
         "refresh_success",
         {"result": fields.String(example="success"), "access_token": fields.String},
     )
-    response_fail = auth_namespace.model(
-        "refresh_fail",
-        {"result": fields.String(example="fail"), "message": fields.String},
-    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Refresh Success", response_success)
-    @auth_namespace.response(404, "Refresh Fail(not exist)", response_fail)
-    @auth_namespace.response(403, "Refresh Fail(token expired)", response_fail)
+    @auth_namespace.response(404, "Refresh Fail(존재하지 않는 회원)", simple_fail)
+    @auth_namespace.response(403, "Refresh Fail(토큰 만료)", simple_fail)
+    @auth_namespace.response(400, "Refresh Fail(잘못된 요청)", simple_fail)
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()

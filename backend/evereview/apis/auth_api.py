@@ -124,9 +124,16 @@ class Signup(Resource):
     response_success = auth_namespace.model(
         "signup_success", {"result": fields.String(example="success")}
     )
+    response_fail = auth_namespace.model(
+        "signup_fail",
+        {"result": fields.String(example="fail"), "message": fields.String},
+    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Signup Success", response_success)
+    @auth_namespace.response(
+        409, "Signup Fail(already registered email)", response_fail
+    )
     def post(self):
         form_data = self.parser.parse_args()
         email = form_data.get("email")
@@ -135,6 +142,10 @@ class Signup(Resource):
         img_url = form_data.get("img_url")
         upload_term = form_data.get("upload_term")
         contents_category = form_data.get("contents_category")
+
+        user = get_user_by_email(email)
+        if user is not None:
+            return {"result": "fail", "message": "aleady signed up"}, 409
 
         insert_user(
             email=email,

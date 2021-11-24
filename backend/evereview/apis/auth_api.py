@@ -118,15 +118,17 @@ class Signup(Resource):
         form_data = self.parser.parse_args()
         email = form_data.get("email")
         name = form_data.get("name")
-        nickname = form_data.get("img_url")
-        img_url = form_data.get("upload_term")
-        contents_category = form_data("contents_category")
+        nickname = form_data.get("nickname")
+        img_url = form_data.get("img_url")
+        upload_term = form_data.get("upload_term")
+        contents_category = form_data.get("contents_category")
 
         insert_user(
             email=email,
             name=name,
             nickname=nickname,
             img_url=img_url,
+            upload_term=upload_term,
             contents_category=contents_category,
         )
 

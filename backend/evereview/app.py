@@ -8,6 +8,7 @@ from evereview import config
 from evereview.db_connect import db
 
 from evereview.apis.oauth_api import oauth_namespace
+from evereview.apis.auth_api import auth_namespace
 from evereview.apis.user_api import user_namespace
 from evereview.apis.channel_api import channel_namespace
 from evereview.apis.video_api import video_namespace
@@ -32,6 +33,7 @@ def create_app():
     restx_bp = Blueprint("api", __name__, url_prefix="/api")
     restx = Api(restx_bp)
     restx.add_namespace(oauth_namespace)
+    restx.add_namespace(auth_namespace)
     restx.add_namespace(user_namespace)
     restx.add_namespace(channel_namespace)
     restx.add_namespace(video_namespace)

@@ -159,6 +159,31 @@ class Signup(Resource):
         return {"result": "success"}, 200
 
 
+@auth_namespace.route("/signout")
+class Signout(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        "Authorization",
+        location="headers",
+        required=True,
+        help='"Bearer {access_token}"',
+    )
+
+    response_success = auth_namespace.model(
+        "signout_success", {"result": fields.String(example="success")}
+    )
+
+    @auth_namespace.expect(parser)
+    @auth_namespace.response(200, "Signout Success", response_success)
+    @jwt_required()
+    def get():
+        user_id = get_jwt_identity()
+        update_token(
+            user_id=user_id, oauth_token=None, access_token=None, refresh_token=None
+        )
+        return {"result": "success"}, 200
+
+
 @auth_namespace.route("/refresh")
 class Refresh(Resource):
     parser = reqparse.RequestParser()
@@ -169,7 +194,19 @@ class Refresh(Resource):
         help='"Bearer {access_token}"',
     )
 
+    response_success = auth_namespace.model(
+        "refresh_success",
+        {"result": fields.String(example="success"), "access_token": fields.String},
+    )
+    response_fail = auth_namespace.model(
+        "refresh_fail",
+        {"result": fields.String(example="fail"), "message": fields.String},
+    )
+
     @auth_namespace.expect(parser)
+    @auth_namespace.response(200, "Refresh Success", response_success)
+    @auth_namespace.response(404, "Refresh Fail(not exist)", response_fail)
+    @auth_namespace.response(403, "Refresh Fail(expired)", response_fail)
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()

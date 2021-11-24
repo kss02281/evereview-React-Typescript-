@@ -35,10 +35,10 @@ function SignUp1(props: any) {
             <div className={cx("link")}></div>
             <div className={cx("stepBox")}>4</div>
           </div>
-          <p>안녕하세요, {`${name}`}님 !</p>
-
-          <p>간단한 정보 입력을 통해 서비스 이용을 시작해보세요!</p>
-
+          <p>안녕하세요</p>
+          <p>{`${name}`}님</p>
+          <p>간단한 정보 입력을 통해</p>
+          <p>서비스 이용을 시작해보세요!</p>
           <button className={cx("btn")} onClick={clickEventHandler}>
             정보 입력하러 가기
           </button>

@@ -21,7 +21,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 2vh;
+    margin-top: 8vh;
     .pencilLogo {
       margin-top: 20px;
       margin-right: 10px;
@@ -34,7 +34,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 10vh 0 0 0;
+    margin: 5vh 0 4vh 0;
+    font-weight: bold;
     .nowStepBox {
       display: flex;
       justify-content: center;
@@ -65,12 +66,19 @@
   }
 
   p {
-    margin: 7vh 0 7vh 0;
-    width: 30vw;
-    text-align: left;
+    font-family: $notoSans;
+    font-size: 20px;
   }
 
   .btn {
-    border: 1px solid black;
+    font-family: $notoSans;
+    font-size: 16px;
+    margin-top: 4vh;
+    height: 50px;
+    padding: 0 10px;
+    background-color: #6157ff;
+    border: 1px solid #6157ff;
+    border-radius: 12px;
+    color: white;
   }
 }

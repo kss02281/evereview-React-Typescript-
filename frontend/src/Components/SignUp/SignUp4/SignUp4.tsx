@@ -39,12 +39,13 @@ function SignUp4(props: any) {
             <div className={cx("link")}></div>
             <div className={cx("nowStepBox")}>4</div>
           </div>
-          <p>안녕하세요, {`${name}`}님 !</p>
 
-          <p>간단한 정보 입력을 통해 서비스 이용을 시작해보세요!</p>
+          <div className={cx("completeCheck")}>✔</div>
 
+          <p className={cx("welcomeText")}>{name} 님, 환영합니다!</p>
+          <p>EVEREVIEW의 수 많은 서비스를 이용해보세요!</p>
           <button className={cx("btn")} onClick={clickEventHandler}>
-            정보 입력하러 가기
+            홈으로 이동
           </button>
         </div>
       </div>

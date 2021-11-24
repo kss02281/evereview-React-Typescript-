@@ -1,18 +1,13 @@
 import React from "react";
-import ROUTES from "../../../constants/routes";
 import styles from "./SignUp3.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
-import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { ReducerType } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
 function SignUp3(props: any) {
-  const history = useHistory();
-  const name = useSelector<ReducerType>((state) => state.user.name);
-
   const clickEventHandler = (e: any) => {
     e.preventDefault();
     props.onSubmit("4");
@@ -38,12 +33,31 @@ function SignUp3(props: any) {
             <div className={cx("link")}></div>
             <div className={cx("stepBox")}>4</div>
           </div>
-          <p>안녕하세요, {`${name}`}님 !</p>
+          <div className={cx("inputContainer")}>
+            <label id="channelName" htmlFor="channelName">
+              Youtube Channel Name
+            </label>
+            <input id="channelName" type="text" name="channelName" placeholder="My Workspace" />
+          </div>
 
-          <p>간단한 정보 입력을 통해 서비스 이용을 시작해보세요!</p>
+          <div className={cx("inputContainer")}>
+            <label id="channelUrl" htmlFor="channelUrl">
+              Youtube Channel URL
+            </label>
+            <div className={cx("innerInputBox")}>
+              <div className={cx("fixInput")}>http://www.youtube.com/</div>
+              <input id="channelUrl" type="text" name="channelUrl" placeholder="채널 이름" />
+            </div>
+          </div>
 
+          <div className={cx("btnContainer")}>
+            <p>영상 업로드 주기</p>
+            <button className={cx("btn1")}>1일 ~ 3일</button>
+            <button className={cx("btn2")}>일주일</button>
+            <button className={cx("btn3")}>한 달</button>
+          </div>
           <button className={cx("btn")} onClick={clickEventHandler}>
-            정보 입력하러 가기
+            다음 단계
           </button>
         </div>
       </div>

@@ -52,13 +52,26 @@ class Signin(Resource):
             "img_url": fields.String(description="이미지 url"),
         },
     )
+    invalide_code = auth_namespace.model(
+        "invalide_code",
+        {
+            "error": fields.String(description="error 유형"),
+            "error_description": fields.String(description="error 설명"),
+        },
+    )
 
     @auth_namespace.expect(parser)
     @auth_namespace.response(200, "Signin Success", response_success)
-    @auth_namespace.response(404, "Signin Fail", response_fail)
+    @auth_namespace.response(400, "Signin Fail(Invalid code)", invalide_code)
+    @auth_namespace.response(404, "Signin Fail(it's not member)", response_fail)
     def post(self):
         code = self.parser.parse_args().get("code")
-        oauth_token, user_email, user_name, user_img = authorization(code)
+        oauth_result = authorization(code)
+        if "oauth_token" not in oauth_result.keys():
+            return oauth_result, 400
+
+        oauth_token, user_email, user_name, user_img = oauth_result
+
         user = get_user_by_email(user_email)
         if user is None:
             return {

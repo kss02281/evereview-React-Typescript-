@@ -6,6 +6,12 @@ class Comment(db.Model):
     __tablename__ = "comment"
 
     id = db.Column(db.String(128), primary_key=True, nullable=False)
+    cluster_id = db.Column(
+        db.String(128),
+        db.ForeignKey("cluster.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+    )
     video_id = db.Column(
         db.String(128),
         db.ForeignKey("video.id", ondelete="CASCADE", onupdate="CASCADE"),

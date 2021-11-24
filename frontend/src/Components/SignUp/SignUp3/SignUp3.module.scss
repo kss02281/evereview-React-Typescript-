@@ -1,4 +1,4 @@
-@import "../../style/font.scss";
+@import "../../../style/font.scss";
 
 .wrapper {
   display: flex;
@@ -36,7 +36,7 @@
     align-items: center;
     margin: 10vh 0 0 0;
 
-    .stepBox {
+    .nowStepBox {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -46,6 +46,15 @@
       border: 1px solid #6157ff;
       background-color: #6157ff;
       color: white;
+    }
+    .stepBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #6157ff;
     }
 
     .link {

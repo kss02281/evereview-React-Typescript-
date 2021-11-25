@@ -1,4 +1,4 @@
-@import "../../style/font.scss";
+@import "../../../style/font.scss";
 
 .wrapper {
   display: flex;
@@ -14,6 +14,7 @@
   text-align: center;
   justify-content: center;
   align-items: center;
+  font-family: $notoSans;
   .title {
     font-family: $subLogo;
     font-size: 70px;
@@ -21,7 +22,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 2vh;
+    margin-top: 8vh;
     .pencilLogo {
       margin-top: 20px;
       margin-right: 10px;
@@ -34,9 +35,9 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 10vh 0 0 0;
-
-    .stepBox {
+    margin: 8vh 0 0 0;
+    font-weight: bold;
+    .nowStepBox {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -47,6 +48,15 @@
       background-color: #6157ff;
       color: white;
     }
+    .stepBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #6157ff;
+    }
 
     .link {
       width: 50px;
@@ -56,13 +66,36 @@
     }
   }
 
-  p {
-    margin: 7vh 0 7vh 0;
-    width: 30vw;
-    text-align: left;
+  .completeCheck {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #6157ff;
+    background-color: #6157ff;
+    color: white;
+    font-size: 28px;
   }
 
+  p {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .welcomeText {
+    font-size: 40px;
+  }
   .btn {
-    border: 1px solid black;
+    font-size: 16px;
+    margin-top: 4vh;
+    height: 45px;
+    padding: 0 13px;
+    background-color: #6157ff;
+    border: 1px solid #6157ff;
+    border-radius: 12px;
+    color: white;
   }
 }

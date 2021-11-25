@@ -16,7 +16,7 @@ function SignUp4(props: any) {
   const clickEventHandler = (e: any) => {
     e.preventDefault();
     props.onSubmit("");
-    history.push(ROUTES.HOME);
+    history.push(ROUTES.LOGIN);
   };
 
   return (
@@ -45,7 +45,7 @@ function SignUp4(props: any) {
           <p className={cx("welcomeText")}>{name} 님, 환영합니다!</p>
           <p>EVEREVIEW의 수 많은 서비스를 이용해보세요!</p>
           <button className={cx("btn")} onClick={clickEventHandler}>
-            홈으로 이동
+            로그인하러 가기
           </button>
         </div>
       </div>

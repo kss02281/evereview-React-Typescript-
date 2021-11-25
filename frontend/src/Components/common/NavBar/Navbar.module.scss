@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Rochester&display=swap');
-
-$notoSans: 'Noto Sans KR', sans-serif;
-$subLogo: 'Rochester', cursive;
+@import '../../../style/font.scss';
 
 body {
   margin: 0;
@@ -9,7 +6,7 @@ body {
 .header {
   margin: 0;
   height: 3vw;
-  background: #FFFFFF;
+  background: #ffffff;
   box-sizing: border-box;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
 }

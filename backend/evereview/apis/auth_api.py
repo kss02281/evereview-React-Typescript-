@@ -56,6 +56,9 @@ class Signin(Resource):
         {
             "is_member": fields.Boolean(example=True),
             "access_token": fields.String(description="엑세스 토큰"),
+            "nickname": fields.String(description="닉네임"),
+            "upload_term": fields.String(description="업로드 주기"),
+            "contents_category": fields.String(description="주력 컨텐츠 카테고리"),
         },
     )
     invalide_code = auth_namespace.model(
@@ -76,7 +79,10 @@ class Signin(Resource):
         if "oauth_token" not in oauth_result.keys():
             return oauth_result, 400
 
-        oauth_token, user_email, user_name, user_img = oauth_result
+        oauth_token = oauth_result.get("oauth_token")
+        user_email = oauth_result.get("user_email")
+        user_name = oauth_result.get("user_name")
+        user_img = oauth_result.get("user_img")
 
         user = get_user_by_email(user_email)
         if user is None:
@@ -102,6 +108,9 @@ class Signin(Resource):
             "email": user_email,
             "name": user_name,
             "img_url": user_img,
+            "nickname": user.nickname,
+            "upload_term": user.upload_term,
+            "contents_category": user.contents_category,
         }, 200
 
 

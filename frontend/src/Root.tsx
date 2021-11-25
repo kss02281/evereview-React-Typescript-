@@ -1,8 +1,7 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { AboutPage, LoginPage, MainPage, NotFound, OverviewPage, SignUpPage, SignUpStep2Page } from './Pages';
-import { Navbar } from './Components/common';
-import ROUTES from './constants/routes';
+import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { AboutPage, MainPage, NotFound, OverviewPage, LoginPage, SignUpPage } from "./Pages";
+import ROUTES from "./constants/routes";
 
 const Root: React.FC = () => (
   <BrowserRouter>
@@ -11,11 +10,7 @@ const Root: React.FC = () => (
       <Route path={ROUTES.ABOUT} component={AboutPage} />
       <Route path={ROUTES.OVERVIEW} component={OverviewPage} />
       <Route path={ROUTES.LOGIN} component={LoginPage} />
-      <Switch>
-        <Route path={ROUTES.SIGNUP.STEP1} component={SignUpPage} />
-        <Route path={ROUTES.SIGNUP.STEP2} component={SignUpStep2Page} />
-        <Route path={ROUTES.SIGNUP.INDEX} component={SignUpPage} />
-      </Switch>
+      <Route path={ROUTES.SIGNUP} component={SignUpPage} />
       <Route path={ROUTES.NOTFOUND} component={NotFound} />
       <Redirect path="*" to="/notFound" />
     </Switch>

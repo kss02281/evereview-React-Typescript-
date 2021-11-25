@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
-import { Sidebar } from '../Components/common';
+import { Sidebar } from '../../Components/common';
 import styles from './OverviewPage.module.scss';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
 function OverviewPage() {
-  const name = "이성효";
+  const name = '이성효';
   return (
     <div className={cx('overviewContainer')}>
       <Sidebar />

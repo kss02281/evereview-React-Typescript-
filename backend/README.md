@@ -2,7 +2,12 @@
 ### development 환경
 - export FLASK_APP=evereview.app 명령으로 환경변수 설정
 - requirements.txt 설치
-- backend 폴더에서 flask run 실행
+- config.py 비어있는 데이터베이스 정보 입력
+- backend 폴더에서 아래 명령어 실행
+    - flask db init
+    - flask db migrate
+    - flask db upgrade
+    - flask run
 
 ## 라이브러리
 - flask

@@ -32,7 +32,6 @@ patch_parser.add_argument(
 user_success = user_namespace.model(
     "user_success",
     {
-        "result": fields.String(example="success"),
         "email": fields.String,
         "name": fields.String,
         "nickname": fields.String,
@@ -53,18 +52,8 @@ class User(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
-
         user = get_user_by_id(user_id)
-
-        result = {
-            "result": "success",
-            "email": user.email,
-            "name": user.name,
-            "nickname": user.nickname,
-            "upload_term": user.upload_term,
-            "contents_category": user.contents_category,
-            "img_url": user.img_url,
-        }
+        result = user.to_dict()
 
         return result, 200
 
@@ -87,15 +76,6 @@ class User(Resource):
             upload_term=upload_term,
             contents_category=contents_category,
         )
-
-        result = {
-            "result": "success",
-            "email": user.email,
-            "name": user.name,
-            "nickname": user.nickname,
-            "upload_term": user.upload_term,
-            "contents_category": user.contents_category,
-            "img_url": user.img_url,
-        }
+        result = user.to_dict()
 
         return result, 200

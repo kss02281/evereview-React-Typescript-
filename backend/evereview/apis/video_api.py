@@ -42,16 +42,9 @@ class Video(Resource):
     @video_namespace.response(404, "Video Fail(존재하지 않는 영상)", response_fail)
     def get(self, video_id):
         video = get_video(video_id)
-
-        result = {
-            "id": video.id,
-            "published_at": video.published_at,
-            "thumbnail_url": video.thumbnail_url,
-            "category_id": video.category_id,
-            "view_count": video.view_count,
-            "like_count": video.like_count,
-            "comment_count": video.comment_count,
-        }
+        if video is None:
+            return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
+        result = video.to_dict()
         return result, 200
 
 
@@ -66,7 +59,7 @@ class Videos(Resource):
     def get(self, channel_id):
         videos = get_videos(channel_id)
         if videos is None:
-            return {"result": "fail", "message": "존재하지 않는 채널"}, 404
+            return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
 
         return videos, 200
 

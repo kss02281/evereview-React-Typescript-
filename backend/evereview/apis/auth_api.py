@@ -16,6 +16,7 @@ from evereview.services.user_service import (
     get_user_by_email,
     insert_user,
     update_token,
+    update_user_googleinfo,
 )
 
 
@@ -93,6 +94,8 @@ class Signin(Resource):
                 "img_url": user_img,
             }, 404
 
+        user = update_user_googleinfo(user.id, user_name, user_img)
+
         access_token = create_access_token(identity=user.id)
         refresh_token = create_refresh_token(identity=user.id)
         update_token(
@@ -102,16 +105,11 @@ class Signin(Resource):
             refresh_token=refresh_token,
         )
 
-        return {
-            "access_token": access_token,
-            "is_member": True,
-            "email": user_email,
-            "name": user_name,
-            "img_url": user_img,
-            "nickname": user.nickname,
-            "upload_term": user.upload_term,
-            "contents_category": user.contents_category,
-        }, 200
+        result = user.to_dict()
+        result["is_member"] = True
+        result["access_token"] = access_token
+
+        return result, 200
 
 
 @auth_namespace.route("/signup")

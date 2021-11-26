@@ -46,15 +46,8 @@ class Comment(Resource):
         if comment is None:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
 
-        result = {
-            "id": comment.id,
-            "author": comment.author,
-            "author_img": comment.author_img,
-            "text_display": comment.text_display,
-            "text_original": comment.text_original,
-            "like_count": comment.like_count,
-            "published_at": comment.published_at,
-        }
+        result = comment.to_dict()
+
         return result, 200
 
 

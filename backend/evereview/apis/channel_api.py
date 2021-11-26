@@ -85,12 +85,6 @@ class Channel(Resource):
         if channel is None:
             return {"result": "fail", "message": "존재하지 않는 리소스 입니다."}, 404
 
-        result = {
-            "channel_id": channel.id,
-            "title": channel.title,
-            "comment_count": channel.comment_count,
-            "video_count": channel.video_count,
-            "channel_url": channel.channel_url,
-            "img_url": channel.img_url,
-        }
+        result = channel.to_dict()
+
         return result, 200

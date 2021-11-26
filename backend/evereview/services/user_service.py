@@ -29,6 +29,23 @@ def insert_user(email, name, nickname, upload_term, contents_category, img_url):
         raise
 
 
+def update_user_googleinfo(user_id, name, img_url):
+    try:
+        user = User.query.filter_by(id=user_id).one_or_none()
+
+        if user is None:
+            return user
+
+        user.name = name
+        user.img_url = img_url
+
+        db.session.commit()
+        return user
+    except Exception:
+        db.session.rollback()
+        raise
+
+
 def update_user(user_id, nickname, upload_term, contents_category):
     try:
         user = User.query.filter_by(id=user_id).one_or_none()

@@ -13,7 +13,7 @@ parser.add_argument(
 )
 
 response_fail = comment_namespace.model(
-    "simple_fail", {"result": fields.String(default="fail"), "message": fields.String}
+    "fail", {"result": fields.String(default="fail"), "message": fields.String}
 )
 
 comment = comment_namespace.model(

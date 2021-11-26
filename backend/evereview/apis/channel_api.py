@@ -13,9 +13,16 @@ parser.add_argument(
     required=True,
     help='"Bearer {access_token}"',
 )
+channel_parser = parser.copy()
+channel_parser.add_argument(
+    "channel_url",
+    type=str,
+    location="form",
+    help="channel_url: 해당 채널의 channel_id가 적혀있는 url",
+)
 
 response_fail = channel_namespace.model(
-    "simple_fail", {"result": fields.String(default="fail"), "message": fields.String}
+    "fail", {"result": fields.String(default="fail"), "message": fields.String}
 )
 channel = channel_namespace.model(
     "channel",
@@ -34,15 +41,7 @@ channel_list = channel_namespace.model(
 
 
 @channel_namespace.route("")
-class AddChannel(Resource):
-    channel_parser = parser.copy()
-    channel_parser.add_argument(
-        "channel_url",
-        type=str,
-        location="form",
-        help="channel_url: 해당 채널의 channel_id가 적혀있는 url",
-    )
-
+class Channels(Resource):
     @channel_namespace.expect(parser)
     @channel_namespace.response(200, "Channels Success", channel_list)
     @channel_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
@@ -63,7 +62,7 @@ class AddChannel(Resource):
         ToDo : youtube data api 연동 후 작업
         """
         user_id = get_jwt_identity()
-        channel_url = self.channel_parser.parse_args("channel_url")
+        channel_url = channel_parser.parse_args("channel_url")
 
         return {"result": "아직 미구현", "message": channel_url}, 200
 

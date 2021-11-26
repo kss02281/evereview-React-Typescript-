@@ -30,8 +30,9 @@ patch_parser.add_argument(
 )
 
 user_success = user_namespace.model(
-    "user_success",
+    "user",
     {
+        "id": fields.Integer,
         "email": fields.String,
         "name": fields.String,
         "nickname": fields.String,
@@ -40,8 +41,8 @@ user_success = user_namespace.model(
         "img_url": fields.String,
     },
 )
-user_fail = user_namespace.model(
-    "user_fail", {"result": fields.String(example="fail"), "message": fields.String}
+response_fail = user_namespace.model(
+    "fail", {"result": fields.String(example="fail"), "message": fields.String}
 )
 
 
@@ -59,7 +60,7 @@ class User(Resource):
 
     @user_namespace.expect(patch_parser)
     @user_namespace.response(200, "Update User Success", user_success)
-    @user_namespace.response(400, "Update User Fail(파라미터 누락)", user_fail)
+    @user_namespace.response(400, "Update User Fail(파라미터 누락)", response_fail)
     @jwt_required()
     def patch(self):
         user_id = get_jwt_identity()

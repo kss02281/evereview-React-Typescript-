@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Rochester&display=swap');
+@import '../../Pages/style/font.scss'; 
 
 :outer-container {
     --white: #fff;
@@ -7,7 +7,7 @@
   
   
   body {
-    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-family: $notoSans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -61,7 +61,7 @@
   padding-left: 0px !important;
   padding-top: 1px !important;
   text-align: center;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: $notoSans;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;

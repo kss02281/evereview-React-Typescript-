@@ -1,0 +1,139 @@
+@import '../../style/font.scss';
+
+.dashBoardContainer{
+    display: grid;
+    grid-template-columns: minmax(100px, 4vw) 2px 1fr;
+}
+
+p{
+  margin-top: 40px;
+  margin-left: 45px;
+  font-family: $notoSans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.sideLine{
+    position: relative;
+    z-index: 1;
+    width: 2px;
+    height: 90%;
+    align-self: center;
+    border-radius: 10px;
+    background-color: #cccccc67;
+}
+
+.dashBoardWrap{
+  height: 100vh;
+  margin-left: 50px;
+  display: grid;
+  grid-template-rows: 1fr 1fr 5fr 5fr;
+}
+
+.dashBoardWrapHeader{
+  display: grid;
+  grid-template-columns: 4fr 6fr 50px;
+  margin-top: 50px;
+}
+
+.dashBoardText{
+}
+
+.dashBoardSearch{
+  
+}
+
+.dashBoardTitle{
+  font-family: $notoSans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.dashBoardDescription{
+  margin-top: 10px;
+  font-family: $notoSans;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.459);
+}
+
+.dashBoardWrapMiddle{
+  height: 100%;
+  display: grid;
+  grid-template-columns: 5fr 0.1fr 5fr 50px;
+}
+
+.dashBoardWrapDown{
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  height: 100%;
+}
+
+.dashBoardWrapDownGrid{
+  height: 90%;
+  display: grid;
+  grid-template-columns: 5fr 0.1fr 5fr;
+  background: #FFFFFF;
+  box-shadow: 4px 4px 35px -11px rgba(0, 0, 0, 0.25);
+  border-radius: 36px;
+}
+
+.dashBoardAllFeedback{
+  height: 90%;
+  background: #FFFFFF;
+  box-shadow: 4px 4px 35px -11px rgba(0, 0, 0, 0.25);
+  border-radius: 36px;
+}
+
+.dashBoardUserNeeds{
+  height: 90%;
+  background: #FFFFFF;
+  box-shadow: 4px 4px 35px -11px rgba(0, 0, 0, 0.25);
+  border-radius: 36px;
+}
+
+.dashBoardPosFeedback{
+}
+
+.dashBoardNegFeedback{
+}
+
+.dashBoardWrapDownBlank{
+}
+
+.BlankLine{
+  width: 3px;
+  height: 90%;
+  margin: 0 auto;
+  margin-top: 1em;
+  border-radius: 30px;
+  background-color: #00000015;
+}
+
+.pieChart{
+  position: absolute;
+  top: 18%;
+  right: 5%;
+
+}
+
+.allBarChart{
+  position: absolute;
+  top: 22%;
+  left: 24%;
+}
+
+.negBarChart{
+  position: absolute;
+  bottom: 5%;
+  left: 24%;
+}
+
+.posBarChart{
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}

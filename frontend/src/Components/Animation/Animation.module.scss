@@ -14,13 +14,11 @@
 .NLayer1 {
   margin-top: 14.4vw !important;
   margin-left: 2vw !important;
-  opacity: 100%;
   width: 43vw !important;
 }
 .NLayer2 {
   margin-top: 21.8vw;
   margin-left: 9.3vw;
-  opacity: 100%;
   width: 28.9vw;
 }
 
@@ -60,7 +58,6 @@
   margin-top: 25vw;
   margin-left: 10.3vw;
   width: 9.1vw;
-  opacity: 100%;
   animation-name: circleDegree;
   animation-duration: 8s;
   animation-iteration-count: infinite;
@@ -88,7 +85,6 @@
   margin-top: 24.5vw;
   margin-left: 26.4vw;
   width: 10.4vw;
-  opacity: 100%;
   animation-name: move3;
   animation-duration: 2s;
   animation-iteration-count: infinite;
@@ -118,7 +114,6 @@
   margin-top: 25vw;
   margin-left: 26.2vw;
   width: 10.4vw;
-  opacity: 100%;
   animation-name: move2;
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
@@ -149,7 +144,6 @@
   margin-top: 27.7vw;
   margin-left: 26.4vw;
   width: 10.4vw;
-  opacity: 100%;
   animation-name: move1;
   animation-duration: 1s;
   animation-iteration-count: infinite;
@@ -159,13 +153,11 @@
   margin-top: 24.5vw;
   margin-left: 26.2vw;
   width: 11vw;
-  opacity: 100%;
 }
 .NLayer8 {
   margin-top: 28vw;
   margin-left: 20vw;
   width: 4.7vw;
-  opacity: 100%;
 }
 
 @-webkit-keyframes armdegree {
@@ -207,13 +199,11 @@
   margin-top: 30.8vw;
   margin-left: 22.8vw;
   width: 2.5vw;
-  opacity: 100%;
 }
 .NLayer10 {
   margin-top: 29.55vw;
   margin-left: 24.4vw;
   width: 2.6vw;
-  opacity: 100%;
   animation-name: armdegree;
   animation-duration: 3s;
   animation-iteration-count: infinite;
@@ -224,13 +214,11 @@
   margin-top: 17vw;
   margin-left: 22.9vw;
   width: 7.3vw;
-  opacity: 100%;
 }
 .NLayer12 {
   margin-top: 20.2vw;
   margin-left: 19.2vw;
   width: 4.5vw;
-  opacity: 100%;
 }
 
 @keyframes frontLegDegree {
@@ -255,7 +243,6 @@
   margin-top: 17.3vw;
   margin-left: 19.2vw;
   width: 1.1vw;
-  opacity: 100%;
   transform-origin: bottom;
   animation-name: frontLegDegree;
   animation-duration: 8s;
@@ -266,7 +253,6 @@
   margin-top: 18.2vw;
   margin-left: 20.2vw;
   width: 1.2vw;
-  opacity: 100%;
   transform-origin: left bottom;
   animation-name: frontLegDegree;
   animation-duration: 8s;
@@ -278,5 +264,4 @@
   margin-top: 34.4vw;
   margin-left: 10vw;
   width: 27vw;
-  opacity: 100%;
 }

@@ -1,0 +1,78 @@
+@import '../../../Pages/style/font.scss'; 
+
+@keyframes inAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+a{
+    font-family: $notoSans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.openSideBar{
+    position:absolute;
+    text-align: center;
+    left: 100px;
+    width: 160px;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.87);
+    transition: all 0.5s ease-in-out;
+}
+
+.closeSideBar{
+    position:absolute;
+    text-align: center;
+    left: -100px;
+    width: 0px;
+    height: 100vh;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.openDashboard{
+    margin-top: 155px;
+}
+
+.openContent{
+    margin-top: 95px;
+}
+
+.openFeedback{
+    font-size: 16px !important;
+    font-weight: 500;
+}
+
+.AllFeedback{
+    margin-top: 5px;
+}
+
+.PosFeedback{
+    margin-top: 5px;
+}
+
+.NegFeedback{
+    margin-top: 5px;
+
+}
+
+.openProfile{
+    margin-top: 15px;
+}
+
+.openSetting{
+    margin-top: 95px;
+}
+
+.openNotification{
+    margin-top: 95px;
+}

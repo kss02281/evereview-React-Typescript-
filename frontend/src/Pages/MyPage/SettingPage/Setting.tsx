@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
-import { Sidebar } from '../../Components/common';
-import styles from './OverviewPage.module.scss';
+import React, { Fragment } from 'react';
+import styles from './Setting.module.scss';
 import classNames from 'classnames/bind';
+import { Sidebar } from '../../../Components/common';
 
 const cx = classNames.bind(styles);
 
-function OverviewPage() {
+function Setting() {
   const name = "이성효";
-  const [isActive, setActive] = useState(true);
-  
-  const handleToggle = () => {
-    setActive(!isActive);
-}
   return (
-    <>
     <div className={cx('overviewContainer')}>
       <Sidebar id={4} />
       <div className={cx('sideLine')}></div>
       <div>
         <div className={cx('overViewTitle')}>반갑습니다 {name}님!</div>
         <div className={cx('overViewDescription')}>댓글들을 분석하고 사용자들의 피드백을 확인해보세요!</div>
+        <div>SETTING</div>
       </div>
     </div>
-    <div className={isActive ? cx('openedBar') : cx('closedBar')}>
-      </div>
-    </>
   );
-}
+  }
 
-export default OverviewPage;
+export default Setting;

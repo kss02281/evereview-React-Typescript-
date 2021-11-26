@@ -3,6 +3,8 @@ import styles from './DashBoard.module.scss';
 import classNames from 'classnames/bind';
 import { Sidebar } from '../../../Components/common';
 import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar';
+import PieChartC from '../../../Components/PieChartC/PieChartC';
+import BarChartC from '../../../Components/barChartC/barChartC';
 
 const cx = classNames.bind(styles);
 
@@ -26,22 +28,34 @@ function DashBoard() {
         <div className={cx('dashBoardWrapMiddle')}>
           <div className={cx('dashBoardAllFeedback')}>
             <p>모든 피드백</p>
+            <div className={cx('allBarChart')}>
+              <BarChartC />
+            </div>
             </div>
           <div className={cx('dashBoardWrapMiddleBlank')}></div>
           <div className={cx('dashBoardUserNeeds')}>
             <p>사용자 요구 분석</p>
+            <div className={cx('pieChart')}>
+              <PieChartC />
+            </div>
           </div>
           </div>
         <div className={cx('dashBoardWrapDown')}>
           <div className={cx('dashBoardWrapDownGrid')}>
             <div className={cx('dashBoardPosFeedback')}>
               <p>긍정 피드백</p>
+              <div className={cx('negBarChart')}>
+              <BarChartC />
+            </div>
             </div>
             <div className={cx('dashBoardWrapDownBlank')}>
               <div className={cx('BlankLine')}></div>
             </div>
             <div className={cx('dashBoardNegFeedback')}>
               <p>부정 피드백</p>
+              <div className={cx('posBarChart')}>
+              <BarChartC />
+            </div>
             </div>
           </div>
         </div>

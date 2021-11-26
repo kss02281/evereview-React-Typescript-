@@ -17,18 +17,16 @@ def get_channels(user_id):
     return result
 
 
-def insert_channel(
-    channel_id, user_id, title, comment_count, video_count, channel_url, img_url
-):
+def insert_channel(**kwargs):
     try:
         new_channel = Channel(
-            channel_id=channel_id,
-            user_id=user_id,
-            title=title,
-            comment_count=comment_count,
-            video_count=video_count,
-            channel_url=channel_url,
-            img_url=img_url,
+            channel_id=kwargs.get("channel_id"),
+            user_id=kwargs.get("user_id"),
+            title=kwargs.get("title"),
+            comment_count=kwargs.get("comment_count"),
+            video_count=kwargs.get("video_count"),
+            channel_url=kwargs.get("channel_url"),
+            img_url=kwargs.get("img_url"),
         )
         db.session.add(new_channel)
         db.session.commit()
@@ -38,16 +36,16 @@ def insert_channel(
         raise
 
 
-def update_channel(channel_id, title, comment_count, video_count, img_url):
+def update_channel(channel_id, **kwargs):
     try:
         channel = Channel.query.filter_by(id=channel_id).one_or_none()
         if channel is None:
             return channel
 
-        channel.title = title
-        channel.comment_count = comment_count
-        channel.video_count = video_count
-        channel.url = img_url
+        channel.title = kwargs.get("title")
+        channel.comment_count = kwargs.get("comment_count")
+        channel.video_count = kwargs.get("video_count")
+        channel.url = kwargs.get("img_url")
 
         db.session.commit()
         return channel

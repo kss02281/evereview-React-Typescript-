@@ -17,26 +17,17 @@ def get_videos(channel_id):
     return result
 
 
-def insert_video(
-    video_id,
-    channel_id,
-    published_at,
-    thumbnail_url,
-    category_id,
-    view_count,
-    like_count,
-    comment_count,
-):
+def insert_video(**kwargs):
     try:
         new_video = Video(
-            video_id=video_id,
-            channel_id=channel_id,
-            published_at=published_at,
-            thumbnail_url=thumbnail_url,
-            category_id=category_id,
-            view_count=view_count,
-            like_count=like_count,
-            comment_count=comment_count,
+            video_id=kwargs.get("video_id"),
+            channel_id=kwargs.get("channel_id"),
+            published_at=kwargs.get("published_at"),
+            thumbnail_url=kwargs.get("thumbnail_url"),
+            category_id=kwargs.get("category_id"),
+            view_count=kwargs.get("view_count"),
+            like_count=kwargs.get("like_count"),
+            comment_count=kwargs.get("comment_count"),
         )
 
         db.session.add(new_video)
@@ -47,19 +38,17 @@ def insert_video(
         raise
 
 
-def update_video(
-    video_id, thumbnail_url, category_id, view_count, like_count, comment_count
-):
+def update_video(video_id, **kwargs):
     try:
         video = Video.query.filter_by(id=video_id).one_or_none()
         if video is None:
             return video
 
-        video.thumbnail_url = thumbnail_url
-        video.category_id = category_id
-        video.view_count = view_count
-        video.like_count = like_count
-        video.comment_count = comment_count
+        video.thumbnail_url = kwargs.get("thumbnail_url")
+        video.category_id = kwargs.get("category_id")
+        video.view_count = kwargs.get("view_count")
+        video.like_count = kwargs.get("like_count")
+        video.comment_count = kwargs.get("comment_count")
         db.session.commit()
         return video
     except:

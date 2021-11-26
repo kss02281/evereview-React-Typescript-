@@ -15,28 +15,18 @@ def get_comment(comment_id):
     return comment
 
 
-def insert_comment(
-    comment_id,
-    cluster_id,
-    video_id,
-    author,
-    author_img,
-    text_display,
-    text_original,
-    like_count,
-    published_at,
-):
+def insert_comment(**kwargs):
     try:
         new_comment = Comment(
-            id=comment_id,
-            cluster_id=cluster_id,
-            video_id=video_id,
-            author=author,
-            author_img=author_img,
-            text_display=text_display,
-            text_original=text_original,
-            like_count=like_count,
-            published_at=published_at,
+            id=kwargs.get("comment_id"),
+            cluster_id=kwargs.get("cluster_id"),
+            video_id=kwargs.get("video_id"),
+            author=kwargs.get("author"),
+            author_img=kwargs.get("author_img"),
+            text_display=kwargs.get("text_display"),
+            text_original=kwargs.get("text_original"),
+            like_count=kwargs.get("like_count"),
+            published_at=kwargs.get("published_at"),
         )
         db.session.add(new_comment)
         db.session.commit()

@@ -11,4 +11,4 @@ ENV SECRET_KEY []
 ENV JWT_SECRET_KEY []
 
 
-CMD ["gunicorn", "delivery_app.app:application", "-b", "0.0.0.0:5000", "--workers=4", "--threads=4"]
+CMD ["gunicorn", "evereview.app:application", "-b", "0.0.0.0:5000", "--workers=4", "--threads=4"]

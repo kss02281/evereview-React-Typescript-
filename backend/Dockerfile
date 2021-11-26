@@ -7,6 +7,8 @@ RUN pip3 install -r requirements.txt
 
 ENV FLASK_APP evereview.app
 ENV FLASK_ENV production
+ENV CLIENT_ID []
+ENV CLIENT_SECRET []
 ENV SECRET_KEY []
 ENV JWT_SECRET_KEY []
 

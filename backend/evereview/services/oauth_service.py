@@ -1,8 +1,13 @@
+import os
 import requests
 import jwt
 
 CLIENT_ID = "437704144690-7heveppoq437luskbpavuf89rairq4ip.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
+if os.environ.get("FLASK_ENV") == "production":
+    CLIENT_ID = os.environ.get("CLIENT_ID")
+    CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+
 SCOPE = [
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",

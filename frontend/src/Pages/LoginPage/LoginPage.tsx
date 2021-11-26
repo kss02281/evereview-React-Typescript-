@@ -20,12 +20,12 @@ function LoginPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const onLoginSuccess = (res: any) => {
-    const code = res.code
-    requestSignin(code)
+    const code = res.code;
+    requestSignin(code);
   };
 
   const requestSignin = (code: string) => {
-    const signinForm = new FormData()
+    const signinForm = new FormData();
     signinForm.append("code", code);
 
     axios.post(process.env.REACT_APP_BACKEND_URL + "/api/auth/signin", signinForm)
@@ -40,8 +40,8 @@ function LoginPage() {
         const user_info = error.response.data
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.SIGNUP}`);
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo")
@@ -51,7 +51,7 @@ function LoginPage() {
         setClientId(response.data.client_id);
         setScope(scopeString)
       });
-  }, [])
+  }, []);
 
   return (
     <Fragment>

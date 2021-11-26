@@ -14,11 +14,7 @@ const Root: React.FC = () => (
       <Route path={ROUTES.SETTING} component={Setting} />
       <Route path={ROUTES.NOTIFICATION} component={Notification} />
       <Route path={ROUTES.LOGIN} component={LoginPage} />
-      <Switch>
-        <Route path={ROUTES.SIGNUP.STEP1} component={SignUpPage} />
-        <Route path={ROUTES.SIGNUP.STEP2} component={SignUpStep2Page} />
-        <Route path={ROUTES.SIGNUP.INDEX} component={SignUpPage} />
-      </Switch>
+      <Route path={ROUTES.SIGNUP} component={SignUpPage} />
       <Route path={ROUTES.NOTFOUND} component={NotFound} />
       <Redirect path="*" to="/notFound" />
     </Switch>

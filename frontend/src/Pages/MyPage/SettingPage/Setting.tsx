@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styles from './Setting.module.scss';
 import classNames from 'classnames/bind';
 import { Sidebar } from '../../../Components/common';

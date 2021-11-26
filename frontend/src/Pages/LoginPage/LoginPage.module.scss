@@ -1,4 +1,4 @@
-@import '../style/font.scss'; 
+@import '../../style/font.scss';
 
 .wrapper {
   display: flex;
@@ -16,7 +16,7 @@
   width: 50vw;
 
   .leftImg {
-    margin-top: 6vh;
+    margin-top: 10vh;
     width: 26vw;
     height: 50vh;
   }
@@ -31,8 +31,17 @@
   text-align: center;
   .title {
     font-family: $subLogo;
-    font-size: 100px;
+    font-size: 95px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin-top: 18vh;
+    .pencilLogo {
+      margin-top: 20px;
+      margin-right: 10px;
+      transform: scaleX(-1);
+    }
   }
 
   h1 {

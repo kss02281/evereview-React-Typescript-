@@ -1,6 +1,6 @@
 #프론트엔드 기술 스택
 
-React Native
+React
 Typescript + scss
 Axios
 redux-toolkit

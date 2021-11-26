@@ -1,45 +1,24 @@
-import React, { Fragment, useState } from 'react';
-import classNames from 'classnames/bind';
-import styles from './SignUpPage.module.scss';
-import { Navbar } from '../../Components/common';
-import loginPageImg from '../img/loginPageImg.png';
-import { UilEditAlt } from '@iconscout/react-unicons';
-import { useHistory } from 'react-router';
-import ROUTES from '../../constants/routes';
-import { useSelector } from 'react-redux';
-import { ReducerType } from '../../store/modules';
+import React, { Fragment, useState } from "react";
+import classNames from "classnames/bind";
+import styles from "./SignUpPage.module.scss";
+import { Navbar } from "../../Components/common";
+import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../Components/SignUp";
 
 const cx = classNames.bind(styles);
 
 function SignUpPage() {
-  const history = useHistory();
-  //const email = useSelector<ReducerType>((state) => state.user.email);
-  const name = useSelector<ReducerType>((state) => state.user.name);
-
-  const clickEventHandler = () => {
-    history.push(`${ROUTES.SIGNUP.STEP2}`);
+  const [stepNum, setStepNum] = useState("1");
+  const onSearchSubmit = (e: string) => {
+    console.log(e);
+    setStepNum(e);
   };
-
   return (
     <Fragment>
       <Navbar />
-      <div className={cx('wrapper')}>
-        <div className={cx('rightContainer')}>
-          <div className={cx('title')}>
-            <UilEditAlt size="95" />
-            <span>
-              {' '}
-              <span> </span>EverReview
-            </span>
-          </div>
-          <h1>로그인 완료!</h1>
-          <p>안녕하세요, {`${name}`}님 !</p>
-          <p>간단한 정보 입력을 통해 서비스 이용을 시작해보세요!</p>
-          <button className={cx('btn')} onClick={clickEventHandler}>
-            정보 입력하러 가기
-          </button>
-        </div>
-      </div>
+      {`${stepNum}` === "1" && <SignUp1 onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "2" && <SignUp2 onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "3" && <SignUp3 onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "4" && <SignUp4 onSubmit={onSearchSubmit} />}
     </Fragment>
   );
 }

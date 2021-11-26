@@ -22,4 +22,4 @@ class Comment(db.Model):
     text_display = db.Column(db.Text, nullable=False)
     text_original = db.Column(db.Text, nullable=False)
     like_count = db.Column(db.Integer, nullable=False)
-    published_at = db.Column(db.Datetime, nullable=False)
+    published_at = db.Column(db.DateTime(), nullable=False)

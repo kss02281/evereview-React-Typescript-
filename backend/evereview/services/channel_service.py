@@ -12,15 +12,7 @@ def get_channels(user_id):
     channels = Channel.query.filter_by(user_id=user_id).all()
 
     for channel in channels:
-        item = {
-            "id": channel.id,
-            "title": channel.title,
-            "comment_count": channel.comment_count,
-            "video_count": channel.video_count,
-            "channel_url": channel.channel_url,
-            "img_url": channel.img_url,
-        }
-        result.append(item)
+        result.append(channel.to_dict())
 
     return result
 

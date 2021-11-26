@@ -12,16 +12,7 @@ def get_videos(channel_id):
 
     result = []
     for video in videos:
-        item = {
-            "id": video.id,
-            "published_at": video.published_at,
-            "thumbnail_url": video.thumbnail_url,
-            "category_id": video.category_id,
-            "view_count": video.view_count,
-            "like_count": video.like_count,
-            "comment_count": video.comment_count,
-        }
-        result.append(item)
+        result.append(video.to_dict())
 
     return result
 

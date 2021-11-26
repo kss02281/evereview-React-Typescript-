@@ -112,3 +112,28 @@ p{
   border-radius: 30px;
   background-color: #00000015;
 }
+
+.pieChart{
+  position: absolute;
+  top: 18%;
+  right: 5%;
+
+}
+
+.allBarChart{
+  position: absolute;
+  top: 22%;
+  left: 24%;
+}
+
+.negBarChart{
+  position: absolute;
+  bottom: 5%;
+  left: 24%;
+}
+
+.posBarChart{
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}

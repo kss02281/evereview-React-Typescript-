@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apk add --no-cache build-base libffi-dev
 RUN pip3 install -r requirements.txt
 
-ENV FLASK_APP delivery_app.app
+ENV FLASK_APP evereview.app
 ENV FLASK_ENV production
 ENV SECRET_KEY []
 ENV JWT_SECRET_KEY []

@@ -23,3 +23,16 @@ class Comment(db.Model):
     text_original = db.Column(db.Text, nullable=False)
     like_count = db.Column(db.Integer, nullable=False)
     published_at = db.Column(db.DateTime(), nullable=False)
+
+    def to_dict(self):
+        result = {
+            "id": self.id,
+            "author": self.author,
+            "author_img": self.author_img,
+            "text_display": self.text_display,
+            "text_original": self.text_original,
+            "like_count": self.like_count,
+            "published_at": self.published_at,
+        }
+
+        return result

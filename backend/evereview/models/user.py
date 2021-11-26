@@ -15,3 +15,15 @@ class User(db.Model):
     oauth_token = db.Column(db.String(1024), nullable=True)
     access_token = db.Column(db.String(1024), nullable=True)
     refresh_token = db.Column(db.String(1024), nullable=True)
+
+    def to_dict(self):
+        result = {
+            "email": self.email,
+            "name": self.name,
+            "img_url": self.img_url,
+            "nickname": self.nickname,
+            "upload_term": self.upload_term,
+            "contents_category": self.contents_category,
+        }
+
+        return result

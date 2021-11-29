@@ -109,3 +109,79 @@ def fetch_channels(*args):
         result.append(item)
 
     return result
+
+
+def fetch_videos(channel_id, page=1):
+    upload_playlist_id = get_my_uploads_list(channel_id)
+    videos_id = get_my_uploaded_videos_id(upload_playlist_id, page)
+    videos_details = get_my_uploaded_videos_detail(videos_id)
+
+    return videos_details
+
+
+def get_my_uploads_list(channel_id):
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    part = ["contentDetails"]
+    payload = {"key": API_KEY, "part": part, "id": channel_id}
+    res = requests.get(url, params=payload)
+    playlist_id = (
+        res.json()
+        .get("items")[0]
+        .get("contentDetails")
+        .get("relatedPlaylists")
+        .get("uploads")
+    )
+
+    return playlist_id
+
+
+def get_my_uploaded_videos_id(playlist_id, page=1):
+    url = "https://www.googleapis.com/youtube/v3/playlistItems"
+    part = ["contentDetails"]
+    payload = {
+        "key": API_KEY,
+        "part": part,
+        "id": playlist_id,
+        "maxResults": 50,
+        "pageToken": page,
+    }
+    res = requests.get(url, params=payload)
+    playlist_items = res.json().get("items")
+
+    result = []
+    for playlist_item in playlist_items:
+        video_id = playlist_item.get("contentDetails").get("videoId")
+        result.append(video_id)
+
+    return result
+
+
+def get_my_uploaded_videos_detail(*args):
+    url = "https://www.googleapis.com/youtube/v3/videos"
+    part = ["snippet"]
+    payload = {
+        "key": API_KEY,
+        "part": part,
+        "id": args,
+    }
+    res = requests.get(url, params=payload)
+    video_items = res.json().get("items")
+
+    result = []
+    for video_item in video_items:
+        item = {
+            "id": video_item.get("id"),
+            "channel_id": video_item.get("snippet").get("channelId"),
+            "published_at": video_item.get("snippet").get("publishedAt"),
+            "thumbnail_url": video_item.get("snippet")
+            .get("thumbnails")
+            .get("medium")
+            .get("url"),
+            "category_id": video_item.get("snippet").get("categoryId"),
+            "view_count": video_item.get("statistics").get("viewCount"),
+            "like_count": video_item.get("statistics").get("likeCount"),
+            "comment_count": video_item.get("statistics").get("commentCount"),
+        }
+        result.append(item)
+
+    return result

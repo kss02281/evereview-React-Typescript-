@@ -11,8 +11,8 @@ SECRET_KEY = "dev"
 JWT_SECRET_KEY = "dev"
 
 DB_HOST = ""
-USER = ""
-PASSWORD = ""
+USER = "root"
+PASSWORD = "1234"
 DB_NAME = "evereview"
 SQLALCHEMY_DATABASE_URI = (
     f"mysql+pymysql://{USER}:{PASSWORD}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"

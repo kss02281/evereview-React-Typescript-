@@ -44,3 +44,68 @@ def authorization(code):
     }
 
     return result
+
+
+def fetch_user_channels(oauth_token, admin=False):
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    part = ["id", "snippet", "statistics"]
+    payload = {
+        "key": API_KEY,
+        "part": part,
+        "mine": True,
+    }
+    header = {"Authorization": f"Bearer {oauth_token}"}
+
+    res = requests.get(url, params=payload, headers=header)
+    channels_info = res.json().get("items")
+
+    result = []
+    for channel_info in channels_info:
+        item = {
+            "channel_id": channel_info.get("id"),
+            "title": channel_info.get("snippet").get("title"),
+            "comment_count": channel_info.get("statistics").get("commentCount"),
+            "video_count": channel_info.get("statistics").get("videoCount"),
+            "channel_url": "https://www.youtube.com/channel/" + channel_info.get("id"),
+            "img_url": channel_info.get("snippet")
+            .get("thumbnails")
+            .get("default")
+            .get("url"),
+        }
+        result.append(item)
+
+    if admin:
+        static_channels = ["UCIG4gr_wIy5CIlcFciUbIQw"]
+        static_channels = fetch_channels(static_channels)
+        result += static_channels
+
+    return result
+
+
+def fetch_channels(*args):
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    part = ["id", "snippet", "statistics"]
+    payload = {"key": API_KEY, "part": part, "id": args}
+    res = requests.get(url, params=payload)
+    channels_info = res.json().get("items")
+
+    result = []
+    if channels_info is None:
+        return result
+
+    print(channels_info)
+    for channel_info in channels_info:
+        item = {
+            "channel_id": channel_info.get("id"),
+            "title": channel_info.get("snippet").get("title"),
+            "comment_count": channel_info.get("statistics").get("commentCount"),
+            "video_count": channel_info.get("statistics").get("videoCount"),
+            "channel_url": "https://www.youtube.com/channel/" + channel_info.get("id"),
+            "img_url": channel_info.get("snippet")
+            .get("thumbnails")
+            .get("default")
+            .get("url"),
+        }
+        result.append(item)
+
+    return result

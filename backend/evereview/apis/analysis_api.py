@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource, reqparse, inputs
 
-analysis_namespace = Namespace("analysis")
+analysis_namespace = Namespace("analysis", description="ToDo")
 
 
 @analysis_namespace.route("/video")

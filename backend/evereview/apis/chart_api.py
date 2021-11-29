@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource
 
-chart_namespace = Namespace("chart")
+chart_namespace = Namespace("chart", description="ToDo")
 
 
 @chart_namespace.route("/stack/<string:type>/<string:analysis_id>")

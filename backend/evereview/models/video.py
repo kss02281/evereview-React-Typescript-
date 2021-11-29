@@ -17,3 +17,16 @@ class Video(db.Model):
     view_count = db.Column(db.Integer, nullable=False)
     like_count = db.Column(db.Integer, nullable=False)
     comment_count = db.Column(db.Integer, nullable=False)
+
+    def to_dict(self):
+        result = {
+            "id": self.id,
+            "published_at": self.published_at,
+            "thumbnail_url": self.thumbnail_url,
+            "category_id": self.category_id,
+            "view_count": self.view_count,
+            "like_count": self.like_count,
+            "comment_count": self.comment_count,
+        }
+
+        return result

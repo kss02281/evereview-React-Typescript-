@@ -11,4 +11,4 @@ class Analysis(db.Model):
         db.ForeignKey("user.id", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
     )
-    analysis_at = db.Column(db.Datetime, nullable=False)
+    analysis_at = db.Column(db.DateTime(), nullable=False)

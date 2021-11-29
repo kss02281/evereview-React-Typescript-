@@ -1,3 +1,5 @@
+import json
+
 from evereview.models.user import db, User
 
 
@@ -11,15 +13,15 @@ def get_user_by_email(email):
     return result
 
 
-def insert_user(email, name, nickname, upload_term, contents_category, img_url):
+def insert_user(**kwargs):
     try:
         new_user = User(
-            email=email,
-            name=name,
-            nickname=nickname,
-            upload_term=upload_term,
-            contents_category=contents_category,
-            img_url=img_url,
+            email=kwargs.get("email"),
+            name=kwargs.get("name"),
+            nickname=kwargs.get("nickname"),
+            upload_term=kwargs.get("upload_term"),
+            contents_category=json.dumps(kwargs.get("contents_category")),
+            img_url=kwargs.get("img_url"),
         )
         db.session.add(new_user)
         db.session.commit()
@@ -29,18 +31,15 @@ def insert_user(email, name, nickname, upload_term, contents_category, img_url):
         raise
 
 
-def update_user(user_id, name, img_url, nickname, upload_term, contents_category):
+def update_user_googleinfo(user_id, **kwargs):
     try:
         user = User.query.filter_by(id=user_id).one_or_none()
 
         if user is None:
             return user
 
-        user.name = name
-        user.img_url = img_url
-        user.nickname = nickname
-        user.upload_term = upload_term
-        user.contents_category = contents_category
+        user.name = kwargs.get("name")
+        user.img_url = kwargs.get("img_url")
 
         db.session.commit()
         return user
@@ -49,16 +48,34 @@ def update_user(user_id, name, img_url, nickname, upload_term, contents_category
         raise
 
 
-def update_token(user_id, oauth_token, access_token, refresh_token):
+def update_user(user_id, **kwargs):
     try:
         user = User.query.filter_by(id=user_id).one_or_none()
 
         if user is None:
             return user
 
-        user.oauth_token = oauth_token
-        user.access_token = access_token
-        user.refresh_token = refresh_token
+        user.nickname = kwargs.get("nickname")
+        user.upload_term = kwargs.get("upload_term")
+        user.contents_category = json.dumps(kwargs.get("contents_category"))
+
+        db.session.commit()
+        return user
+    except Exception:
+        db.session.rollback()
+        raise
+
+
+def update_token(user_id, **kwargs):
+    try:
+        user = User.query.filter_by(id=user_id).one_or_none()
+
+        if user is None:
+            return user
+
+        user.oauth_token = kwargs.get("oauth_token")
+        user.access_token = kwargs.get("access_token")
+        user.refresh_token = kwargs.get("refresh_token")
 
         db.session.commit()
         return user

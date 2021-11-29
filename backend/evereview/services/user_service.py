@@ -1,3 +1,5 @@
+import json
+
 from evereview.models.user import db, User
 
 
@@ -18,7 +20,7 @@ def insert_user(**kwargs):
             name=kwargs.get("name"),
             nickname=kwargs.get("nickname"),
             upload_term=kwargs.get("upload_term"),
-            contents_category=kwargs.get("contents_category"),
+            contents_category=json.dumps(kwargs.get("contents_category")),
             img_url=kwargs.get("img_url"),
         )
         db.session.add(new_user)
@@ -55,7 +57,7 @@ def update_user(user_id, **kwargs):
 
         user.nickname = kwargs.get("nickname")
         user.upload_term = kwargs.get("upload_term")
-        user.contents_category = kwargs.get("contents_category")
+        user.contents_category = json.dumps(kwargs.get("contents_category"))
 
         db.session.commit()
         return user

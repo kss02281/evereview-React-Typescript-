@@ -1,3 +1,4 @@
+import json
 from evereview.db_connect import db
 
 
@@ -23,7 +24,7 @@ class User(db.Model):
             "img_url": self.img_url,
             "nickname": self.nickname,
             "upload_term": self.upload_term,
-            "contents_category": self.contents_category,
+            "contents_category": json.loads(self.contents_category),
         }
 
         return result

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { Navbar } from '../../Components/common';
 
+
 function AboutPage() {
+
   return (
     <Fragment>
       <Navbar />

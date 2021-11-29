@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CommentDropdown.module.scss';
 import DatePicker from "react-datepicker";
@@ -11,25 +11,33 @@ const cx = classNames.bind(styles);
 function CommentDropdown() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
+  console.log(startDate.getFullYear())
   const [isStartOpen, setIsStartOpen] = useState(false);
   const [isEndOpen, setIsEndOpen] = useState(false);
 
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button className={cx("datePick1")} onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
+
+  const CustomInput2 = forwardRef(({ value, onClick }, ref) => (
+    <button className={cx("datePick2")} onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
+
   const handleChangeStart = (e) => {
-    setIsStartOpen(!isStartOpen);
     setStartDate(e);
   };
   const handleClickStart = (e) => {
     e.preventDefault();
-    setIsStartOpen(!isStartOpen);
   };
   const handleChangeEnd = (e) => {
-    setIsEndOpen(!isEndOpen);
     setEndDate(e);
   };
   const handleClickEnd = (e) => {
     e.preventDefault();
-    setIsEndOpen(!isEndOpen);
   };
 
     return (
@@ -37,16 +45,21 @@ function CommentDropdown() {
         <div className={cx("menu-container")}>
           <div className={cx("commentSearchWrap")}>
             <div className={cx("commentSearchBar")} onClick={handleClickStart}>
-              {moment(startDate, "YYYY.MM.DD").format("YYYY-MM-DD")}
-              {isStartOpen && (
-                <DatePicker selected={startDate} onChange={handleChangeStart} inline />
-              )}
+              
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                customInput={<CustomInput />
+              }
+              />
             </div>
             <div className={cx("commentSearchBar")} onClick={handleClickEnd}>
-            {moment(endDate, "YYYY.MM.DD").format("YYYY-MM-DD")}
-              {isEndOpen && (
-                <DatePicker selected={endDate} onChange={handleChangeEnd} inline />
-              )}
+            
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              customInput={<CustomInput2 />}
+            />
             </div>
           </div>
         </div>

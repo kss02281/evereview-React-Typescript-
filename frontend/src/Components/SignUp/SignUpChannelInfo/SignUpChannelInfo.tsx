@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./SignUp3.module.scss";
+import styles from "./SignUpChannelInfo.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { ReducerType } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
-function SignUp3(props: any) {
+function SignUpChannelInfo(props: any) {
   const clickEventHandler = (e: any) => {
     e.preventDefault();
     props.onSubmit("4");
@@ -65,4 +65,4 @@ function SignUp3(props: any) {
   );
 }
 
-export default SignUp3;
+export default SignUpChannelInfo;

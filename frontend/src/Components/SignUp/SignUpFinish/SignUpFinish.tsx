@@ -1,6 +1,6 @@
 import React from "react";
 import ROUTES from "../../../constants/routes";
-import styles from "./SignUp4.module.scss";
+import styles from "./SignUpFinish.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useHistory } from "react-router";
@@ -9,7 +9,7 @@ import { ReducerType } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
-function SignUp4(props: any) {
+function SignUpFinish(props: any) {
   const history = useHistory();
   const name = useSelector<ReducerType>((state) => state.user.name);
 
@@ -53,4 +53,4 @@ function SignUp4(props: any) {
   );
 }
 
-export default SignUp4;
+export default SignUpFinish;

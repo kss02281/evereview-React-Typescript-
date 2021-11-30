@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import styles from "./SignUp2.module.scss";
+import styles from "./SignUpUserInfo.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
 import { ReducerType } from "../../../store/modules";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
-function SignUp2(props: any) {
+function SignUpUserInfo(props: any) {
   const name = useSelector<ReducerType>((state) => state.user.name);
   const category: string[] = ["먹방", "일상", "리뷰", "게임", "피트니스", "ASMR", "주식", "부동산", "이슈", "교육", "기타"];
   const [checkedInputs, setCheckedInputs] = useState([] as number[]);
@@ -84,6 +85,7 @@ function SignUp2(props: any) {
                       changeHandler(e.currentTarget.checked, idx);
                     }}
                     checked={checkedInputs.includes(idx) ? true : false}
+                    key={idx}
                   />
                   <span>{item}</span>
                 </>
@@ -100,4 +102,4 @@ function SignUp2(props: any) {
   );
 }
 
-export default SignUp2;
+export default SignUpUserInfo;

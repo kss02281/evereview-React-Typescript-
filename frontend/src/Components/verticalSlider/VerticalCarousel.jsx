@@ -7,7 +7,7 @@ import styles from "./verticalCarousel.module.scss";
 
 const cx = classNames.bind(styles);
 
-const VerticalCarousel = ({ data, leadingText }) => {
+const VerticalCarousel = ({ data }) => {
   const [activeIndex, setActiveIndex] = useState(2);
   const [btnColor, setBtnColor] = useState(false);
   const halfwayIndex = Math.ceil(data.length / 2);
@@ -81,13 +81,13 @@ const VerticalCarousel = ({ data, leadingText }) => {
                 {data.map((item, i) => (
                   <button
                     type="button"
+                    key={item.id}
                     onClick={() => setActiveIndex(i)}
                     className={cx("carousel-item", {
                       active: activeIndex === i,
                       visible:
                         Math.abs(determinePlacement(i)) <= visibleStyleThreshold
                     })}
-                    key={item.id}
                     style={{
                       transform: `translateY(${determinePlacement(i)}px)`
                     }}

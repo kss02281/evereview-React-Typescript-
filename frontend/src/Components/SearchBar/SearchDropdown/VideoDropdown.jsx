@@ -1,56 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SearchDropdown.module.scss';
 import Select from 'react-select';
 import { colourOptions } from '../searchMockData';
 import { UilTimes } from '@iconscout/react-unicons';
 import data from './searchMockData.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { actions } from "../../../store/modules";
+import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
+import { nowVideoList } from '../../../store/modules/video';
+
 const cx = classNames.bind(styles);
 
-function VideoDropdown(activeTab = "") {
-  const [isSelected, setIsSelected] = useState({});
-  const selectedMap = new Map(Object.entries(isSelected));
+function VideoDropdown() {
+  const dispatch = useDispatch();
+  const isSelectedVideoList = useSelector(nowSelectedVideoList)
+  const isVideoList = useSelector(nowVideoList)
+
   const handleBtn = (btnId) => (e) => {
     e.preventDefault();
-    setIsSelected((state) => ({
-      ...state,
-      [btnId]: !state[btnId]
-    }));
+    dispatch(actions.selectSelectedVideo(btnId))
   };
 
   const handleClickClose = (btnId) => (e) => {
     e.preventDefault();
-    setIsSelected((state) => ({
-      ...state,
-      [btnId]: false
-    }));
+    dispatch(actions.closeSelectedVideo(btnId))
   };
 
   const handleClickCloseAll = () => {
-    console.log('hi')
-    Object.keys(isSelected).map((keyName, i) => (
-        setIsSelected(isSelected[keyName] = false)
+    Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
+      dispatch(actions.closeSelectedVideo(keyName))
     ))
+  };
 
+  const handleClickSelectAll = () => {
+    Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
+      dispatch(actions.selectAllSelectedVideo(keyName))
+    ))
   };
 
     return (
       <>
         <div className={cx("videoContainer")}>
+            <div className={cx("selectAll")} onClick={handleClickSelectAll}>/</div>
             <div className={cx("deleteAll")} onClick={handleClickCloseAll}>X</div>
             <div className={cx("videoHeader")}>
-            {Object.keys(isSelected).map((keyName, i) => (
-                    isSelected[keyName] ? <div className={cx('videoHeaderBox')}  onClick={handleClickClose(i)} key={i}>{data.data[i]['title'].substr(0,10)}<span>x</span> </div> : null
+            {Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
+                    isSelectedVideoList.selectedVideoList[keyName] ? <div className={cx('videoHeaderBox')}  onClick={!undefined && handleClickClose(i)} key={i}>{isVideoList[i]['title'].substr(0,10)}<span>x</span> </div> : null
                 ))}
+                
             </div>
             <div className={cx("videoItems")}>
-                {data.data.map((videoInfo, i) => {
+                {isVideoList.map((videoInfo, i) => {
                     return (
                         <div 
-                        className={cx(`videoItem_${isSelected[i]}`)} 
+                        className={cx(`videoItem_${isSelectedVideoList.selectedVideoList[i]}`)} 
                         id='videoItem' 
-                        onClick={handleBtn(i)} 
-                        style={{ backgroundColor: isSelected[i] ? "#D0E9FF" : "#ffffff" }}
+                        onClick={!undefined && handleBtn(i)} 
+                        style={{ backgroundColor: isSelectedVideoList.selectedVideoList[i] ? "#D0E9FF" : "#ffffff" }}
                         >
                         <div className={cx('videoImageWrap')}>
                             <img className={cx('videoImage')} src={videoInfo.url} alt="imgUrl" />

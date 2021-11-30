@@ -28,29 +28,29 @@ function LoginPage() {
     const signinForm = new FormData();
     signinForm.append("code", code);
 
-    axios.post(process.env.REACT_APP_BACKEND_URL + "/api/auth/signin", signinForm)
-      .then(response => {
+    axios
+      .post(process.env.REACT_APP_BACKEND_URL + "/api/auth/signin", signinForm)
+      .then((response) => {
         // 로그인 성공 -> 홈으로
-        const user_info = response.data
+        const user_info = response.data;
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.HOME}`);
       })
-      .catch(error => {
+      .catch((error) => {
         // 로그인 실패 -> 회원가입 페이지로
-        const user_info = error.response.data
+        const user_info = error.response.data;
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.SIGNUP}`);
       });
   };
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo")
-      .then(response => {
-        const scopeList = response.data.scopes;
-        const scopeString = scopeList.join(" ");
-        setClientId(response.data.client_id);
-        setScope(scopeString)
-      });
+    axios.get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo").then((response) => {
+      const scopeList = response.data.scopes;
+      const scopeString = scopeList.join(" ");
+      setClientId(response.data.client_id);
+      setScope(scopeString);
+    });
   }, []);
 
   return (
@@ -63,7 +63,7 @@ function LoginPage() {
         <div className={cx("rightContainer")}>
           <div className={cx("title")}>
             <div className={cx("pencilLogo")}>
-              <UilEditAlt size="95" />
+              <UilEditAlt size="5vw" />
             </div>
             <div className={cx("titleText")}>EverReview</div>
           </div>
@@ -78,8 +78,7 @@ function LoginPage() {
             <br />
             피드백을 수용하여 더 좋은 컨텐츠를 만들어보세요.
           </p>
-          {
-            clientId && scope &&
+          {clientId && scope && (
             <div className={cx("loginBtn")}>
               <GoogleLogin
                 clientId={clientId}
@@ -93,7 +92,7 @@ function LoginPage() {
                 scope={scope}
               />
             </div>
-          }
+          )}
         </div>
       </div>
     </Fragment>

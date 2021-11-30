@@ -10,9 +10,9 @@ JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=14)
 SECRET_KEY = "dev"
 JWT_SECRET_KEY = "dev"
 
-DB_HOST = "192.168.0.11"
-USER = "root"
-PASSWORD = "1234"
+DB_HOST = ""
+USER = ""
+PASSWORD = ""
 DB_NAME = "evereview"
 SQLALCHEMY_DATABASE_URI = (
     f"mysql+pymysql://{USER}:{PASSWORD}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"

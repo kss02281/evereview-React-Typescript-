@@ -1,5 +1,8 @@
 from flask_restx import Namespace, Resource, reqparse, inputs
 
+from evereview.services.analysis_service import Analysis
+from evereview.services.cluster_service import Cluster, Code
+
 analysis_namespace = Namespace("analysis", description="ToDo")
 
 

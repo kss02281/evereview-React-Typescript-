@@ -20,10 +20,12 @@ def get_channels(user_id):
 def insert_channel(**kwargs):
     try:
         new_channel = Channel(
-            channel_id=kwargs.get("channel_id"),
+            id=kwargs.get("channel_id"),
             user_id=kwargs.get("user_id"),
             title=kwargs.get("title"),
-            comment_count=kwargs.get("comment_count"),
+            comment_count=kwargs.get("comment_count")
+            if kwargs.get("comment_count") is not None
+            else 0,
             video_count=kwargs.get("video_count"),
             channel_url=kwargs.get("channel_url"),
             img_url=kwargs.get("img_url"),
@@ -43,7 +45,11 @@ def update_channel(channel_id, **kwargs):
             return channel
 
         channel.title = kwargs.get("title")
-        channel.comment_count = kwargs.get("comment_count")
+        channel.comment_count = (
+            kwargs.get("comment_count")
+            if kwargs.get("comment_count") is not None
+            else 0
+        )
         channel.video_count = kwargs.get("video_count")
         channel.url = kwargs.get("img_url")
 

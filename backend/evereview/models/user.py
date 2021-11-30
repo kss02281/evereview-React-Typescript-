@@ -16,6 +16,7 @@ class User(db.Model):
     oauth_token = db.Column(db.String(1024), nullable=True)
     access_token = db.Column(db.String(1024), nullable=True)
     refresh_token = db.Column(db.String(1024), nullable=True)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def to_dict(self):
         result = {

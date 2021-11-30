@@ -5,7 +5,6 @@ import {
   LoginPage,
   MainPage,
   NotFound,
-  OverviewPage,
   SignUpPage,
   DashBoard,
   Contents,

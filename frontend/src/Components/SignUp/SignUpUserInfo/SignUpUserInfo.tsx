@@ -85,6 +85,7 @@ function SignUpUserInfo(props: any) {
                       changeHandler(e.currentTarget.checked, idx);
                     }}
                     checked={checkedInputs.includes(idx) ? true : false}
+                    key={idx}
                   />
                   <span>{item}</span>
                 </>

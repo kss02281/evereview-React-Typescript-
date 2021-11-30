@@ -33,12 +33,14 @@ function LoginPage() {
       .then((response) => {
         // 로그인 성공 -> 홈으로
         const user_info = response.data;
+        console.log(user_info);
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.HOME}`);
       })
       .catch((error) => {
         // 로그인 실패 -> 회원가입 페이지로
         const user_info = error.response.data;
+        console.log(user_info);
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.SIGNUP}`);
       });
@@ -48,6 +50,7 @@ function LoginPage() {
     axios.get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo").then((response) => {
       const scopeList = response.data.scopes;
       const scopeString = scopeList.join(" ");
+      console.log(response.data);
       setClientId(response.data.client_id);
       setScope(scopeString);
     });

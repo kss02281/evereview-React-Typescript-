@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./SignUp1.module.scss";
+import styles from "./SignUpStart.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { ReducerType } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
-function SignUp1(props: any) {
+function SignUpStart(props: any) {
   const name = useSelector<ReducerType>((state) => state.user.name);
 
   const clickEventHandler = (e: any) => {
@@ -48,4 +48,4 @@ function SignUp1(props: any) {
   );
 }
 
-export default SignUp1;
+export default SignUpStart;

@@ -9,9 +9,6 @@ function OverviewPage() {
   const name = "이성효";
   const [isActive, setActive] = useState(true);
   
-  const handleToggle = () => {
-    setActive(!isActive);
-}
   return (
     <>
     <div className={cx('overviewContainer')}>

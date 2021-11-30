@@ -1,8 +1,10 @@
-import { useState, forwardRef } from 'react';
+import { useEffect,useState, forwardRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CommentDropdown.module.scss';
 import DatePicker from "react-datepicker";
-import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { nowDate } from '../../../store/modules/date';
+import { actions } from "../../../store/modules";
 
 
 const cx = classNames.bind(styles);
@@ -11,15 +13,28 @@ const cx = classNames.bind(styles);
 function CommentDropdown() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  console.log(startDate.getFullYear())
-  const [isStartOpen, setIsStartOpen] = useState(false);
-  const [isEndOpen, setIsEndOpen] = useState(false);
+  const dispatch = useDispatch();
+  const isDate = useSelector(nowDate);
+  useEffect(() => {
+    dispatch(actions.saveDate({ startDate: startDate, endDate: endDate}));
+    return () => {
+      const dateYear = startDate.getFullYear()
+      const dateMonth = startDate.getMonth()+1
+      const dateDate = startDate.getDate()
+    };
+  }, [startDate, endDate, dispatch, isDate]);
 
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className={cx("datePick1")} onClick={onClick} ref={ref}>
       {value}
     </button>
   ));
+  const handleClickStart = (e) => {
+    e.preventDefault();
+  };
+  const handleClickEnd = (e) => {
+    e.preventDefault();
+  };
 
   const CustomInput2 = forwardRef(({ value, onClick }, ref) => (
     <button className={cx("datePick2")} onClick={onClick} ref={ref}>
@@ -27,18 +42,7 @@ function CommentDropdown() {
     </button>
   ));
 
-  const handleChangeStart = (e) => {
-    setStartDate(e);
-  };
-  const handleClickStart = (e) => {
-    e.preventDefault();
-  };
-  const handleChangeEnd = (e) => {
-    setEndDate(e);
-  };
-  const handleClickEnd = (e) => {
-    e.preventDefault();
-  };
+
 
     return (
       <div className={cx("searchContainer")}>
@@ -49,8 +53,8 @@ function CommentDropdown() {
               <DatePicker
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
-                customInput={<CustomInput />
-              }
+                customInput={<CustomInput />}
+                maxDate = {endDate}
               />
             </div>
             <div className={cx("commentSearchBar")} onClick={handleClickEnd}>
@@ -59,6 +63,7 @@ function CommentDropdown() {
               selected={endDate}
               onChange={(date) => setEndDate(date)}
               customInput={<CustomInput2 />}
+              minDate = {startDate}
             />
             </div>
           </div>

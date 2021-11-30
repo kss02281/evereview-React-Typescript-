@@ -17,13 +17,10 @@ function CategoryDropdown(props) {
 
   const changeHandle = ( event ) => {
     const value = event.value
-    console.log(value)
     if (value === '영상별 분석') {
       props.setCategorySelect(true)
-      console.log(true)
     } else if (value === '댓글 기간별 분석'){
       props.setCategorySelect(false)
-      console.log(false)
     }
     }
     

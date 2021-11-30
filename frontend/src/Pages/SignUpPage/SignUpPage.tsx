@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./SignUpPage.module.scss";
 import { Navbar } from "../../Components/common";
-import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../Components/SignUp";
+import { SignUpStart, SignUpUserInfo, SignUpChannelInfo, SignUpFinish } from "../../Components/SignUp";
 
 const cx = classNames.bind(styles);
 
@@ -15,10 +15,10 @@ function SignUpPage() {
   return (
     <Fragment>
       <Navbar />
-      {`${stepNum}` === "1" && <SignUp1 onSubmit={onSearchSubmit} />}
-      {`${stepNum}` === "2" && <SignUp2 onSubmit={onSearchSubmit} />}
-      {`${stepNum}` === "3" && <SignUp3 onSubmit={onSearchSubmit} />}
-      {`${stepNum}` === "4" && <SignUp4 onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "1" && <SignUpStart onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "2" && <SignUpUserInfo onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "3" && <SignUpChannelInfo onSubmit={onSearchSubmit} />}
+      {`${stepNum}` === "4" && <SignUpFinish onSubmit={onSearchSubmit} />}
     </Fragment>
   );
 }

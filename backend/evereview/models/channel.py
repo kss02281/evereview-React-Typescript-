@@ -16,3 +16,15 @@ class Channel(db.Model):
     img_url = db.Column(db.String(1024), nullable=False)
     comment_count = db.Column(db.Integer, nullable=False)
     video_count = db.Column(db.Integer, nullable=False)
+
+    def to_dict(self):
+        result = {
+            "id": self.id,
+            "title": self.title,
+            "channel_url": self.channel_url,
+            "img_url": self.img_url,
+            "comment_count": self.comment_count,
+            "video_count": self.video_count,
+        }
+
+        return result

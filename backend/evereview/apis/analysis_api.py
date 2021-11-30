@@ -1,6 +1,9 @@
 from flask_restx import Namespace, Resource, reqparse, inputs
 
-analysis_namespace = Namespace("analysis")
+from evereview.services.analysis_service import Analysis
+from evereview.services.cluster_service import Cluster, Code
+
+analysis_namespace = Namespace("analysis", description="ToDo")
 
 
 @analysis_namespace.route("/video")

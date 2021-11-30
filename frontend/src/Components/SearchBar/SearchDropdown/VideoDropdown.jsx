@@ -29,7 +29,7 @@ function VideoDropdown(searchWord) {
     Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
       dispatch(actions.closeSelectedVideo(keyName))
     ))
-    
+    searchWord.setSearchWord("")
   };
 
   const handleClickSelectAll = () => {

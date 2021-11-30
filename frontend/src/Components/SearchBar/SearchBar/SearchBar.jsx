@@ -17,6 +17,7 @@ function SearchBar() {
 
     const handleClick1 = () => {
         console.log(isDate)
+        alert(`${isDate[0]} \n ${isDate[1]}`)
     }
     const HandleClick2 = async () => {
         const selectedVideoArray = []
@@ -26,14 +27,18 @@ function SearchBar() {
             }
         }
         console.log(selectedVideoArray)
+        alert(selectedVideoArray)
     }
+    const handleClickOut = (e) => {
+        console.log('out')
+      };
 
     return (
         <>
             <div className={cx('searchBarContainer')}>
                 <div className={cx('categoryDropdown')}>
                     <CategoryDropdown setCategorySelect={setCategorySelect} />
-                    {categorySelect ? <SearchDropdown className={cx('videoSearch')} /> : <CommentDropdown className={cx('commentSearch')} />}
+                    {categorySelect ? <SearchDropdown className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
                     {categorySelect ? <div className={cx('submitButton')} onClick={HandleClick2}>적용하기</div> : <div className={cx('submitButton')} onClick={handleClick1}>적용하기</div> }
                 </div>
             </div>

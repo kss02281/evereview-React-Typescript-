@@ -1,4 +1,4 @@
-export { default as SignUp1 } from "./SignUp1/SignUp1";
-export { default as SignUp2 } from "./SignUp2/SignUp2";
-export { default as SignUp3 } from "./SignUp3/SignUp3";
-export { default as SignUp4 } from "./SignUp4/SignUp4";
+export { default as SignUpStart } from "./SignUpStart/SignUpStart";
+export { default as SignUpUserInfo } from "./SignUpUserInfo/SignUpUserInfo";
+export { default as SignUpChannelInfo } from "./SignUpChannelInfo/SignUpChannelInfo";
+export { default as SignUpFinish } from "./SignUpFinish/SignUpFinish";

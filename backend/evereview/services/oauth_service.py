@@ -93,7 +93,6 @@ def fetch_channels(*args):
     if channels_info is None:
         return result
 
-    print(channels_info)
     for channel_info in channels_info:
         item = {
             "channel_id": channel_info.get("id"),
@@ -111,12 +110,48 @@ def fetch_channels(*args):
     return result
 
 
-def fetch_videos(channel_id, page=1):
+def fetch_videos(channel_id, page=None):
     upload_playlist_id = get_my_uploads_list(channel_id)
-    videos_id = get_my_uploaded_videos_id(upload_playlist_id, page)
+    videos_id, page_info, next_page_token, prev_page_token = get_my_uploaded_videos_id(
+        upload_playlist_id, page
+    )
     videos_details = get_my_uploaded_videos_detail(videos_id)
 
-    return videos_details
+    return videos_details, page_info, next_page_token, prev_page_token
+
+
+def search_videos(query, channel_id, page=None):
+    (
+        searched_videos,
+        page_info,
+        next_page_token,
+        prev_page_token,
+    ) = get_my_searched_videos_id(query, channel_id, page)
+    videos_details = get_my_uploaded_videos_detail(searched_videos)
+
+    return videos_details, page_info, next_page_token, prev_page_token
+
+
+def get_my_searched_videos_id(query, channel_id, page=None):
+    url = "https://www.googleapis.com/youtube/v3/search"
+    part = ["id"]
+    payload = {
+        "key": API_KEY,
+        "part": part,
+        "q": query,
+        "channelId": channel_id,
+        "maxResults": 50,
+        "pageToken": page,
+    }
+    res = requests.get(url, params=payload)
+    page_info = res.json().get("pageInfo")
+    next_page_token = res.json().get("nextPageToken")
+    prev_page_token = res.json().get("prevPageToken")
+    items = res.json().get("items")
+
+    result = list(map(lambda item: item.get("id").get("videoId"), items))
+
+    return result, page_info, next_page_token, prev_page_token
 
 
 def get_my_uploads_list(channel_id):
@@ -135,17 +170,20 @@ def get_my_uploads_list(channel_id):
     return playlist_id
 
 
-def get_my_uploaded_videos_id(playlist_id, page=1):
+def get_my_uploaded_videos_id(playlist_id, page=None):
     url = "https://www.googleapis.com/youtube/v3/playlistItems"
     part = ["contentDetails"]
     payload = {
         "key": API_KEY,
         "part": part,
-        "id": playlist_id,
+        "playlistId": playlist_id,
         "maxResults": 50,
         "pageToken": page,
     }
     res = requests.get(url, params=payload)
+    page_info = res.json().get("pageInfo")
+    next_page_token = res.json().get("nextPageToken")
+    prev_page_token = res.json().get("prevPageToken")
     playlist_items = res.json().get("items")
 
     result = []
@@ -153,12 +191,12 @@ def get_my_uploaded_videos_id(playlist_id, page=1):
         video_id = playlist_item.get("contentDetails").get("videoId")
         result.append(video_id)
 
-    return result
+    return result, page_info, next_page_token, prev_page_token
 
 
 def get_my_uploaded_videos_detail(*args):
     url = "https://www.googleapis.com/youtube/v3/videos"
-    part = ["snippet"]
+    part = ["snippet", "statistics"]
     payload = {
         "key": API_KEY,
         "part": part,
@@ -171,6 +209,7 @@ def get_my_uploaded_videos_detail(*args):
     for video_item in video_items:
         item = {
             "id": video_item.get("id"),
+            "title": video_item.get("snippet").get("title"),
             "channel_id": video_item.get("snippet").get("channelId"),
             "published_at": video_item.get("snippet").get("publishedAt"),
             "thumbnail_url": video_item.get("snippet")

@@ -1,27 +1,13 @@
 from datetime import datetime
 
-from flask_restx import Namespace, Resource, reqparse, fields
-from flask_jwt_extended import (
-    create_access_token,
-    create_refresh_token,
-    get_jwt_identity,
-    jwt_required,
-    decode_token,
-    get_jwt,
-)
+from flask_restx import Resource, reqparse
+import flask_jwt_extended as flask_jwt
 
-from evereview.services.oauth_service import authorization
-from evereview.services.user_service import (
-    get_user_by_id,
-    get_user_by_email,
-    insert_user,
-    update_token,
-    update_user_googleinfo,
-)
+from evereview.utils.dto import AuthDto
+from evereview.services import oauth_service, user_service
 
 
-auth_namespace = Namespace(name="auth", description="evereview auth api")
-
+api = AuthDto.api
 
 parser = reqparse.RequestParser()
 parser.add_argument(
@@ -30,83 +16,26 @@ parser.add_argument(
     required=True,
     help='"Bearer {access_token}"',
 )
-signin_parser = reqparse.RequestParser()
-signin_parser.add_argument(
-    "code",
-    type=str,
-    location="form",
-    required=True,
-    help="google login을 통해 얻은 authorization code",
-)
-signup_parser = reqparse.RequestParser()
-signup_parser.add_argument(
-    "email", type=str, location="form", required=True, help="email"
-)
-signup_parser.add_argument("name", type=str, location="form", required=True, help="이름")
-signup_parser.add_argument(
-    "nickname", type=str, location="form", required=True, help="닉네임(별명)"
-)
-signup_parser.add_argument(
-    "img_url", type=str, location="form", required=True, help="프로필 이미지 url"
-)
-signup_parser.add_argument(
-    "upload_term", type=int, location="form", required=True, help="업로드 주기"
-)
-signup_parser.add_argument(
-    "contents_category",
-    type=str,
-    action="split",
-    location="form",
-    required=True,
-    help="주력 컨텐츠 카테고리",
-)
-
-response_success = auth_namespace.model(
-    "success",
-    {"result": fields.String(example="success"), "message": fields.String},
-)
-response_fail = auth_namespace.model(
-    "fail", {"result": fields.String(example="fail"), "message": fields.String}
-)
 
 
-@auth_namespace.route("/signin")
+@api.route("/signin")
+@api.response(200, "Signin Success", AuthDto.signin_success)
+@api.response(400, "Signin Fail(잘못된 authorization 코드)", AuthDto.invalide_code)
+@api.response(404, "Signin Fail(회원이 아님)", AuthDto.signin_fail)
 class Signin(Resource):
-    signin_fail = auth_namespace.model(
-        "signin_fail",
-        {
-            "is_member": fields.Boolean(example=False),
-            "email": fields.String(description="이메일"),
-            "name": fields.String(description="이름"),
-            "img_url": fields.String(description="이미지 url"),
-        },
-    )
-    signin_success = auth_namespace.inherit(
-        "signin_success",
-        signin_fail,
-        {
-            "is_member": fields.Boolean(example=True),
-            "access_token": fields.String(description="엑세스 토큰"),
-            "nickname": fields.String(description="닉네임"),
-            "upload_term": fields.String(description="업로드 주기"),
-            "contents_category": fields.String(description="주력 컨텐츠 카테고리"),
-        },
-    )
-    invalide_code = auth_namespace.model(
-        "invalide_authorization_code",
-        {
-            "error": fields.String(description="error 유형"),
-            "error_description": fields.String(description="error 설명"),
-        },
+    signin_parser = reqparse.RequestParser()
+    signin_parser.add_argument(
+        "code",
+        type=str,
+        location="form",
+        required=True,
+        help="google login을 통해 얻은 authorization code",
     )
 
-    @auth_namespace.expect(signin_parser)
-    @auth_namespace.response(200, "Signin Success", signin_success)
-    @auth_namespace.response(400, "Signin Fail(잘못된 authorization 코드)", invalide_code)
-    @auth_namespace.response(404, "Signin Fail(회원이 아님)", signin_fail)
+    @api.expect(signin_parser)
     def post(self):
-        code = signin_parser.parse_args().get("code")
-        oauth_result = authorization(code)
+        code = self.signin_parser.parse_args().get("code")
+        oauth_result = oauth_service.authorization(code)
         if "oauth_token" not in oauth_result.keys():
             return oauth_result, 400
 
@@ -115,7 +44,7 @@ class Signin(Resource):
         user_name = oauth_result.get("user_name")
         user_img = oauth_result.get("user_img")
 
-        user = get_user_by_email(user_email)
+        user = user_service.get_user_by_email(user_email)
         if user is None:
             return {
                 "is_member": False,
@@ -124,11 +53,13 @@ class Signin(Resource):
                 "img_url": user_img,
             }, 404
 
-        user = update_user_googleinfo(user_id=user.id, name=user_name, img_url=user_img)
+        user = user_service.update_user_googleinfo(
+            user_id=user.id, name=user_name, img_url=user_img
+        )
 
-        access_token = create_access_token(identity=user.id)
-        refresh_token = create_refresh_token(identity=user.id)
-        update_token(
+        access_token = flask_jwt.create_access_token(identity=user.id)
+        refresh_token = flask_jwt.create_refresh_token(identity=user.id)
+        user_service.update_token(
             user_id=user.id,
             oauth_token=oauth_token,
             access_token=access_token,
@@ -142,13 +73,38 @@ class Signin(Resource):
         return result, 200
 
 
-@auth_namespace.route("/signup")
+@api.route("/signup")
+@api.response(200, "Signup Success", AuthDto.success)
+@api.response(409, "Signup Fail(이미 가입된 이메일)", AuthDto.fail)
 class Signup(Resource):
-    @auth_namespace.expect(signup_parser)
-    @auth_namespace.response(200, "Signup Success", response_success)
-    @auth_namespace.response(409, "Signup Fail(이미 가입된 이메일)", response_fail)
+    signup_parser = reqparse.RequestParser()
+    signup_parser.add_argument(
+        "email", type=str, location="form", required=True, help="email"
+    )
+    signup_parser.add_argument(
+        "name", type=str, location="form", required=True, help="이름"
+    )
+    signup_parser.add_argument(
+        "nickname", type=str, location="form", required=True, help="닉네임(별명)"
+    )
+    signup_parser.add_argument(
+        "img_url", type=str, location="form", required=True, help="프로필 이미지 url"
+    )
+    signup_parser.add_argument(
+        "upload_term", type=int, location="form", required=True, help="업로드 주기"
+    )
+    signup_parser.add_argument(
+        "contents_category",
+        type=str,
+        action="split",
+        location="form",
+        required=True,
+        help="주력 컨텐츠 카테고리",
+    )
+
+    @api.expect(signup_parser)
     def post(self):
-        form_data = signup_parser.parse_args()
+        form_data = self.signup_parser.parse_args()
         email = form_data.get("email")
         name = form_data.get("name")
         nickname = form_data.get("nickname")
@@ -156,11 +112,11 @@ class Signup(Resource):
         upload_term = form_data.get("upload_term")
         contents_category = form_data.get("contents_category")
 
-        user = get_user_by_email(email)
+        user = user_service.get_user_by_email(email)
         if user is not None:
             return {"result": "fail", "message": "이미 가입된 이메일입니다."}, 409
 
-        insert_user(
+        user_service.insert_user(
             email=email,
             name=name,
             nickname=nickname,
@@ -172,38 +128,33 @@ class Signup(Resource):
         return {"result": "success"}, 200
 
 
-@auth_namespace.route("/signout")
+@api.route("/signout")
+@api.response(200, "Signout Success", AuthDto.success)
+@api.response(403, "Signout Fail(토큰 만료)", AuthDto.fail)
+@api.response(400, "Signout Fail(잘못된 요청)", AuthDto.fail)
 class Signout(Resource):
-    @auth_namespace.expect(parser)
-    @auth_namespace.response(200, "Signout Success", response_success)
-    @auth_namespace.response(403, "Signout Fail(토큰 만료)", response_fail)
-    @auth_namespace.response(400, "Signout Fail(잘못된 요청)", response_fail)
-    @jwt_required()
-    def get():
-        user_id = get_jwt_identity()
-        update_token(
+    @api.expect(parser)
+    @flask_jwt.jwt_required()
+    def get(self):
+        user_id = flask_jwt.get_jwt_identity()
+        user_service.update_token(
             user_id=user_id, oauth_token=None, access_token=None, refresh_token=None
         )
         return {"result": "success", "message": "로그아웃 성공"}, 200
 
 
-@auth_namespace.route("/refresh")
+@api.route("/refresh")
+@api.response(200, "Refresh Success", AuthDto.success)
+@api.response(404, "Refresh Fail(존재하지 않는 회원)", AuthDto.fail)
+@api.response(403, "Refresh Fail(토큰 만료)", AuthDto.fail)
+@api.response(400, "Refresh Fail(잘못된 요청)", AuthDto.fail)
 class Refresh(Resource):
-    refresh_success = auth_namespace.model(
-        "refresh_success",
-        {"result": fields.String(example="success"), "access_token": fields.String},
-    )
-
-    @auth_namespace.expect(parser)
-    @auth_namespace.response(200, "Refresh Success", refresh_success)
-    @auth_namespace.response(404, "Refresh Fail(존재하지 않는 회원)", response_fail)
-    @auth_namespace.response(403, "Refresh Fail(토큰 만료)", response_fail)
-    @auth_namespace.response(400, "Refresh Fail(잘못된 요청)", response_fail)
-    @jwt_required()
+    @api.expect(parser)
+    @flask_jwt.jwt_required()
     def get(self):
-        user_id = get_jwt_identity()
+        user_id = flask_jwt.get_jwt_identity()
 
-        user = get_user_by_id(user_id=user_id)
+        user = user_service.get_user_by_id(user_id=user_id)
         if user is None:
             return {"result": "fail", "message": "존재하지 않는 회원입니다."}, 404
 
@@ -213,18 +164,22 @@ class Refresh(Resource):
             return {"result": "fail", "message": "다시 로그인 해주세요"}, 403
 
         try:
-            decoded_access_token = decode_token(access_token, allow_expired=True)
-            if get_jwt().get("exp") != decoded_access_token.get("exp"):
+            decoded_access_token = flask_jwt.decode_token(
+                access_token, allow_expired=True
+            )
+            if flask_jwt.get_jwt().get("exp") != decoded_access_token.get("exp"):
                 return {"result": "fail", "message": "다시 로그인 해주세요"}, 403
 
-            decoded_refresh_token = decode_token(refresh_token, allow_expired=True)
+            decoded_refresh_token = flask_jwt.decode_token(
+                refresh_token, allow_expired=True
+            )
             if decoded_refresh_token.get("exp") < datetime.now():
                 return {"result": "fail", "message": "다시 로그인 해주세요"}, 403
 
-            new_access_token = create_access_token(
+            new_access_token = flask_jwt.create_access_token(
                 identity=decoded_refresh_token.get("sub")
             )
-            update_token(
+            user_service.update_token(
                 user_id=user.id,
                 oauth_token=user.oauth_token,
                 access_token=new_access_token,

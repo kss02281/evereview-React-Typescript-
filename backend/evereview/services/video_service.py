@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from evereview.models.video import db, Video
 
 

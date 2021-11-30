@@ -1,9 +1,10 @@
-from flask_restx import Namespace, Resource, reqparse, fields
+from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from evereview.utils.dto import UserDto
 from evereview.services.user_service import get_user_by_id, update_user
 
-user_namespace = Namespace("user", description="user 리소스 가져오기, 수정하기")
+api = UserDto.api
 
 parser = reqparse.RequestParser()
 parser.add_argument(
@@ -13,43 +14,30 @@ parser.add_argument(
     help='"Bearer {access_token}"',
 )
 
-patch_parser = parser.copy()
-patch_parser.add_argument(
-    "nickname", type=str, location="form", required=True, help="변경할 닉네임(별명)"
-)
-patch_parser.add_argument(
-    "upload_term", type=int, location="form", required=True, help="변경할 영상업로드 주기"
-)
-patch_parser.add_argument(
-    "contents_category",
-    type=str,
-    required=True,
-    action="split",
-    location="form",
-    help="변경할 주력 컨텐츠 카테고리",
-)
 
-user_success = user_namespace.model(
-    "user",
-    {
-        "id": fields.Integer,
-        "email": fields.String,
-        "name": fields.String,
-        "nickname": fields.String,
-        "upload_term": fields.Integer,
-        "contents_category": fields.String,
-        "img_url": fields.String,
-    },
-)
-response_fail = user_namespace.model(
-    "fail", {"result": fields.String(example="fail"), "message": fields.String}
-)
-
-
-@user_namespace.route("")
+@api.route("")
+@api.response(200, "Update User Success", UserDto.success)
+@api.response(400, "Refresh Fail(잘못된 요청, 파라미터 누락)", UserDto.fail)
+@api.response(403, "Refresh Fail(토큰 만료)", UserDto.fail)
+@api.response(404, "Refresh Fail(존재하지 않는 회원)", UserDto.fail)
 class User(Resource):
-    @user_namespace.expect(parser)
-    @user_namespace.response(200, "Get User Success", user_success)
+    patch_parser = parser.copy()
+    patch_parser.add_argument(
+        "nickname", type=str, location="form", required=True, help="변경할 닉네임(별명)"
+    )
+    patch_parser.add_argument(
+        "upload_term", type=int, location="form", required=True, help="변경할 영상업로드 주기"
+    )
+    patch_parser.add_argument(
+        "contents_category",
+        type=str,
+        required=True,
+        action="split",
+        location="form",
+        help="변경할 주력 컨텐츠 카테고리",
+    )
+
+    @api.expect(parser)
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
@@ -58,14 +46,12 @@ class User(Resource):
 
         return result, 200
 
-    @user_namespace.expect(patch_parser)
-    @user_namespace.response(200, "Update User Success", user_success)
-    @user_namespace.response(400, "Update User Fail(파라미터 누락)", response_fail)
+    @api.expect(patch_parser)
     @jwt_required()
     def patch(self):
         user_id = get_jwt_identity()
 
-        args = patch_parser.parse_args()
+        args = self.patch_parser.parse_args()
 
         nickname = args.get("nickname")
         upload_term = args.get("upload_term")

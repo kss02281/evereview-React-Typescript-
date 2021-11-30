@@ -1,16 +1,11 @@
-from flask_restx import Namespace, Resource, reqparse, fields
+from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required
 
-from evereview.services.oauth_service import fetch_videos, search_videos
-from evereview.services.video_service import (
-    get_video,
-    get_videos,
-    insert_video,
-    update_video,
-)
-from evereview.services.channel_service import get_channel
+from evereview.utils.dto import VideoDto
+from evereview.services import oauth_service, video_service, channel_service
 
-video_namespace = Namespace("videos", description="video 리소스 가져오기")
+
+api = VideoDto.api
 
 parser = reqparse.RequestParser()
 parser.add_argument(
@@ -20,46 +15,18 @@ parser.add_argument(
     help='"Bearer {access_token}"',
 )
 
-response_fail = video_namespace.model(
-    "fail", {"result": fields.String(default="fail"), "message": fields.String}
-)
-video = video_namespace.model(
-    "video",
-    {
-        "id": fields.String,
-        "published_at": fields.DateTime,
-        "thumbnail_url": fields.String,
-        "category_id": fields.Integer,
-        "view_count": fields.Integer,
-        "like_count": fields.Integer,
-        "comment_count": fields.Integer,
-    },
-)
-page_info = video_namespace.model(
-    "page_info", {"totalResults": fields.Integer, "resultsPerPage": fields.Integer}
-)
-video_list = video_namespace.model(
-    "video_list",
-    {
-        "video_items": fields.List(fields.Nested(video)),
-        "next_page_token": fields.String,
-        "prev_page_token": fields.String,
-        "page_info": fields.List(fields.Nested(page_info)),
-    },
-)
 
-
-@video_namespace.route("/<string:video_id>")
-@video_namespace.doc(params={"video_id": "/videos 요청을 통해 얻은 video_id"})
+@api.route("/<string:video_id>")
+@api.doc(params={"video_id": "/videos 요청을 통해 얻은 video_id"})
+@api.response(200, "Video Success", VideoDto.video)
+@api.response(400, "Channel Fail(잘못된 요청)", VideoDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", VideoDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 영상)", VideoDto.fail)
 class Video(Resource):
-    @video_namespace.expect(parser)
-    @video_namespace.response(200, "Video Success", video)
-    @video_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @video_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @video_namespace.response(404, "Video Fail(존재하지 않는 영상)", response_fail)
+    @api.expect(parser)
     @jwt_required()
     def get(self, video_id):
-        video = get_video(video_id)
+        video = video_service.get_video(video_id)
         if video is None:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
 
@@ -67,7 +34,11 @@ class Video(Resource):
         return result, 200
 
 
-@video_namespace.route("/all")
+@api.route("/all")
+@api.response(200, "Video Success", VideoDto.video_list)
+@api.response(400, "Channel Fail(잘못된 요청)", VideoDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", VideoDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 채널)", VideoDto.fail)
 class Videos(Resource):
     all_parser = parser.copy()
     all_parser.add_argument(
@@ -82,33 +53,32 @@ class Videos(Resource):
         help="page",
     )
 
-    @video_namespace.expect(all_parser)
-    @video_namespace.response(200, "Video Success", video_list)
-    @video_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @video_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @video_namespace.response(404, "Video Fail(존재하지 않는 채널)", response_fail)
+    @api.expect(all_parser)
     @jwt_required()
     def get(self):
         args = self.all_parser.parse_args()
         channel_id = args.get("channel_id")
         page = args.get("page_token")
 
-        channel = get_channel(channel_id)
+        channel = channel_service.get_channel(channel_id)
         if channel is None:
             return {"result": "fail", "message": "존재하지 않는 채널입니다"}, 404
 
-        new_videos, page_info, next_page_token, prev_page_token = fetch_videos(
-            channel_id, page
-        )
+        (
+            new_videos,
+            page_info,
+            next_page_token,
+            prev_page_token,
+        ) = oauth_service.fetch_videos(channel_id, page)
 
-        videos = get_videos(channel_id)
+        videos = video_service.get_videos(channel_id)
         videos_id = set(map(lambda video: video.get("id"), videos))
 
         video_itmes = []
         for video in new_videos:
             video_id = video.get("id")
             if video_id in videos_id:
-                item = update_video(
+                item = video_service.update_video(
                     video_id=video_id,
                     title=video.get("title"),
                     thumbnail_url=video.get("thumbnail_url"),
@@ -118,7 +88,7 @@ class Videos(Resource):
                     comment_count=video.get("comment_count"),
                 )
             else:
-                item = insert_video(
+                item = video_service.insert_video(
                     video_id=video_id,
                     channel_id=video.get("channel_id"),
                     title=video.get("title"),
@@ -140,10 +110,11 @@ class Videos(Resource):
         return result, 200
 
 
-@video_namespace.route("/search")
-@video_namespace.doc(
-    params={"channel_id": "user_id와 /channel/all 요청을 통해 얻은 channel_id"}
-)
+@api.route("/search")
+@api.response(200, "Video Success", VideoDto.video_list)
+@api.response(400, "Channel Fail(잘못된 요청)", VideoDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", VideoDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 채널)", VideoDto.fail)
 class SearchVideos(Resource):
     search_parser = parser.copy()
     search_parser.add_argument(
@@ -164,11 +135,7 @@ class SearchVideos(Resource):
         help="page",
     )
 
-    @video_namespace.expect(search_parser)
-    @video_namespace.response(200, "Video Success", video_list)
-    @video_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @video_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @video_namespace.response(404, "Video Fail(존재하지 않는 채널)", response_fail)
+    @api.expect(search_parser)
     @jwt_required()
     def get(self):
         args = self.search_parser.parse_args()
@@ -176,22 +143,25 @@ class SearchVideos(Resource):
         query = args.get("query")
         page = args.get("page_token")
 
-        channel = get_channel(channel_id)
+        channel = channel_service.get_channel(channel_id)
         if channel is None:
             return {"result": "fail", "message": "존재하지 않는 채널입니다"}, 404
 
-        new_videos, page_info, next_page_token, prev_page_token = search_videos(
-            query, channel_id, page
-        )
+        (
+            new_videos,
+            page_info,
+            next_page_token,
+            prev_page_token,
+        ) = oauth_service.search_videos(query, channel_id, page)
 
-        videos = get_videos(channel_id)
+        videos = video_service.get_videos(channel_id)
         videos_id = set(map(lambda video: video.get("id"), videos))
 
         video_itmes = []
         for video in new_videos:
             video_id = video.get("id")
             if video_id in videos_id:
-                item = update_video(
+                item = video_service.update_video(
                     video_id=video_id,
                     title=video.get("title"),
                     thumbnail_url=video.get("thumbnail_url"),
@@ -201,7 +171,7 @@ class SearchVideos(Resource):
                     comment_count=video.get("comment_count"),
                 )
             else:
-                item = insert_video(
+                item = video_service.insert_video(
                     video_id=video_id,
                     channel_id=video.get("channel_id"),
                     title=video.get("title"),
@@ -223,16 +193,13 @@ class SearchVideos(Resource):
         return result, 200
 
 
-@video_namespace.route("/hot/<string:channel_id>")
-@video_namespace.doc(
-    params={"channel_id": "user_id와 /channel/all 요청을 통해 얻은 channel_id"}
-)
+@api.route("/hot")
+@api.response(200, "Video Success", VideoDto.video_list)
+@api.response(400, "Channel Fail(잘못된 요청)", VideoDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", VideoDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 채널)", VideoDto.fail)
 class HotVideos(Resource):
-    @video_namespace.expect(parser)
-    @video_namespace.response(200, "Video Success", video_list)
-    @video_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @video_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @video_namespace.response(404, "Video Fail(존재하지 않는 채널)", response_fail)
+    @api.expect(parser)
     @jwt_required()
     def get(self):
         """

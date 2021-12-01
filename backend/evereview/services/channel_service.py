@@ -33,9 +33,9 @@ def insert_channel(**kwargs):
         db.session.add(new_channel)
         db.session.commit()
         return new_channel
-    except Exception:
+    except Exception as arror:
         db.session.rollback()
-        raise
+        raise arror
 
 
 def update_channel(channel_id, **kwargs):
@@ -55,9 +55,9 @@ def update_channel(channel_id, **kwargs):
 
         db.session.commit()
         return channel
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def delete_channel(channel_id):
@@ -70,6 +70,6 @@ def delete_channel(channel_id):
         db.session.delete(channel)
         db.session.commit()
         return channel
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error

@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from evereview.models.video import db, Video
 
 
 def get_video(video_id):
-    video = Video.query.filter_by(video_id=video_id).one_or_none()
+    video = Video.query.filter_by(id=video_id).one_or_none()
 
     return video
 
@@ -19,10 +21,12 @@ def get_videos(channel_id):
 
 def insert_video(**kwargs):
     try:
+        formated_date = datetime.fromisoformat(kwargs.get("published_at")[:-1])
         new_video = Video(
-            video_id=kwargs.get("video_id"),
+            id=kwargs.get("video_id"),
             channel_id=kwargs.get("channel_id"),
-            published_at=kwargs.get("published_at"),
+            title=kwargs.get("title"),
+            published_at=formated_date,
             thumbnail_url=kwargs.get("thumbnail_url"),
             category_id=kwargs.get("category_id"),
             view_count=kwargs.get("view_count"),
@@ -33,9 +37,9 @@ def insert_video(**kwargs):
         db.session.add(new_video)
         db.session.commit()
         return new_video
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def update_video(video_id, **kwargs):
@@ -44,6 +48,7 @@ def update_video(video_id, **kwargs):
         if video is None:
             return video
 
+        video.title = kwargs.get("title")
         video.thumbnail_url = kwargs.get("thumbnail_url")
         video.category_id = kwargs.get("category_id")
         video.view_count = kwargs.get("view_count")
@@ -51,9 +56,9 @@ def update_video(video_id, **kwargs):
         video.comment_count = kwargs.get("comment_count")
         db.session.commit()
         return video
-    except:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def delete_video(video_id):
@@ -64,6 +69,6 @@ def delete_video(video_id):
 
         db.session.delete(video)
         return video
-    except:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error

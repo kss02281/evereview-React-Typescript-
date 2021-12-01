@@ -25,6 +25,9 @@ class Comment(Resource):
     @api.expect(parser)
     @jwt_required()
     def get(self, comment_id):
+        """
+        댓글 하나의 정보
+        """
         comment = get_comment(comment_id)
         if comment is None:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
@@ -41,6 +44,10 @@ class Comment(Resource):
 @api.response(403, "Channel Fail(권한 없음)", CommentDto.fail)
 @api.response(404, "Video Fail(존재하지 않는 cluster)", CommentDto.fail)
 class Comments(Resource):
+    """
+    클러스터에 해당하는 댓글들
+    """
+
     @api.expect(parser)
     @jwt_required()
     def get(self, cluster_id):

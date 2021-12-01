@@ -77,7 +77,7 @@ class UserDto:
 
 
 class ChannelDto:
-    api = Namespace("channels", description="channel 리소스 가져오기, 추가하기")
+    api = Namespace("channels", description="channel 리소스 가져오기")
 
     fail = api.model(
         "fail", {"result": fields.String(default="fail"), "message": fields.String}

@@ -18,21 +18,33 @@ parser.add_argument(
 @api.route("")
 @api.response(200, "Channels Success", ChannelDto.channel_list)
 @api.response(400, "Channel Fail(잘못된 요청)", ChannelDto.fail)
-@api.response(403, "Channel Fail(권한 없음)", ChannelDto.fail)
+@api.response(403, "Channel Fail(권한 없음, 존재하지 않거나 해당 유저의 채널이 아님)", ChannelDto.fail)
 class Channels(Resource):
-    @api.expect(parser)
+    channel_parser = parser.copy()
+    channel_parser.add_argument(
+        "channel_id",
+        location="args",
+        help="channel_id 입력하면 해당 채널 정보, 입력 안하면 유저의 전체 채널 리스트",
+    )
+
+    @api.expect(channel_parser)
     @jwt_required()
     def get(self):
+        """
+        채널들 정보
+        """
         user_id = get_jwt_identity()
         user = user_service.get_user_by_id(user_id)
         oauth_token = user.oauth_token
 
+        channel_id = self.channel_parser.parse_args().get("channel_id")
+
         channels_db = channel_service.get_channels(user_id)
-        channel_ids = list(map(lambda channel: channel.get("id"), channels_db))
+        user_channel_id = list(map(lambda channel: channel.get("id"), channels_db))
 
         result = []
         if len(channels_db) > 0:
-            updated_channel_info = oauth_service.fetch_channels(channel_ids)
+            updated_channel_info = oauth_service.fetch_channels(user_channel_id)
             for channel in updated_channel_info:
                 updated_channel = channel_service.update_channel(
                     channel_id=channel.get("channel_id"),
@@ -49,7 +61,7 @@ class Channels(Resource):
             oauth_token, admin=user.admin
         )
         for channel in channels_oauth:
-            if channel.get("channel_id") not in channel_ids:
+            if channel.get("channel_id") not in user_channel_id:
                 new_channel = channel_service.insert_channel(
                     channel_id=channel.get("channel_id"),
                     user_id=user_id,
@@ -61,39 +73,10 @@ class Channels(Resource):
                 )
                 result.append(new_channel.to_dict())
 
-        return result, 200
+        if channel_id:
+            result = list(filter(lambda item: item.get("id") == channel_id, result))
 
+        if len(result) == 0:
+            return {"resut": "fail", "message": "존재하지 않거나 해당 유저의 권한이 없는 채널입니다."}, 403
 
-@api.route("/<string:channel_id>")
-@api.doc(params={"channel_id": "user_id와 /channel/all 요청을 통해 얻은 channel_id"})
-@api.response(200, "Channel Resource", ChannelDto.channel)
-@api.response(400, "Channel Fail(잘못된 요청)", ChannelDto.fail)
-@api.response(403, "Channel Fail(권한 없음)", ChannelDto.fail)
-@api.response(404, "Channel Fail(없는 channel_id)", ChannelDto.fail)
-class Channel(Resource):
-    @api.expect(parser)
-    @jwt_required()
-    def get(self, channel_id):
-        channels_db = channel_service.get_channels(get_jwt_identity())
-        channels_db = list(map(lambda channel: channel.get("id"), channels_db))
-
-        channel_fetch = oauth_service.fetch_channels(channel_id)
-
-        if channel_id not in channels_db or len(channel_fetch) == 0:
-            return {"result": "fail", "message": "존재하지 않는 리소스 입니다."}, 404
-
-        channel_fetch = channel_fetch[0]
-
-        updated_channel = channel_service.update_channel(
-            channel_id=channel_fetch.get("channel_id"),
-            user_id=channel_fetch.get("user_id"),
-            title=channel_fetch.get("title"),
-            comment_count=channel_fetch.get("comment_count"),
-            video_count=channel_fetch.get("video_count"),
-            channel_url=channel_fetch.get("channel_url"),
-            img_url=channel_fetch.get("img_url"),
-        )
-
-        result = updated_channel.to_dict()
-
-        return result, 200
+        return {"channel_items": result}, 200

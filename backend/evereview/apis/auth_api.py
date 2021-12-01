@@ -186,5 +186,5 @@ class Refresh(Resource):
                 refresh_token=user.refresh_token,
             )
             return {"result": "success", "access_token": new_access_token}, 200
-        except Exception:
-            raise
+        except Exception as error:
+            raise error

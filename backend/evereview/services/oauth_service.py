@@ -149,7 +149,9 @@ def get_my_searched_videos_id(query, channel_id, page=None):
     prev_page_token = res.json().get("prevPageToken")
     items = res.json().get("items")
 
-    result = list(map(lambda item: item.get("id").get("videoId"), items))
+    result = []
+    if items:
+        result = list(map(lambda item: item.get("id").get("videoId"), items))
 
     return result, page_info, next_page_token, prev_page_token
 
@@ -187,6 +189,10 @@ def get_my_uploaded_videos_id(playlist_id, page=None):
     playlist_items = res.json().get("items")
 
     result = []
+
+    if playlist_items is None:
+        return result, page_info, next_page_token, prev_page_token
+
     for playlist_item in playlist_items:
         video_id = playlist_item.get("contentDetails").get("videoId")
         result.append(video_id)
@@ -206,6 +212,9 @@ def get_my_uploaded_videos_detail(*args):
     video_items = res.json().get("items")
 
     result = []
+    if video_items is None:
+        return result
+
     for video_item in video_items:
         item = {
             "id": video_item.get("id"),

@@ -37,9 +37,9 @@ def insert_video(**kwargs):
         db.session.add(new_video)
         db.session.commit()
         return new_video
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def update_video(video_id, **kwargs):
@@ -56,9 +56,9 @@ def update_video(video_id, **kwargs):
         video.comment_count = kwargs.get("comment_count")
         db.session.commit()
         return video
-    except:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def delete_video(video_id):
@@ -69,6 +69,6 @@ def delete_video(video_id):
 
         db.session.delete(video)
         return video
-    except:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error

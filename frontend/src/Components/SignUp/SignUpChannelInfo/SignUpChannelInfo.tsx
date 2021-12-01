@@ -18,7 +18,6 @@ function SignUpChannelInfo(props: any) {
     checkedInputs.map((id) => {
       let check = selectedCategory.findIndex((i) => i === category[id]);
       if (check === -1) {
-        console.log("없는 카테고리");
         setSelectedCategory([...selectedCategory, category[id]]);
       }
     });

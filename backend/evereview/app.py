@@ -2,19 +2,18 @@ from flask import Flask, Blueprint
 from flask_cors import CORS
 from flask_migrate import Migrate
 import flask_jwt_extended
-from flask_jwt_extended import JWTManager
 from flask_restx import Api
 import jwt
 
 from evereview import config
 from evereview.db_connect import db
 
-from evereview.apis.oauth_api import oauth_namespace
-from evereview.apis.auth_api import auth_namespace
-from evereview.apis.user_api import user_namespace
-from evereview.apis.channel_api import channel_namespace
-from evereview.apis.video_api import video_namespace
-from evereview.apis.comment_api import comment_namespace
+from evereview.apis.oauth_api import api as oauth_namespace
+from evereview.apis.auth_api import api as auth_namespace
+from evereview.apis.user_api import api as user_namespace
+from evereview.apis.channel_api import api as channel_namespace
+from evereview.apis.video_api import api as video_namespace
+from evereview.apis.comment_api import api as comment_namespace
 from evereview.apis.chart_api import chart_namespace
 from evereview.apis.analysis_api import analysis_namespace
 
@@ -23,7 +22,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
     CORS(app, supports_credentials=True)
-    JWTManager(app)
+    flask_jwt_extended.JWTManager(app)
 
     db.init_app(app)
     Migrate().init_app(app, db)

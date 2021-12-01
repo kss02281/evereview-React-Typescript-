@@ -30,6 +30,6 @@ def insert_comment(**kwargs):
         )
         db.session.add(new_comment)
         db.session.commit()
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error

@@ -6,9 +6,7 @@ import { UilEditAlt } from "@iconscout/react-unicons";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { ReducerType } from "../../../store/modules";
-import { userInfo } from "os";
 import axios from "axios";
-import { setAutoFreeze } from "immer";
 
 const cx = classNames.bind(styles);
 

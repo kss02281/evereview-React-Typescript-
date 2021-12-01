@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./SignUpUserInfo.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
-import { useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../store/modules";
 
@@ -13,7 +11,6 @@ type InputValue = string | number | ReadonlyArray<string>;
 
 function SignUpUserInfo(props: any) {
   const dispatch = useDispatch();
-  const name = useSelector<ReducerType>((state) => state.user.name);
 
   const [inputName, setInputName] = useState<InputValue>("");
   const [nickName, setNickName] = useState<InputValue>("");

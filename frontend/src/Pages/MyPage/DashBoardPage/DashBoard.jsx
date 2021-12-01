@@ -5,11 +5,25 @@ import { Sidebar } from '../../../Components/common';
 import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar.jsx';
 import PieChartC from '../../../Components/PieChartC/PieChartC';
 import BarChartC from '../../../Components/barChartC/barChartC';
+import { Doughnut } from 'react-chartjs-2';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 function DashBoard() {
   const name = "이성효";
+
+  const response = async () => {
+    await axios.get("http://localhost:8000/graphData")
+    .then(res => {
+      const grpahData = res.data;
+      console.log(grpahData)
+      return grpahData
+    })
+}
+response();
+   
+
   return (
     <div className={cx('dashBoardContainer')}>
       <Sidebar id={1} />
@@ -21,29 +35,29 @@ function DashBoard() {
             <div className={cx('dashBoardDescription')}>댓글들을 분석하고 사용자들의 피드백을 확인해보세요!</div>
           </div>
           <div className={cx('dashBoardSearch')}>
-            <SearchBar />
+            <SearchBar data={1} />
           </div>
         </div>
         <div></div>
         <div className={cx('dashBoardWrapMiddle')}>
           <div className={cx('dashBoardAllFeedback')}>
-            <p>모든 피드백</p>
+            <p className={cx('dashP')}>모든 피드백</p>
             <div className={cx('allBarChart')}>
-              
+              <BarChartC />
             </div>
             </div>
           <div className={cx('dashBoardWrapMiddleBlank')}></div>
           <div className={cx('dashBoardUserNeeds')}>
-            <p>사용자 요구 분석</p>
+            <p className={cx('dashP')}>사용자 요구 분석</p>
             <div className={cx('pieChart')}>
-              piechart
+            <BarChartC />
             </div>
           </div>
           </div>
         <div className={cx('dashBoardWrapDown')}>
           <div className={cx('dashBoardWrapDownGrid')}>
             <div className={cx('dashBoardPosFeedback')}>
-              <p>긍정 피드백</p>
+              <p className={cx('dashP')}>긍정 피드백</p>
               <div className={cx('negBarChart')}>
               
             </div>
@@ -52,7 +66,7 @@ function DashBoard() {
               <div className={cx('BlankLine')}></div>
             </div>
             <div className={cx('dashBoardNegFeedback')}>
-              <p>부정 피드백</p>
+              <p className={cx('dashP')}>부정 피드백</p>
               <div className={cx('posBarChart')}>
               
             </div>

@@ -1,8 +1,10 @@
-from flask_restx import Namespace, Resource, reqparse, fields
+from flask_restx import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
+from evereview.utils.dto import CommentDto
 from evereview.services.comment_service import get_comment, get_comments
 
-comment_namespace = Namespace("comments", description="comment 리소스 가져오기")
+api = CommentDto.api
 
 parser = reqparse.RequestParser()
 parser.add_argument(
@@ -12,36 +14,20 @@ parser.add_argument(
     help='"Bearer {access_token}"',
 )
 
-response_fail = comment_namespace.model(
-    "fail", {"result": fields.String(default="fail"), "message": fields.String}
-)
 
-comment = comment_namespace.model(
-    "comment",
-    {
-        "id": fields.String,
-        "author": fields.String,
-        "author_img": fields.String,
-        "text_display": fields.String,
-        "text_original": fields.String,
-        "like_count": fields.Integer,
-        "published_at": fields.DateTime,
-    },
-)
-comment_list = comment_namespace.model(
-    "comment_list", {"comment_items": fields.List(fields.Nested(comment))}
-)
-
-
-@comment_namespace.route("/<string:comment_id>")
-@comment_namespace.doc(params={"comment_id": "comment id"})
+@api.route("/<string:comment_id>")
+@api.doc(params={"comment_id": "comment id"})
+@api.response(200, "Comment Success", CommentDto.comment)
+@api.response(400, "Channel Fail(잘못된 요청)", CommentDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", CommentDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 댓글)", CommentDto.fail)
 class Comment(Resource):
-    @comment_namespace.expect(parser)
-    @comment_namespace.response(200, "Comment Success", comment)
-    @comment_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @comment_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @comment_namespace.response(404, "Video Fail(존재하지 않는 댓글)", response_fail)
+    @api.expect(parser)
+    @jwt_required()
     def get(self, comment_id):
+        """
+        댓글 하나의 정보
+        """
         comment = get_comment(comment_id)
         if comment is None:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
@@ -51,18 +37,23 @@ class Comment(Resource):
         return result, 200
 
 
-@comment_namespace.route("/cluster/<string:cluster_id>")
-@comment_namespace.doc(params={"cluster_id": "analysis 요청으로 얻은 cluster_id"})
+@api.route("/cluster/<string:cluster_id>")
+@api.doc(params={"cluster_id": "analysis 요청으로 얻은 cluster_id"})
+@api.response(200, "Comments Success", CommentDto.comment_list)
+@api.response(400, "Channel Fail(잘못된 요청)", CommentDto.fail)
+@api.response(403, "Channel Fail(권한 없음)", CommentDto.fail)
+@api.response(404, "Video Fail(존재하지 않는 cluster)", CommentDto.fail)
 class Comments(Resource):
-    @comment_namespace.expect(parser)
-    @comment_namespace.response(200, "Comments Success", comment_list)
-    @comment_namespace.response(400, "Channel Fail(잘못된 요청)", response_fail)
-    @comment_namespace.response(403, "Channel Fail(권한 없음)", response_fail)
-    @comment_namespace.response(404, "Video Fail(존재하지 않는 cluster)", response_fail)
+    """
+    클러스터에 해당하는 댓글들
+    """
+
+    @api.expect(parser)
+    @jwt_required()
     def get(self, cluster_id):
         comments = get_comments(cluster_id)
 
-        if len(comment) == 0:
+        if len(comments) == 0:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
 
         return comments, 200

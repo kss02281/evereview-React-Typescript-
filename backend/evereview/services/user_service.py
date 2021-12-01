@@ -26,9 +26,9 @@ def insert_user(**kwargs):
         db.session.add(new_user)
         db.session.commit()
         return new_user
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def update_user_googleinfo(user_id, **kwargs):
@@ -43,9 +43,9 @@ def update_user_googleinfo(user_id, **kwargs):
 
         db.session.commit()
         return user
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def update_user(user_id, **kwargs):
@@ -61,9 +61,9 @@ def update_user(user_id, **kwargs):
 
         db.session.commit()
         return user
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error
 
 
 def update_token(user_id, **kwargs):
@@ -79,6 +79,6 @@ def update_token(user_id, **kwargs):
 
         db.session.commit()
         return user
-    except Exception:
+    except Exception as error:
         db.session.rollback()
-        raise
+        raise error

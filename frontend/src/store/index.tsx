@@ -7,5 +7,4 @@ const store = configureStore({ reducer: persistedReducer, middleware: [logger] }
 
 export type AppDispatch = typeof store.dispatch;
 export const persistor = persistStore(store);
-persistor.pause();
 export default store;

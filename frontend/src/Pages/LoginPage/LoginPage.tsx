@@ -34,6 +34,8 @@ function LoginPage() {
         // 로그인 성공 -> 홈으로
         const user_info = response.data;
         console.log(user_info);
+        window.localStorage.setItem("token", user_info.access_token);
+        dispatch(actions.loginSuccess({ success: Boolean(true) }));
         history.push(`${ROUTES.HOME}`);
       })
       .catch((error) => {
@@ -58,7 +60,7 @@ function LoginPage() {
   return (
     <Fragment>
       <Navbar />
-      <div className={cx("wrapper")}>
+      <div className={cx("loginpagewrapper")}>
         <div className={cx("leftContainer")}>
           <img className={cx("leftImg")} src={loginPageImg} alt="" />
         </div>

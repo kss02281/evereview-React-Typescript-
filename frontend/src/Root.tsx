@@ -1,17 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import {
-  AboutPage,
-  LoginPage,
-  MainPage,
-  NotFound,
-  SignUpPage,
-  DashBoard,
-  Contents,
-  Profile,
-  Setting,
-  Notification,
-} from "./Pages";
+import { AboutPage, LoginPage, MainPage, NotFound, SignUpPage, DashBoard, Contents, Profile, Setting, Notification } from "./Pages";
 import ROUTES from "./constants/routes";
 
 const Root: React.FC = () => (

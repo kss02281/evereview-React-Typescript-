@@ -112,7 +112,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           className="custom-tooltip"
           style={{ width:"120%", lineHeight: "10px", border: "0.1px solid black", borderRadius: "20px" ,backgroundColor: "#fff", textAlign: "center" }}
         >
-          <p className="label">{data[Number(`${label}`)-1].date}</p>
+          <p className="label">{label}</p>
           <p>
             {payload[0].name} {payload[0].value}
           </p>
@@ -132,9 +132,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 function AllLineChart() {
     return (
         <ResponsiveContainer width="90%" height="90%">
-        <LineChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+        <LineChart data={data} margin={{ top: 10, right: 20, left: 20, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="id" interval={0} angle={0} dx={0} dy={10} />
+        <XAxis dataKey="date" interval={0} angle={0} dx={0} dy={10} />
           <Tooltip content={<CustomTooltip />} />
           <Line
             dataKey="너무재밌어요"

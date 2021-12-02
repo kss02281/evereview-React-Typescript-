@@ -7,19 +7,21 @@ import SearchDropdown from '../SearchDropdown/SearchDropdown.jsx';
 import CommentDropdown from '../CommentDropdown/CommentDropdown';
 import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
 import { nowDate } from '../../../store/modules/date';
+import { nowCategory } from '../../../store/modules/category';
+
 
 const cx = classNames.bind(styles);
 
 function SearchBar() {
-    const [categorySelect, setCategorySelect] = useState(true)
     const isVideoList = useSelector(nowSelectedVideoList)
     const isDate = useSelector(nowDate);
+    const isCategorySelect = useSelector(nowCategory);
 
-    const handleClick1 = () => {
+    const commentSubmit = () => {
         console.log(isDate)
         alert(`${isDate[0]} \n ${isDate[1]}`)
     }
-    const HandleClick2 = async () => {
+    const videoSubmit = async () => {
         const selectedVideoArray = []
         for (let i = 0; i < isVideoList.selectedVideoList.length; i++) {
             if (isVideoList.selectedVideoList[i] === true) {
@@ -37,9 +39,9 @@ function SearchBar() {
         <>
             <div className={cx('searchBarContainer')}>
                 <div className={cx('categoryDropdown')}>
-                    <CategoryDropdown setCategorySelect={setCategorySelect} />
-                    {categorySelect ? <SearchDropdown className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
-                    {categorySelect ? <div className={cx('submitButton')} onClick={HandleClick2}>적용하기</div> : <div className={cx('submitButton')} onClick={handleClick1}>적용하기</div> }
+                    <CategoryDropdown />
+                    {isCategorySelect.category ? <SearchDropdown className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
+                    {isCategorySelect.category ? <div className={cx('submitButton')} onClick={videoSubmit}>적용하기</div> : <div className={cx('submitButton')} onClick={commentSubmit}>적용하기</div> }
                 </div>
             </div>
         </>

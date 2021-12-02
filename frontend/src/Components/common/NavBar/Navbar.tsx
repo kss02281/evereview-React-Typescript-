@@ -41,7 +41,6 @@ function Navbar() {
         setNickName(userInfo.nickname);
       })
       .catch((error) => {
-        console.log(error.response.data);
         alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
         dispatch(
           actions.saveAllUserInfo({

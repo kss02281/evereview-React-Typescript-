@@ -10,7 +10,7 @@ JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=14)
 SECRET_KEY = "dev"
 JWT_SECRET_KEY = "dev"
 
-DB_HOST = ""
+DB_HOST = "localhost"
 USER = ""
 PASSWORD = ""
 DB_NAME = "evereview"

@@ -20,7 +20,9 @@ def insert_user(**kwargs):
             name=kwargs.get("name"),
             nickname=kwargs.get("nickname"),
             upload_term=kwargs.get("upload_term"),
-            contents_category=json.dumps(kwargs.get("contents_category")),
+            contents_category=json.dumps(
+                kwargs.get("contents_category"), ensure_ascii=False
+            ),
             img_url=kwargs.get("img_url"),
         )
         db.session.add(new_user)

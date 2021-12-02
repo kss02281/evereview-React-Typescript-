@@ -34,14 +34,13 @@ function LoginPage() {
         // 로그인 성공 -> 홈으로
         const user_info = response.data;
         console.log(user_info);
-        dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
         history.push(`${ROUTES.HOME}`);
       })
       .catch((error) => {
         // 로그인 실패 -> 회원가입 페이지로
         const user_info = error.response.data;
         console.log(user_info);
-        dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}` }));
+        dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}`, img_url: `${user_info.img_url}` }));
         history.push(`${ROUTES.SIGNUP}`);
       });
   };
@@ -70,8 +69,8 @@ function LoginPage() {
             </div>
             <div className={cx("titleText")}>EverReview</div>
           </div>
-          <h1>로그인하기</h1>
-          <p>
+          <h1 className={cx("loginPageDoLogin")}>로그인하기</h1>
+          <p className={cx("loginPageDescription")}>
             Google 계정으로 Evereview의 모든 서비스를 간편하게 이용하실 수 있습니다.
             <br />
             로그인하여 댓글 분석 서비스를 이용해보세요!

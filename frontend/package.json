@@ -47,7 +47,8 @@
     "redux-persist": "^6.0.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "hangul-js": "^0.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

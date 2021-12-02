@@ -4,7 +4,7 @@ export { default as SignUpPage } from "./SignUpPage/SignUpPage";
 export { default as NotFound } from "./NotFoundPage/NotFound";
 export { default as AboutPage } from "./AboutPage/AboutPage";
 export { default as OverviewPage } from "./OverviewPage/OverviewPage";
-export { default as DashBoard } from "./MyPage/DashBoardPage/DashBoard";
+export { default as DashBoard } from "./MyPage/DashBoardPage/DashBoard.jsx";
 export { default as Contents } from "./MyPage/ContentsPage/Contents";
 export { default as Profile } from "./MyPage/ProfilePage/Profile";
 export { default as Setting } from "./MyPage/SettingPage/Setting";

@@ -1,12 +1,18 @@
 import "./styles.css";
 import React, { useCallback, useState } from "react";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
 const data = [
-  { name: "치킨 먹방", value: 400 },
-  { name: "일상 Vlog", value: 300 },
-  { name: "먹방 ASMR", value: 300 },
-  { name: "게임 영상", value: 200 }
+  { name: "배틀그라운드", value: 600 },
+  { name: "리그오브레전드", value: 500 },
+  { name: "카트라이더", value: 40 },
+  { name: "오버워치", value: 40 },
+  { name: "리니지", value: 200 },
+  { name: "서든어택", value: 120 },
+  { name: "로스트아크", value: 120 },
+  { name: "피파 온라인", value: 80 },
+  { name: "메이플스토리", value: 150 },
+  { name: "스타크래프트", value: 100 }
 ];
 
 const renderActiveShape = (props: any) => {
@@ -28,8 +34,8 @@ const renderActiveShape = (props: any) => {
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
   const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
-  const my = cy + (outerRadius + 30) * sin;
+  const mx = cx + (outerRadius + 10) * cos;
+  const my = cy + (outerRadius + 10) * sin;
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
   const textAnchor = cos >= 0 ? "start" : "end";
@@ -56,26 +62,21 @@ const renderActiveShape = (props: any) => {
         outerRadius={outerRadius + 10}
         fill={fill}
       />
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        x={ex + (cos >= 0 ? 1 : -1) * 1}
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
       >{`댓글 수 ${value}`}</text>
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        x={ex + (cos >= 0 ? 1 : -1) * 1}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
         fill="#999"
       >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        {`(${(percent * 100).toFixed(2)}%)`}
       </text>
     </g>
   );
@@ -89,26 +90,26 @@ function PieChartC() {
     },
     [setActiveIndex]
   );
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["rgb(133, 125, 181)", "rgba(133, 125, 181, 0.90)", "rgba(133, 125, 181, 0.80)", "rgba(133, 125, 181, 0.70)", "rgba(133, 125, 181, 0.60)", "rgba(133, 125, 181, 0.50)", "rgba(133, 125, 181, 0.40)", "rgba(133, 125, 181, 0.30)", "rgba(133, 125, 181, 0.20)", "rgba(133, 125, 181, 0.10)"];
   return (
-    <PieChart width={500} height={400} className="pieMargin">
-				<Pie
-					activeIndex={activeIndex}
-					activeShape={renderActiveShape}
-					data={data}
-					cx={250}
-					cy={200}
-					innerRadius={60}
-					outerRadius={100}
-					fill="#8884d8"
-					dataKey="value"
-					onMouseEnter={onPieEnter}
-				>
-          {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-			</PieChart>
+    <ResponsiveContainer width="99%" height="99%" >
+      <PieChart className="pieMargin">
+          <Pie
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            data={data}
+            innerRadius="50%"
+            outerRadius="80%"
+            fill="#8884d8"
+            dataKey="value"
+            onMouseEnter={onPieEnter}
+          >
+            {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   );
 }
 

@@ -14,13 +14,14 @@ import {
   UilSignOutAlt,
   UilUserSquare,
 } from "@iconscout/react-unicons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
 function Sidebar(props) {
   const dispatch = useDispatch();
+  const img_url = useSelector((state) => state.user.img_url);
   const grey = "#2f2f2f50";
   const blue = "#6563FF";
   const [isActive, setActive] = useState(false);
@@ -67,7 +68,7 @@ function Sidebar(props) {
         </div>
         <div className={cx("sideProfile")}>
           <Link className={cx("logo")} to={ROUTES.PROFILE}>
-            <UilUserCircle className={cx("sideUser")} />
+            <img className={cx("sideUser")} src={img_url} alt="user_profile_img" />
           </Link>
 
           <Link className={cx("logo")} to={ROUTES.HOME} onClick={logOut}>

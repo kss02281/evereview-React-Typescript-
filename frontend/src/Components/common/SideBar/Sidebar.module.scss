@@ -1,56 +1,56 @@
-.sideBarContainer{
-    position: relative;
-    width: 4vw;
-    min-width: 100px;
-    height: 100vh;
-    background-color: white;
-    display: grid;
-    grid-template-rows: 1fr 7fr 2fr;
-    z-index: 2;
+.sideBarContainer {
+  position: relative;
+  width: 4vw;
+  min-width: 100px;
+  height: 100vh;
+  background-color: white;
+  display: grid;
+  grid-template-rows: 1fr 7fr 2fr;
+  z-index: 2;
 }
 
-
-.sideLogo{
-    text-align: center;
-    svg{
-        width: 45px !important;
-        height: 45px !important;
-        margin-top: 25px; 
-        color: #6563FF;
-        cursor: pointer;
-    }
+.sideLogo {
+  text-align: center;
+  svg {
+    width: 45px !important;
+    height: 45px !important;
+    margin-top: 25px;
+    color: #6563ff;
+    cursor: pointer;
+  }
 }
 
-.sideIcon{
-    padding-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 90px;
-    align-items: center;
-    svg{
-        width: 30px !important;
-        height: 30px !important;
-        color: #6563FF;
-        cursor: pointer;
-    }
+.sideIcon {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  align-items: center;
+  svg {
+    width: 30px !important;
+    height: 30px !important;
+    color: #6563ff;
+    cursor: pointer;
+  }
 }
 
-.sideProfile{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .sideUser{
-        margin-top: 30px;
-        width: 45px !important;
-        height: 45px !important;
-        color: #6563FF;
-        cursor: pointer;
-    }
-    .sideLogout{
-        margin-top: 40px;
-        width: 30px !important;
-        height: 30px !important;
-        color: #6563FF;
-        cursor: pointer;
-    }
+.sideProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .sideUser {
+    margin-top: 30px;
+    width: 45px !important;
+    height: 45px !important;
+    color: #6563ff;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .sideLogout {
+    margin-top: 40px;
+    width: 30px !important;
+    height: 30px !important;
+    color: #6563ff;
+    cursor: pointer;
+  }
 }

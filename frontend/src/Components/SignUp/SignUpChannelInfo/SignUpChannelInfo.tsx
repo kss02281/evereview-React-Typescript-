@@ -105,7 +105,7 @@ function SignUpChannelInfo(props: any) {
           </div>
 
           <div className={cx("btnContainer")}>
-            <p>영상 업로드 주기</p>
+            <p className={cx("upload_term")}>영상 업로드 주기</p>
             <button id="1" className={cx("btn1")} onClick={getClick}>
               1일 ~ 3일
             </button>

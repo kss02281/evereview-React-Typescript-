@@ -124,6 +124,7 @@
   .category {
     padding: 0;
     text-align: center;
+    font-weight: bold;
   }
 
   .categoryContainer {
@@ -139,10 +140,6 @@
   .btnContainer {
     margin-top: 6vh;
     font-weight: bold;
-    p {
-      margin: 0 0 20px 0;
-      padding-left: 0;
-    }
     button {
       height: 40px;
       width: 100px;

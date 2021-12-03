@@ -1,10 +1,11 @@
 import styles from "./NavBarProfile.module.scss";
 import classNames from "classnames/bind";
-import iu from "../../../../img/iu.jpg";
+import ROUTES from "../../../../constants/routes";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { actions } from "../../../../store/modules";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,7 @@ type refType = HTMLDivElement | null | any;
 
 const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const modalEl = useRef<refType>(null);
   const [active, setActive] = useState(Boolean(false));
   const [isOpen, setIsOpen] = useState(Boolean(true));
@@ -29,6 +31,10 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
       setActive(Boolean(true));
       setIsOpen(Boolean(true));
     }
+  };
+
+  const goProfile = () => {
+    history.push(ROUTES.PROFILE);
   };
 
   const logoutHandler = () => {
@@ -76,7 +82,9 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
       </div>
       {active && (
         <div className={cx("navBarProfileDropdown")}>
-          <div className={cx("navBarProfileDropdownMenu")}>사용자 정보</div>
+          <div className={cx("navBarProfileDropdownMenu")} onClick={goProfile}>
+            사용자 정보
+          </div>
           <div className={cx("navBarProfileDropdownMenu")} onClick={logoutHandler}>
             로그아웃
           </div>

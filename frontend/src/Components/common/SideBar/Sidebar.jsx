@@ -13,6 +13,8 @@ import {
   UilReact,
   UilSignOutAlt,
   UilUserSquare,
+  UilAngleDoubleRight,
+  UilAngleDoubleLeft,
 } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../../../store/modules";
@@ -43,33 +45,40 @@ function Sidebar(props) {
   const handleToggle = () => {
     setActive(!isActive);
   };
+  const setVideo = () => {
+    dispatch(actions.selectCategory('영상별 분석'))
+  };
+  const propsArray = [2,3,4,5]
   return (
     <>
       <div className={cx("sideBarContainer")}>
         <div className={cx("sideLogo")}>
-          <Link className={cx("logo")} to={ROUTES.HOME}>
+          <Link className={cx("logo")} to={ROUTES.HOME} onClick={setVideo}>
             <UilReact className={cx("sideLogoImage")} />
           </Link>
+          <div className={cx("openButton")}>
+          { isActive ? <UilAngleDoubleLeft onClick={handleToggle} /> : <UilAngleDoubleRight onClick={handleToggle} /> }
+          </div>
         </div>
         <div className={cx("sideIcon")}>
-          <Link className={cx("logo")} to={ROUTES.DASHBOARD}>
+          <Link className={cx("logo")} to={ROUTES.DASHBOARD} onClick={setVideo}>
             <UilDashboard className={cx("sideDashBoard")} style={props.id === 1 ? { color: blue } : { color: grey }} />
           </Link>
-          <Link className={cx("logo")} to={ROUTES.CONTENTS}>
-            <UilChart className={cx("sideContents")} style={props.id === 2 ? { color: blue } : { color: grey }} />
+          <Link className={cx("logo")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>
+            <UilChart className={cx("sideContents")} style={propsArray.includes(props.id) ? { color: blue } : { color: grey }} />
           </Link>
           {/* <Link className={cx("logo")} to={ROUTES.PROFILE}>
             <UilUserSquare className={cx("sideProfile")} style={props.id === 3 ? { color: blue } : { color: grey }} />
           </Link> */}
-          <Link className={cx("logo")} to={ROUTES.SETTING}>
-            <UilSetting className={cx("sideSetting")} style={props.id === 4 ? { color: blue } : { color: grey }} />
+          <Link className={cx("logo")} to={ROUTES.SETTING} onClick={setVideo}>
+            <UilSetting className={cx("sideSetting")} style={props.id === 6 ? { color: blue } : { color: grey }} />
           </Link>
-          <Link className={cx("logo")} to={ROUTES.NOTIFICATION}>
-            <UilBell className={cx("sideNotification")} style={props.id === 5 ? { color: blue } : { color: grey }} />
+          <Link className={cx("logo")} to={ROUTES.NOTIFICATION} onClick={setVideo}>
+            <UilBell className={cx("sideNotification")} style={props.id === 7 ? { color: blue } : { color: grey }} />
           </Link>
         </div>
         <div className={cx("sideProfile")}>
-          <Link className={cx("logo")} to={ROUTES.PROFILE}>
+          <Link className={cx("logo")} to={ROUTES.PROFILE} onClick={setVideo}>
             <img className={cx("sideUser")} src={img_url} alt="user_profile_img" />
           </Link>
 

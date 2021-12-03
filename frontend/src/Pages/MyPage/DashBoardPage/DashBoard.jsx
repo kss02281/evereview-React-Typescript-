@@ -1,20 +1,17 @@
-import React from "react";
-import styles from "./DashBoard.module.scss";
-import classNames from "classnames/bind";
-import { Sidebar } from "../../../Components/common";
-import SearchBar from "../../../Components/SearchBar/SearchBar/SearchBar.jsx";
-import PieChartC from "../../../Components/PieChart/PieChart";
-import AllBarChart from "../../../Components/barChart/AllBarChart.tsx";
-import NegBarChart from "../../../Components/barChart/NegBarChart.tsx";
-import PosBarChart from "../../../Components/barChart/PosBarChart.tsx";
-import { useSelector } from "react-redux";
-import { Doughnut } from "react-chartjs-2";
-import axios from "axios";
-import data from "../../../constants/mockData";
+import styles from './DashBoard.module.scss';
+import classNames from 'classnames/bind';
+import { Sidebar } from '../../../Components/common';
+import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar.jsx';
+import { useDispatch, useSelector } from "react-redux";
+import { nowCategory } from '../../../store/modules/category';
+import DashBoardVideo from './DashBoardVideo';
+import DashBoardComment from './DashBoardComment';
 
 const cx = classNames.bind(styles);
 
 function DashBoard() {
+  const isCategorySelect = useSelector(nowCategory);
+  console.log(isCategorySelect)
   const name = useSelector((state) => state.user.nickName);
 
   const thisData = [
@@ -102,9 +99,10 @@ function DashBoard() {
     { name: "메이플스토리", value: 150 },
     { name: "스타크래프트", value: 100 },
   ];
-
+  console.log(isCategorySelect.category)
   return (
-    <div className={cx("dashBoardContainer")}>
+    
+    <div className={cx('dashBoardContainer')}>
       <Sidebar id={1} />
       <div className={cx("sideLine")}></div>
       <div className={cx("dashBoardWrap")}>
@@ -118,99 +116,7 @@ function DashBoard() {
           </div>
         </div>
         <div></div>
-        <div className={cx("dashBoardWrapMiddle")}>
-          <div className={cx("dashBoardAllFeedback")}>
-            <p className={cx("dashP")}>모든 피드백</p>
-            <div className={cx("squareWrap")}>
-              <div className={cx("squareLike")}></div>
-              <p className={cx("squareP")}>좋아요 수</p>
-              <div className={cx("squareComment")}></div>
-              <p className={cx("squareP")}>댓글 수</p>
-            </div>
-            <div className={cx("allBarChart")}>
-              {thisData.map((data, i) => {
-                return (
-                  <div className={cx("chartWrap")}>
-                    <div className={cx("chartLeft")}>{i + 1}.</div>
-                    <div className={cx("chartRight")}>{data.name}</div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className={cx("allBarGraph")}>
-              <AllBarChart />
-            </div>
-          </div>
-          <div className={cx("dashBoardWrapMiddleBlank")}></div>
-          <div className={cx("dashBoardAllFeedback")}>
-            <p className={cx("dashP")}>사용자 요구 분석</p>
-
-            <div className={cx("allBarChart")}>
-              {gameData.map((data, i) => {
-                return (
-                  <div className={cx("chartWrap")}>
-                    <div className={cx("chartLeft")}>{i + 1}.</div>
-                    <div className={cx("chartRight")}>{data.name}</div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className={cx("pieGraph")}>
-              <PieChartC />
-            </div>
-          </div>
-        </div>
-        <div className={cx("dashBoardWrapDown")}>
-          <div className={cx("dashBoardWrapDownGrid")}>
-            <div className={cx("dashBoardPosFeedback")}>
-              <p className={cx("dashP")}>긍정 피드백</p>
-              <div className={cx("squareWrap")}>
-                <div className={cx("squareLike")}></div>
-                <p className={cx("squareP")}>좋아요 수</p>
-                <div className={cx("squareComment")}></div>
-                <p className={cx("squareP")}>댓글 수</p>
-              </div>
-              <div className={cx("allBarChart")}>
-                {thisData.map((data, i) => {
-                  return (
-                    <div className={cx("chartWrap")}>
-                      <div className={cx("chartLeft")}>{i + 1}.</div>
-                      <div className={cx("chartRight")}>{data.name}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={cx("allBarGraph")}>
-                <PosBarChart />
-              </div>
-            </div>
-            <div className={cx("dashBoardWrapDownBlank")}>
-              <div className={cx("BlankLine")}></div>
-            </div>
-            <div className={cx("dashBoardPosFeedback")}>
-              <p className={cx("dashP")}>부정 피드백</p>
-              <div className={cx("squareWrap")}>
-                <div className={cx("squareLike")}></div>
-                <p className={cx("squareP")}>좋아요 수</p>
-                <div className={cx("squareComment")}></div>
-                <p className={cx("squareP")}>댓글 수</p>
-              </div>
-              <div className={cx("allBarChart")}>
-                {thisData.map((data, i) => {
-                  return (
-                    <div className={cx("chartWrap")}>
-                      <div className={cx("chartLeft")}>{i + 1}.</div>
-                      <div className={cx("chartRight")}>{data.name}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={cx("allBarGraph")}>
-                <NegBarChart />
-              </div>
-            </div>
-          </div>
-        </div>
+      { isCategorySelect.category === '영상별 분석' ? <DashBoardVideo /> : <DashBoardComment /> }
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ function Setting() {
   const name = "이성효";
   return (
     <div className={cx('overviewContainer')}>
-      <Sidebar id={4} />
+      <Sidebar id={6} />
       <div className={cx('sideLine')}></div>
       <div>
         <div className={cx('overViewTitle')}>반갑습니다 {name}님!</div>

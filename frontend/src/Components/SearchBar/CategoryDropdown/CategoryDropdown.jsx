@@ -2,25 +2,36 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CategoryDropdown.module.scss';
 import Select from 'react-select';
-import { categoryOptions } from '../searchMockData';
+import { useDispatch, useSelector } from "react-redux";
+import { nowCategory } from '../../../store/modules/category';
+import { actions } from "../../../store/modules";
 
 const cx = classNames.bind(styles);
 
 
 
-function CategoryDropdown(props) {
+function CategoryDropdown() {
   const [isClearable, setIsClearable] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isRtl, setIsRtl] = useState(true)
   const [isSearchable, setIsSearchable] = useState(false)
 
+  const categoryOptions = [
+    { value: '영상별 분석', label: '영상별 분석', rating: 'byVideo' },
+    { value: '댓글 기간별 분석', label: '댓글 기간별 분석', rating: 'byComment' },
+  ];
+
+  const dispatch = useDispatch();
+  const isCategorySelect = useSelector(nowCategory);
+
   const changeHandle = ( event ) => {
     const value = event.value
+    console.log(value)
     if (value === '영상별 분석') {
-      props.setCategorySelect(true)
+      dispatch(actions.selectCategory('영상별 분석'))
     } else if (value === '댓글 기간별 분석'){
-      props.setCategorySelect(false)
+      dispatch(actions.selectCategory('댓글 기간별 분석'))
     }
     }
     
@@ -31,13 +42,12 @@ function CategoryDropdown(props) {
       <Select
           className={cx("basic-single")}
           classNamePrefix="select"
-          defaultValue={categoryOptions[0]}
+          defaultValue={isCategorySelect === '영상별 분석' ? categoryOptions[1] : categoryOptions[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={isClearable}
           isRtl={isRtl}
           isSearchable={isSearchable}
-          name="color"
           options={categoryOptions}
           onChange={changeHandle}
         />

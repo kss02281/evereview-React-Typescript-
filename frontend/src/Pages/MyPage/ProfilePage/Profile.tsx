@@ -26,9 +26,16 @@ function Profile() {
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
 
   useEffect(() => {
-    console.log(checkedInputs, uploadTerm, currNickName);
-    if (checkedInputs !== categoryState || uploadTerm !== "" + upload_term || currNickName !== nickName) setChangeBoolean(Boolean(false));
-    else {
+    const sortCheckedInputs = checkedInputs.sort();
+    const sortCategoryState = categoryState.sort();
+
+    if (
+      JSON.stringify(sortCheckedInputs) !== JSON.stringify(sortCategoryState) ||
+      uploadTerm !== "" + upload_term ||
+      currNickName !== nickName
+    ) {
+      setChangeBoolean(Boolean(false));
+    } else {
       setChangeBoolean(true);
     }
   }, [checkedInputs, uploadTerm, currNickName]);

@@ -29,9 +29,9 @@ function CategoryDropdown() {
     const value = event.value
     console.log(value)
     if (value === '영상별 분석') {
-      dispatch(actions.selectCategory(true))
+      dispatch(actions.selectCategory('영상별 분석'))
     } else if (value === '댓글 기간별 분석'){
-      dispatch(actions.selectCategory(false))
+      dispatch(actions.selectCategory('댓글 기간별 분석'))
     }
     }
     
@@ -42,7 +42,7 @@ function CategoryDropdown() {
       <Select
           className={cx("basic-single")}
           classNamePrefix="select"
-          defaultValue={categoryOptions[0]}
+          defaultValue={isCategorySelect === '영상별 분석' ? categoryOptions[1] : categoryOptions[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={isClearable}

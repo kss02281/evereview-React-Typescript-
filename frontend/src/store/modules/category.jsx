@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = {
-  category: true,
+  category: '영상별 분석',
 };
 
 // Define Actions & Reducer

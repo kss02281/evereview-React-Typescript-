@@ -6,3 +6,5 @@ Axios
 redux-toolkit
 redux-persist
 redux-logger
+
+npx json-server ./searchMockData.json --port 8000

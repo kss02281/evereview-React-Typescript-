@@ -11,6 +11,9 @@ const ROUTES = {
   NOTIFICATION: '/mypage/notification',
   SIGNUP: "/signup",
   MY_PAGE: "/my-page",
+  ALLFEEDBACK: '/allfeedback',
+  NEGFEEDBACK: '/negfeedback',
+  POSFEEDBACK: '/posfeedback',
 };
 
 export default ROUTES;

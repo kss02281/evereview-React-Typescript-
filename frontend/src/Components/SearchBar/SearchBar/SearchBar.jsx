@@ -40,8 +40,8 @@ function SearchBar() {
             <div className={cx('searchBarContainer')}>
                 <div className={cx('categoryDropdown')}>
                     <CategoryDropdown />
-                    {isCategorySelect.category ? <SearchDropdown className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
-                    {isCategorySelect.category ? <div className={cx('submitButton')} onClick={videoSubmit}>적용하기</div> : <div className={cx('submitButton')} onClick={commentSubmit}>적용하기</div> }
+                    {isCategorySelect.category === '영상별 분석' ? <SearchDropdown className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
+                    {isCategorySelect.category === '영상별 분석' ? <div className={cx('submitButton')} onClick={videoSubmit}>적용하기</div> : <div className={cx('submitButton')} onClick={commentSubmit}>적용하기</div> }
                 </div>
             </div>
         </>

@@ -40,11 +40,12 @@ a{
 }
 
 .openDashboard{
-    margin-top: 155px;
+    margin-top: calc(max(10vh, 75px));
+    padding-top: 50px;
+    margin-bottom: 100px;
 }
 
 .openContent{
-    margin-top: 95px;
 }
 
 .openFeedback{
@@ -66,13 +67,12 @@ a{
 }
 
 .openProfile{
-    margin-top: 15px;
 }
 
 .openSetting{
-    margin-top: 95px;
+    margin-top: 10px;
+    margin-bottom: 100px;
 }
 
 .openNotification{
-    margin-top: 95px;
 }

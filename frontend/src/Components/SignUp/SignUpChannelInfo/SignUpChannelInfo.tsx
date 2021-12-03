@@ -60,7 +60,7 @@ function SignUpChannelInfo(props: any) {
     checkedInputs.map((id) => {
       setSelectedCategory([...selectedCategory, category[id]]);
     });
-    dispatch(actions.saveChannelInfo({ category: selectedCategory, upload_term: parseInt(uploadTerm) }));
+    dispatch(actions.saveChannelInfo({ category: selectedCategory, categoryNumList: checkedInputs, upload_term: parseInt(uploadTerm) }));
   };
 
   return (
@@ -84,7 +84,7 @@ function SignUpChannelInfo(props: any) {
             <div className={cx("stepBox")}>4</div>
           </div>
 
-          <p className={cx("category")}>업로드 주력 컨텐츠 카테고리</p>
+          <p className={cx("category")}>업로드 영상의 컨텐츠 카테고리</p>
           <div className={cx("categoryContainer")}>
             {category.map((item, idx) => {
               return (
@@ -105,7 +105,7 @@ function SignUpChannelInfo(props: any) {
           </div>
 
           <div className={cx("btnContainer")}>
-            <p>영상 업로드 주기</p>
+            <p className={cx("upload_term")}>영상 업로드 주기</p>
             <button id="1" className={cx("btn1")} onClick={getClick}>
               1일 ~ 3일
             </button>

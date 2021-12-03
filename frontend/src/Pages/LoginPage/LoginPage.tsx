@@ -34,7 +34,28 @@ function LoginPage() {
         // 로그인 성공 -> 홈으로
         const user_info = response.data;
         console.log(user_info);
+        window.localStorage.setItem("token", user_info.access_token);
+        dispatch(actions.loginSuccess({ success: Boolean(true) }));
         history.push(`${ROUTES.HOME}`);
+      })
+      .then(() => {
+        axios
+          .get(process.env.REACT_APP_BACKEND_URL + "/api/channels", {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            const channelInfo = response.data.channel_items;
+            channelInfo.forEach((item: any) => {
+              if (item.video_count > 0) {
+                dispatch(actions.saveYoutubeInfo({ channelUrl: item.channel_url, channelTitle: item.title, channelImgUrl: item.img_url }));
+              }
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         // 로그인 실패 -> 회원가입 페이지로
@@ -58,7 +79,7 @@ function LoginPage() {
   return (
     <Fragment>
       <Navbar />
-      <div className={cx("wrapper")}>
+      <div className={cx("loginpagewrapper")}>
         <div className={cx("leftContainer")}>
           <img className={cx("leftImg")} src={loginPageImg} alt="" />
         </div>

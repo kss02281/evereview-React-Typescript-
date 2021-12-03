@@ -1,17 +1,8 @@
 import React from 'react';
 import styles from './DashBoard.module.scss';
 import classNames from 'classnames/bind';
-import { Sidebar } from '../../../Components/common';
-import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar.jsx';
 import PieChartC from '../../../Components/PieChart/PieChart';
-import AllBarChart from '../../../Components/BarChart/AllBarChart.tsx'
-import NegBarChart from '../../../Components/BarChart/NegBarChart.tsx';
-import PosBarChart from '../../../Components/BarChart/PosBarChart.tsx';
-import { useDispatch, useSelector } from "react-redux";
 import { nowCategory } from '../../../store/modules/category';
-import { Doughnut } from 'react-chartjs-2';
-import axios from 'axios';
-import data from '../../../constants/mockData';
 import PosLineChart from '../../../Components/LineChart/PosLineChart';
 import NegLineChart from '../../../Components/LineChart/NegLineChart';
 import AllLineChart from '../../../Components/LineChart/AllLineChart';
@@ -19,8 +10,6 @@ import AllLineChart from '../../../Components/LineChart/AllLineChart';
 const cx = classNames.bind(styles);
 
 function DashBoardComment() {
-  const name = "이성효";
-  const isCategorySelect = useSelector(nowCategory);
 
   const thisData = [
     {

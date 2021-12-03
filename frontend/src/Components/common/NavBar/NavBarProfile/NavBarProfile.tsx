@@ -58,6 +58,7 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
             inputName: "",
           })
         );
+        dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
         dispatch(actions.loginSuccess({ success: Boolean(false) }));
       });
   };

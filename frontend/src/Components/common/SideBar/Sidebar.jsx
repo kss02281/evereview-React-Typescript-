@@ -37,6 +37,7 @@ function Sidebar(props) {
         inputName: "",
       })
     );
+    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
     dispatch(actions.loginSuccess({ success: Boolean(false) }));
   };
   const handleToggle = () => {

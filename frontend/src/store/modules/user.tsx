@@ -13,6 +13,7 @@ interface InputUserInfo {
 
 interface InputChannelInfo {
   category: string[];
+  categoryNumList: number[];
   upload_term: number;
 }
 
@@ -30,6 +31,12 @@ interface AllUserInfo {
   inputName: string;
 }
 
+interface ChannelInfo {
+  channelTitle: string;
+  channelUrl: string;
+  channelImgUrl: string;
+}
+
 const initialState = {
   email: "",
   name: "",
@@ -37,7 +44,11 @@ const initialState = {
   nickName: "",
   inputName: "",
   category: [] as string[],
+  categoryNumList: [] as number[],
   upload_term: 0,
+  channelTitle: "",
+  channelUrl: "",
+  channelImgUrl: "",
   success: Boolean(false),
 };
 
@@ -58,8 +69,9 @@ const userSlice = createSlice({
       state.nickName = nickName;
     },
     saveChannelInfo(state, action: PayloadAction<InputChannelInfo>) {
-      const { category, upload_term } = action.payload;
+      const { category, categoryNumList, upload_term } = action.payload;
       state.upload_term = upload_term;
+      state.categoryNumList = [...categoryNumList];
       state.category = [...category];
     },
     loginSuccess(state, action: PayloadAction<LoginSuccess>) {
@@ -76,6 +88,12 @@ const userSlice = createSlice({
       state.category = [...category];
 
       state.inputName = inputName;
+    },
+    saveYoutubeInfo(state, action: PayloadAction<ChannelInfo>) {
+      const { channelTitle, channelUrl, channelImgUrl } = action.payload;
+      state.channelTitle = channelTitle;
+      state.channelUrl = channelUrl;
+      state.channelImgUrl = channelImgUrl;
     },
   },
 });

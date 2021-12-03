@@ -56,22 +56,7 @@ function Navbar() {
       });
   };
 
-  const logoutHandler = () => {
-    dispatch(
-      actions.saveAllUserInfo({
-        email: "",
-        name: "",
-        img_url: "",
-        nickName: "",
-        category: [],
-        upload_term: 0,
-      })
-    );
-    dispatch(actions.loginSuccess({ success: Boolean(false) }));
-  };
-
   useEffect(() => {
-    console.log("로그인 상태 변경", isLogin);
     if (isLogin) {
       getUserInfo();
     }

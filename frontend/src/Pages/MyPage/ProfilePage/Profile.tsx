@@ -75,7 +75,7 @@ function Profile() {
 
   const saveButtonHandler = () => {
     console.log(currNickName, selectedCategory, uploadTerm);
-    if (checkedInputs === [] || uploadTerm === "" || currNickName === "") {
+    if (checkedInputs.length === 0 || uploadTerm === "" || currNickName === "") {
       alert("입력되지 않은 칸이 존재합니다.");
     }
   };

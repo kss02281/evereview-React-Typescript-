@@ -90,7 +90,7 @@ function Profile() {
   return (
     <div className={cx("profileContainer")}>
       <div className={cx("leftSide")}>
-        <Sidebar id={3} />
+        <Sidebar id={0} />
         <div className={cx("sideLine")}></div>
       </div>
 

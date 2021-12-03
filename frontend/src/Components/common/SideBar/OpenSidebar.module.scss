@@ -1,78 +1,77 @@
-@import '../../../Pages/style/font.scss'; 
+@import "../../../Pages/style/font.scss";
 
 @keyframes inAnimation {
-    0% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    100% {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-a{
-    font-family: $notoSans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    text-decoration: none;
-}
-
-.openSideBar{
-    position:absolute;
-    text-align: center;
-    left: 100px;
-    width: 160px;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.87);
-    transition: all 0.5s ease-in-out;
-}
-
-.closeSideBar{
-    position:absolute;
-    text-align: center;
-    left: -100px;
-    width: 0px;
-    height: 100vh;
-    transition: all 0.5s ease-in-out;
+  0% {
     opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-.openDashboard{
-    margin-top: calc(max(10vh, 75px));
-    padding-top: 50px;
-    margin-bottom: 100px;
+a {
+  font-family: $notoSans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: none;
 }
 
-.openContent{
+.openSideBar {
+  position: absolute;
+  text-align: center;
+  left: 100px;
+  width: 160px;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.87);
+  transition: all 0.5s ease-in-out;
 }
 
-.openFeedback{
-    font-size: 16px !important;
-    font-weight: 500;
+.closeSideBar {
+  position: absolute;
+  text-align: center;
+  left: -100px;
+  width: 0px;
+  height: 100vh;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
 }
 
-.AllFeedback{
-    margin-top: 5px;
+.openDashboard {
+  margin-top: calc(max(10vh, 75px));
+  padding-top: 50px;
+  margin-bottom: 100px;
 }
 
-.PosFeedback{
-    margin-top: 5px;
+.openContent {
 }
 
-.NegFeedback{
-    margin-top: 5px;
-
+.openFeedback {
+  font-size: 16px !important;
+  font-weight: 500;
 }
 
-.openProfile{
+.AllFeedback {
+  margin-top: 5px;
 }
 
-.openSetting{
-    margin-top: 10px;
-    margin-bottom: 100px;
+.PosFeedback {
+  margin-top: 5px;
 }
 
-.openNotification{
+.NegFeedback {
+  margin-top: 5px;
+}
+
+.openProfile {
+}
+
+.openSetting {
+  margin-top: 10px;
+  margin-bottom: 100px;
+}
+
+.openNotification {
 }

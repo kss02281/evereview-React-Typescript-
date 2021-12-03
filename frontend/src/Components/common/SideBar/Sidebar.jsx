@@ -34,6 +34,7 @@ function Sidebar(props) {
         nickName: "",
         category: [],
         upload_term: 0,
+        inputName: "",
       })
     );
     dispatch(actions.loginSuccess({ success: Boolean(false) }));

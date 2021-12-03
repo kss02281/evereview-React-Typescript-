@@ -47,6 +47,17 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
       .then((response) => {
         console.log(response.data);
         window.localStorage.removeItem("token");
+        dispatch(
+          actions.saveAllUserInfo({
+            email: "",
+            name: "",
+            img_url: "",
+            nickName: "",
+            category: [],
+            upload_term: 0,
+            inputName: "",
+          })
+        );
         dispatch(actions.loginSuccess({ success: Boolean(false) }));
       });
   };

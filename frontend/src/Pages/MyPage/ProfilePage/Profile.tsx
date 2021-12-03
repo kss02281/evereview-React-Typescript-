@@ -9,11 +9,8 @@ const cx = classNames.bind(styles);
 
 function Profile() {
   const name = useSelector((state: ReducerType) => state.user.name);
-  const img_url = useSelector((state: ReducerType) => {
-    if (state) {
-      return state.user.img_url;
-    }
-  });
+  const img_url = useSelector((state: ReducerType) => state.user.img_url);
+
   return (
     <div className={cx("profileContainer")}>
       <div className={cx("leftSide")}>
@@ -26,6 +23,7 @@ function Profile() {
         <div className={cx("profileDescription")}>현재 사용자 정보 확인 및 변경</div>
 
         <div className={cx("profileImg_Name")}>
+          <p className={cx("profileName")}>사용자 이미지</p>
           <img className={cx("profileImg")} src={img_url} alt="profileImg" />
           <p className={cx("profileName")}>{name}</p>
         </div>

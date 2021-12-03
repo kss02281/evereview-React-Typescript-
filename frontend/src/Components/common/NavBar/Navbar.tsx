@@ -35,6 +35,7 @@ function Navbar() {
             nickName: userInfo.nickname,
             category: userInfo.contents_category,
             upload_term: userInfo.upload_term,
+            inputName: "",
           })
         );
         setImgUrl(userInfo.img_url);
@@ -50,6 +51,7 @@ function Navbar() {
             nickName: "",
             category: [],
             upload_term: 0,
+            inputName: "",
           })
         );
         dispatch(actions.loginSuccess({ success: Boolean(false) }));

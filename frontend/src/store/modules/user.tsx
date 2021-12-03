@@ -27,6 +27,7 @@ interface AllUserInfo {
   nickName: string;
   category: string[];
   upload_term: number;
+  inputName: string;
 }
 
 const initialState = {
@@ -66,13 +67,15 @@ const userSlice = createSlice({
       state.success = success;
     },
     saveAllUserInfo(state, action: PayloadAction<AllUserInfo>) {
-      const { email, name, img_url, nickName, category, upload_term } = action.payload;
+      const { email, name, img_url, nickName, category, upload_term, inputName } = action.payload;
       state.email = email;
       state.name = name;
       state.img_url = img_url;
       state.nickName = nickName;
       state.upload_term = upload_term;
       state.category = [...category];
+
+      state.inputName = inputName;
     },
   },
 });

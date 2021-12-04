@@ -55,7 +55,7 @@ function VideoDropdown(searchWord) {
             <div className={cx("selectAll")} onClick={handleClickSelectAll}>/</div>
             <div className={cx("deleteAll")} onClick={handleClickCloseAll}>X</div>
             <div className={cx("videoHeader")}>
-            {Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
+            {isSelectedVideoList.selectedVideoList && Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
                     isSelectedVideoList.selectedVideoList[keyName] ? <div className={cx('videoHeaderBox')}  onClick={!undefined && handleClickClose(i)} key={i}>{!undefined && isVideoList[i]['title'].substr(0,10)}<span>x</span> </div> : null
                 ))}
                 

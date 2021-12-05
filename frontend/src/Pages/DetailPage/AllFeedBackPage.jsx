@@ -9,206 +9,47 @@ import { Link } from 'react-router-dom';
 import ROUTES from '../../constants/routes';
 import { actions } from '../../store/modules';
 import AllBarChart from '../../Components/barChart/AllBarChart';
+import AllLineChart from '../../Components/LineChart/AllLineChart';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 function AllFeedBackPage() {
-  const thisData = [
-    {
-      id: 1,
-      name: "소리가 너무 커요",
-      댓글수: 300,
-      좋아요수: 240,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 2,
-      name: "자막 틀렸어요",
-      댓글수: 400,
-      좋아요수: 138,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 3,
-      name: "진짜 맛있어 보이네요",
-      댓글수: 200,
-      좋아요수: 98,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 4,
-      name: "먹방 잘 찍으시네요",
-      댓글수: 278,
-      좋아요수: 98,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 5,
-      name: "치킨먹어주세요",
-      댓글수: 189,
-      좋아요수: 80,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 6,
-      name: "자세한 설명 굿",
-      댓글수: 239,
-      좋아요수: 180,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 7,
-      name: "구독 누르고 갑니다",
-      댓글수: 349,
-      좋아요수: 230,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 8,
-      name: "진짜 웃기다",
-      댓글수: 189,
-      좋아요수: 80,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 9,
-      name: "화질 너무 구려요",
-      댓글수: 239,
-      좋아요수: 138,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-    {
-      id: 10,
-      name: "음질이 너무 안좋아요",
-      댓글수: 349,
-      좋아요수: 243,
-      box: 10,
-      details:{
-        1: "소리가 큰거같은데...",
-        2: "너무 시끄러워요",
-        3: "마이크 좀만 멀리해주세요",
-        4: "아 진짜 마이크ㅡㅡ",
-        5: "편집자님!! 소리 조절 좀 해주시지ㅜㅜ",
-        6: "귀 떨어지겠습니다",
-        7: "ㅋㅋㅋㅋ편집할 때 소리 크다고 생각 안 드시나",
-        8: "거참... 소리가..."
-      }
-    },
-  ];
+
+  const [thisData,setThisData] = useState([])
+  const [thissData,setThissData] = useState([])
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([])
+
+  async function getFeedBackList() {
+    const response = await axios.get("http://localhost:8000/feedBackList");
+    setThisData(response.data)
+    setIsSelectedCommentArray(Array.from({ length: response.data.length }, (v, i) => false))
+    console.log(response.data.length)
+   }
+
+ 
+   useEffect(() => {
+    getFeedBackList()
+     console.log('get Data!')
+   },[]);
+
   const dispatch = useDispatch();
-  const [isSelectedComment,setIsSelectedComment] = useState(false);
-  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(Array.from({ length: Object.keys(thisData[1]['details']).length }, (v, i) => false))
-
-
-
-  for (let i=0; i < Object.keys(thisData[1]['details']).length; i++){
-  }
-
   const isCategorySelect = useSelector(nowCategory);
+
   const name = useSelector((state) => state.user.nickName);
-
-
 
   const setVideo = () => {
     dispatch(actions.selectCategory('영상별 분석'))
   };
 
   const setSelect = (number) => {
-    setIsSelectedComment(!isSelectedComment)
-    console.log(number)
     let newArr = [...isSelectedCommentArray];
     newArr[number] = !isSelectedCommentArray[number]
     setIsSelectedCommentArray(newArr)
+    console.log(newArr)
+    let testArr = [...isSelectedCommentArray];
+    setThissData(thissData.concat(testArr))
+    console.log(thissData)
   };
   
   return (
@@ -224,7 +65,7 @@ function AllFeedBackPage() {
           </div>
         </div>
         <div>
-          { isCategorySelect.category === '영상별 분석' ? <div></div> : <div></div> }
+          
         </div>
         <div className={cx("feedBackContentWrap")}>
           <Link className={cx("allFeedbackSelected")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>모든 피드백</Link>
@@ -239,7 +80,7 @@ function AllFeedBackPage() {
                 <div></div>
                 <div></div>
                 <div className={cx("feedBackBarGrpah")}>
-                  <AllBarChart /> 
+                { isCategorySelect.category === '영상별 분석' ? <AllBarChart /> : <AllLineChart /> }
                 </div>
                 <div>
                   <div className={cx("allBarChart")}>

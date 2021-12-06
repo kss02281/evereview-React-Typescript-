@@ -26,9 +26,8 @@ function Profile() {
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
 
   useEffect(() => {
-    const sortCheckedInputs = checkedInputs.sort();
-    const sortCategoryState = categoryState.sort();
-
+    const sortCheckedInputs = checkedInputs.slice().sort((a, b) => b - a);
+    const sortCategoryState = categoryState.slice().sort((a, b) => b - a);
     if (
       JSON.stringify(sortCheckedInputs) !== JSON.stringify(sortCategoryState) ||
       uploadTerm !== "" + upload_term ||

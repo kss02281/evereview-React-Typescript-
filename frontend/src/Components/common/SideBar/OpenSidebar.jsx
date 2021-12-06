@@ -32,7 +32,7 @@ function OpenSideBar(props) {
                 </div>
                 <div className={cx('openContents')}>
                     <div className={cx('openContent')}>
-                        <Link to={ROUTES.CONTENTS} onClick={setVideo} style={propsArray.includes(props.id) ? {color:blue} : {color:grey}}>
+                        <Link to={ROUTES.ALLFEEDBACK} onClick={setVideo} style={propsArray.includes(props.id) ? {color:blue} : {color:grey}}>
                         컨텐츠
                         </Link>
                     </div>
@@ -77,7 +77,7 @@ function OpenSideBar(props) {
                 </div>
                 <div className={cx('openContents')}>
                     <div className={cx('openContent')}>
-                        <Link to={ROUTES.CONTENTS} onClick={setVideo} style={propsArray.includes(props.id) ? {color:blue} : {color:grey}}>
+                        <Link to={ROUTES.ALLFEEDBACK} onClick={setVideo} style={propsArray.includes(props.id) ? {color:blue} : {color:grey}}>
                         컨텐츠
                         </Link>
                     </div>

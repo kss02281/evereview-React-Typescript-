@@ -64,7 +64,7 @@ function VideoDropdown(searchWord) {
 
   const modalScroll = _.debounce(() => {
     const { scrollHeight, scrollTop, clientHeight } = modalRef.current;
-    if (scrollHeight - 10 < scrollTop + clientHeight) test();  
+    if (scrollHeight && scrollTop && clientHeight && scrollHeight - 10 < scrollTop + clientHeight) test();  
   }, 200);
 
     return (

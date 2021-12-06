@@ -5,6 +5,9 @@ import { actions } from "../../../store/modules";
 import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
 import { nowVideoList } from '../../../store/modules/video';
 import * as Hangul from 'hangul-js';
+import { useRef } from 'react';
+import _, {debounce} from 'lodash';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -49,18 +52,34 @@ function VideoDropdown(searchWord) {
     return chosung
   }
 
+  async function test() {
+    const response = await axios.get("http://localhost:8000/videoList");
+     console.log(response.data);
+     let testArr = [...isVideoList];
+     dispatch((actions.updateVideoList(testArr.concat(response.data))))
+     console.log(testArr.concat(response.data))
+   }
+
+  const modalRef = useRef();
+
+  const modalScroll = _.debounce(() => {
+    const { scrollHeight, scrollTop, clientHeight } = modalRef.current;
+    if (scrollHeight && scrollTop && clientHeight && scrollHeight - 10 < scrollTop + clientHeight) test();  
+  }, 200);
+
     return (
       <>
         <div className={cx("videoContainer")}>
-            <div className={cx("selectAll")} onClick={handleClickSelectAll}>/</div>
+            {/* <div className={cx("selectAll")} onClick={handleClickSelectAll}>/</div> ​*/}
+
             <div className={cx("deleteAll")} onClick={handleClickCloseAll}>X</div>
             <div className={cx("videoHeader")}>
-            {Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
+            {isSelectedVideoList.selectedVideoList && Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
                     isSelectedVideoList.selectedVideoList[keyName] ? <div className={cx('videoHeaderBox')}  onClick={!undefined && handleClickClose(i)} key={i}>{!undefined && isVideoList[i]['title'].substr(0,10)}<span>x</span> </div> : null
                 ))}
                 
             </div>
-            <div className={cx("videoItems")}>
+            <div className={cx("videoItems")} ref={modalRef} onScroll={modalScroll}>
                 {isVideoList.filter((val)=> {
                   if (searchWord.searchWord == "")
                   {return val}
@@ -73,8 +92,8 @@ function VideoDropdown(searchWord) {
                         <div 
                         className={cx(`videoItem_${isSelectedVideoList.selectedVideoList[videoInfo.id-1]}`)} 
                         id='videoItem' 
-                        onClick={!undefined && handleBtn(videoInfo.id-1)} 
-                        style={{ backgroundColor: isSelectedVideoList.selectedVideoList[videoInfo.id-1] ? "#D0E9FF" : "#ffffff" }}
+                        onClick={!undefined && handleBtn(i)} 
+                        style={{ backgroundColor: isSelectedVideoList.selectedVideoList[i] ? "#D0E9FF" : "#ffffff" }}
                         key = {i}
                         >
                         <div className={cx('videoImageWrap')}>

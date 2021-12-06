@@ -15,18 +15,31 @@ function SearchDropdown(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
   const [searchWord, setSearchWord] = useState("");
+
   async function getVideoSelectedList() {
-   const response = await axios.get("http://localhost:8000/data");
+   const response = await axios.get("http://localhost:8000/videoList");
     console.log(response.data);
-    dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.length).fill(false)})));
+    dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(500).fill(false)})));
     dispatch((actions.updateVideoList(response.data)))
   }
-
 
   useEffect(() => {
     getVideoSelectedList()
     console.log('get Data!')
   },[]);
+
+
+
+  const [thissData,setThissData] = useState([])
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([])
+
+  const setSelect = (number) => {
+    let testArr = [...isSelectedCommentArray];
+    setThissData(thissData.concat(testArr))
+    console.log(thissData)
+  };
+
+
 
 
   function handleClickOpen(){

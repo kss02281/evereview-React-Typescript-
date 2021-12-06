@@ -107,7 +107,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 function AllBarChart() {
     return (
       <ResponsiveContainer width="90%" height="90%">
-      <BarChart data={data} margin={{ top: -40, right: 0, left: 0, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: -40, right: 0, left: 0, bottom: 0 }} >
       <XAxis dataKey="id" interval={0} angle={0} dx={0} dy={10} />
         <Tooltip content={<CustomTooltip />} />
         <Bar

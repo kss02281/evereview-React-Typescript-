@@ -42,10 +42,14 @@ class Channels(Resource):
         channels_db = channel_service.get_channels(user_id)
         user_channel_id = list(map(lambda channel: channel.get("id"), channels_db))
 
+        channels_oauth = oauth_service.fetch_user_channels(
+            oauth_token, admin=user.admin
+        )
+
         result = []
-        if len(channels_db) > 0:
-            updated_channel_info = oauth_service.fetch_channels(user_channel_id)
-            for channel in updated_channel_info:
+
+        for channel in channels_oauth:
+            if channel.get("channel_id") in user_channel_id:
                 updated_channel = channel_service.update_channel(
                     channel_id=channel.get("channel_id"),
                     user_id=user_id,
@@ -56,12 +60,7 @@ class Channels(Resource):
                     img_url=channel.get("img_url"),
                 )
                 result.append(updated_channel.to_dict())
-
-        channels_oauth = oauth_service.fetch_user_channels(
-            oauth_token, admin=user.admin
-        )
-        for channel in channels_oauth:
-            if channel.get("channel_id") not in user_channel_id:
+            elif channel.get("channel_id") not in user_channel_id:
                 new_channel = channel_service.insert_channel(
                     channel_id=channel.get("channel_id"),
                     user_id=user_id,
@@ -75,8 +74,10 @@ class Channels(Resource):
 
         if channel_id:
             result = list(filter(lambda item: item.get("id") == channel_id, result))
-
-        if len(result) == 0:
-            return {"resut": "fail", "message": "존재하지 않거나 해당 유저의 권한이 없는 채널입니다."}, 403
+            if len(result) == 0:
+                return {
+                    "resut": "fail",
+                    "message": "존재하지 않거나 해당 유저의 권한이 없는 채널입니다.",
+                }, 403
 
         return {"channel_items": result}, 200

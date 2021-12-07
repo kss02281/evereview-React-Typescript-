@@ -1,11 +1,11 @@
 import React from "react";
-import ROUTES from "../../../constants/routes";
+import ROUTES from "constants/routes";
 import styles from "./SignUpFinish.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
+import { ReducerType } from "store/modules";
 import axios from "axios";
 
 const cx = classNames.bind(styles);

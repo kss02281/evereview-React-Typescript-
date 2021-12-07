@@ -1,9 +1,9 @@
 import React, { Reducer, useEffect, useState } from "react";
 import styles from "./Profile.module.scss";
 import classNames from "classnames/bind";
-import { Sidebar } from "../../../Components/common";
+import { Sidebar } from "Components/common";
 import { useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
+import { ReducerType } from "store/modules";
 
 const cx = classNames.bind(styles);
 

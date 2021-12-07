@@ -2,15 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import classNames from "classnames/bind";
 import styles from "./LoginPage.module.scss";
-import { Navbar } from "../../Components/common";
+import { Navbar } from "Components/common";
 import GoogleLogin from "react-google-login";
-import loginPageImg from "../../img/loginPageImg.png";
+import loginPageImg from "img/loginPageImg.png";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useHistory } from "react-router";
-import ROUTES from "../../constants/routes";
+import ROUTES from "constants/routes";
 
 import { useDispatch } from "react-redux";
-import { actions } from "../../store/modules";
+import { actions } from "store/modules";
 
 const cx = classNames.bind(styles);
 

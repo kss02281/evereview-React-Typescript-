@@ -5,7 +5,7 @@ JSON_AS_ASCII = False
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
-JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=10)
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=10)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=14)
 
 SECRET_KEY = "dev"

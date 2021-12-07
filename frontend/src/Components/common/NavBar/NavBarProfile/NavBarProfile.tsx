@@ -1,9 +1,9 @@
 import styles from "./NavBarProfile.module.scss";
 import classNames from "classnames/bind";
-import ROUTES from "../../../../constants/routes";
+import ROUTES from "constants/routes";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-import { actions } from "../../../../store/modules";
+import { actions } from "store/modules";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 

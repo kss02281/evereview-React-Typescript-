@@ -60,6 +60,24 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
         );
         dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
         dispatch(actions.loginSuccess({ success: Boolean(false) }));
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+          dispatch(
+            actions.saveAllUserInfo({
+              email: "",
+              name: "",
+              img_url: "",
+              nickName: "",
+              category: [],
+              upload_term: 0,
+              inputName: "",
+            })
+          );
+          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+        }
       });
   };
 

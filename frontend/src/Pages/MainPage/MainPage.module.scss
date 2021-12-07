@@ -3,10 +3,10 @@
 .mainContainer {
   margin: 0 auto;
   width: 100vw;
-  height: 93.8vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 50px 1fr 1fr 50px;
-  overflow: auto;
+  overflow: hidden;
   background-image: url('../../img/bgpattern4.png');
   background-position: 50% 90%;
   background-repeat: no-repeat;

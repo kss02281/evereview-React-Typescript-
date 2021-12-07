@@ -25,6 +25,10 @@ function Profile() {
   const [currNickName, setCurrNickName] = useState(nickName);
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
 
+  const user = useSelector((state: ReducerType) => state.user)
+
+  console.log(user)
+
   useEffect(() => {
     const sortCheckedInputs = checkedInputs.slice().sort((a, b) => b - a);
     const sortCategoryState = categoryState.slice().sort((a, b) => b - a);

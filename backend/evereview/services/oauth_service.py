@@ -47,6 +47,13 @@ def authorization(code):
 
 
 def fetch_user_channels(oauth_token, admin=False):
+    if admin:
+        result = []
+        static_channels = ["UCIG4gr_wIy5CIlcFciUbIQw"]
+        static_channels = fetch_channels(static_channels)
+        result += static_channels
+        return result
+
     url = "https://www.googleapis.com/youtube/v3/channels"
     part = ["id", "snippet", "statistics"]
     payload = {
@@ -58,6 +65,9 @@ def fetch_user_channels(oauth_token, admin=False):
 
     res = requests.get(url, params=payload, headers=header)
     channels_info = res.json().get("items")
+
+    if channels_info is None:
+        return []
 
     result = []
     for channel_info in channels_info:
@@ -73,11 +83,6 @@ def fetch_user_channels(oauth_token, admin=False):
             .get("url"),
         }
         result.append(item)
-
-    if admin:
-        static_channels = ["UCIG4gr_wIy5CIlcFciUbIQw"]
-        static_channels = fetch_channels(static_channels)
-        result += static_channels
 
     return result
 

@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 
@@ -6,7 +7,7 @@ from googleapiclient.discovery import build
 
 class review_etl:
     def extract(self, video_id=None, channel_id=None, day_start=None, day_end=None):
-        api_key = "AIzaSyCrzeLdyyZ8k6oBUXm2AeyX20GYV83novM"
+        api_key = os.environ.get("API_KEY")
         api_obj = build("youtube", "v3", developerKey=api_key)
         comments = list()
 

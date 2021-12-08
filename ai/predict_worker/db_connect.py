@@ -12,4 +12,5 @@ def get_mysql_engine():
     engine = create_engine(
         f"mysql+pymysql://{USER}:{PASSWORD}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"
     )
+
     return engine

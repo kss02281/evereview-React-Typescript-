@@ -21,11 +21,11 @@ CELERY_RESULT_BACKEND = "rpc://"
 app = Celery("evereview", broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
 
-@app.task(name="evereview.predict")
-def predict(user_id, channel_id, **kwars):
-    videos = kwars.get("videos")
-    day_start = kwars.get("day_start")
-    day_end = kwars.get("day_end")
+@app.task(name="evereview.predict", bind=True)
+def predict(self, user_id, channel_id, **kwargs):
+    videos = kwargs.get("videos")
+    day_start = kwargs.get("day_start")
+    day_end = kwargs.get("day_end")
 
     review_extracter = review_etl()
 
@@ -104,7 +104,7 @@ def predict(user_id, channel_id, **kwars):
     ## 요부분은 df.to_sql로 저장
     """
     # analysis
-    analysis_id = uuid.uuid4().hex[:10]
+    analysis_id = self.request.id
     analysis_at = datetime.now()
 
     # cluster

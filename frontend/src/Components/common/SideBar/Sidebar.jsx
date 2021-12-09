@@ -35,6 +35,7 @@ function Sidebar(props) {
         img_url: "",
         nickName: "",
         category: [],
+        categoryNumList: [],
         upload_term: 0,
         inputName: "",
       })
@@ -46,9 +47,9 @@ function Sidebar(props) {
     setActive(!isActive);
   };
   const setVideo = () => {
-    dispatch(actions.selectCategory('영상별 분석'))
+    dispatch(actions.selectCategory("영상별 분석"));
   };
-  const propsArray = [2,3,4,5]
+  const propsArray = [2, 3, 4, 5, 8];
   return (
     <>
       <div className={cx("sideBarContainer")}>
@@ -57,7 +58,7 @@ function Sidebar(props) {
             <UilReact className={cx("sideLogoImage")} />
           </Link>
           <div className={cx("openButton")}>
-          { isActive ? <UilAngleDoubleLeft onClick={handleToggle} /> : <UilAngleDoubleRight onClick={handleToggle} /> }
+            {isActive ? <UilAngleDoubleLeft onClick={handleToggle} /> : <UilAngleDoubleRight onClick={handleToggle} />}
           </div>
         </div>
         <div className={cx("sideIcon")}>
@@ -67,9 +68,6 @@ function Sidebar(props) {
           <Link className={cx("logo")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>
             <UilChart className={cx("sideContents")} style={propsArray.includes(props.id) ? { color: blue } : { color: grey }} />
           </Link>
-          {/* <Link className={cx("logo")} to={ROUTES.PROFILE}>
-            <UilUserSquare className={cx("sideProfile")} style={props.id === 3 ? { color: blue } : { color: grey }} />
-          </Link> */}
           <Link className={cx("logo")} to={ROUTES.SETTING} onClick={setVideo}>
             <UilSetting className={cx("sideSetting")} style={props.id === 6 ? { color: blue } : { color: grey }} />
           </Link>

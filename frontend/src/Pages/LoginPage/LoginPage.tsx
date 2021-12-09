@@ -59,6 +59,7 @@ function LoginPage() {
               );
             } else {
               alert("YouTube 채널이 존재하지 않습니다. 채널을 생성한 후에 다시 로그인 해주세요.");
+              window.localStorage.removeItem("token");
               dispatch(
                 actions.saveAllUserInfo({
                   email: "",
@@ -66,6 +67,7 @@ function LoginPage() {
                   img_url: "",
                   nickName: "",
                   category: [],
+                  categoryNumList: [],
                   upload_term: 0,
                   inputName: "",
                 })
@@ -86,6 +88,7 @@ function LoginPage() {
         history.push(`${ROUTES.SIGNUP}`);
         if (error.response.status === 403) {
           alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+          window.localStorage.removeItem("token");
           dispatch(
             actions.saveAllUserInfo({
               email: "",
@@ -93,6 +96,7 @@ function LoginPage() {
               img_url: "",
               nickName: "",
               category: [],
+              categoryNumList: [],
               upload_term: 0,
               inputName: "",
             })
@@ -116,6 +120,7 @@ function LoginPage() {
       .catch((error) => {
         if (error.response.status === 403) {
           alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+          window.localStorage.removeItem("token");
           dispatch(
             actions.saveAllUserInfo({
               email: "",
@@ -123,6 +128,7 @@ function LoginPage() {
               img_url: "",
               nickName: "",
               category: [],
+              categoryNumList: [],
               upload_term: 0,
               inputName: "",
             })

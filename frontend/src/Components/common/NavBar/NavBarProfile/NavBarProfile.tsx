@@ -54,6 +54,7 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
             img_url: "",
             nickName: "",
             category: [],
+            categoryNumList: [],
             upload_term: 0,
             inputName: "",
           })
@@ -71,6 +72,7 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
               img_url: "",
               nickName: "",
               category: [],
+              categoryNumList: [],
               upload_term: 0,
               inputName: "",
             })

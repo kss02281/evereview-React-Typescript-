@@ -15,15 +15,6 @@ function SignUpChannelInfo(props: any) {
   const [uploadTerm, setUploadTerm] = useState("" as string);
 
   useEffect(() => {
-    checkedInputs.map((id) => {
-      let check = selectedCategory.findIndex((i) => i === category[id]);
-      if (check === -1) {
-        setSelectedCategory([...selectedCategory, category[id]]);
-      }
-    });
-  }, [checkedInputs]);
-
-  useEffect(() => {
     const numList = ["1", "2", "3"];
     if (uploadTerm !== "") {
       let current: any = document.getElementById(uploadTerm);
@@ -48,6 +39,7 @@ function SignUpChannelInfo(props: any) {
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
+      setSelectedCategory([...selectedCategory, category[id]]);
     } else {
       setCheckedInputs(checkedInputs.filter((el) => el !== id));
       setSelectedCategory(selectedCategory.filter((el) => el !== category[id]));
@@ -98,7 +90,9 @@ function SignUpChannelInfo(props: any) {
                     checked={checkedInputs.includes(idx) ? true : false}
                     key={idx}
                   />
-                  <span>{item}</span>
+                  <label htmlFor={item} className={cx("categoryName")}>
+                    {item}
+                  </label>
                 </>
               );
             })}

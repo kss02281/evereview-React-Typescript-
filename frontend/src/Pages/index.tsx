@@ -11,3 +11,4 @@ export { default as Notification } from "./MyPage/NotificationPage/Notification"
 export { default as AllFeedBackPage } from "./DetailPage/AllFeedBackPage.jsx";
 export { default as PosFeedBackPage } from "./DetailPage/PosFeedBackPage.jsx";
 export { default as NegFeedBackPage } from "./DetailPage/NegFeedBackPage.jsx";
+export { ContentsFeedBackPage } from "./DetailPage/ContentsFeedBackPage";

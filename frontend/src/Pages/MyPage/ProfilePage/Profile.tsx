@@ -2,19 +2,22 @@ import React, { Reducer, useEffect, useState } from "react";
 import styles from "./Profile.module.scss";
 import classNames from "classnames/bind";
 import { Sidebar } from "Components/common";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "store/modules";
 import { ReducerType } from "store/modules";
-
+import axios from "axios";
 const cx = classNames.bind(styles);
 
 function Profile() {
+  const dispatch = useDispatch();
   const user = useSelector((state: ReducerType) => state.user);
   const category: string[] = ["먹방", "일상", "리뷰", "게임", "피트니스", "ASMR", "주식", "부동산", "이슈", "교육", "기타"];
   const [checkedInputs, setCheckedInputs] = useState(user.categoryNumList ? user.categoryNumList : ([] as number[]));
-  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
+  const [selectedCategory, setSelectedCategory] = useState(user.category ? user.category : []);
   const [uploadTerm, setUploadTerm] = useState("" + user.upload_term);
   const [currNickName, setCurrNickName] = useState(user.nickName);
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
+  const [submitBoolean, setSubmitBoolean] = useState(Boolean(false));
 
   useEffect(() => {
     const sortCheckedInputs = checkedInputs.slice().sort((a, b) => b - a);
@@ -25,19 +28,11 @@ function Profile() {
       currNickName !== user.nickName
     ) {
       setChangeBoolean(Boolean(false));
+      setSubmitBoolean(Boolean(false));
     } else {
       setChangeBoolean(true);
     }
-  }, [checkedInputs, uploadTerm, currNickName]);
-
-  useEffect(() => {
-    checkedInputs.map((id) => {
-      let check = selectedCategory.findIndex((i) => i === category[id]);
-      if (check === -1) {
-        setSelectedCategory([...selectedCategory, category[id]]);
-      }
-    });
-  }, [checkedInputs]);
+  }, [checkedInputs, uploadTerm, currNickName, submitBoolean]);
 
   useEffect(() => {
     const numList = ["1", "2", "3"];
@@ -64,6 +59,7 @@ function Profile() {
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
+      setSelectedCategory([...selectedCategory, category[id]]);
     } else {
       setCheckedInputs(checkedInputs.filter((el) => el !== id));
       setSelectedCategory(selectedCategory.filter((el) => el !== category[id]));
@@ -72,8 +68,53 @@ function Profile() {
 
   const saveButtonHandler = () => {
     console.log(currNickName, selectedCategory, uploadTerm);
+    const anySelectedCategory: any = selectedCategory;
+    const newUserInfo = new FormData();
+    newUserInfo.append("nickname", currNickName);
+    newUserInfo.append("upload_term", uploadTerm);
+    newUserInfo.append("contents_category", anySelectedCategory);
+
     if (checkedInputs.length === 0 || uploadTerm === "" || currNickName === "") {
       alert("입력되지 않은 칸이 존재합니다.");
+    } else {
+      axios
+        .patch(process.env.REACT_APP_BACKEND_URL + "/api/user", newUserInfo, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          alert("변경사항 저장 성공!");
+          dispatch(
+            actions.saveName({
+              inputName: user.name,
+              nickName: currNickName,
+            })
+          );
+          dispatch(
+            actions.saveChannelInfo({
+              upload_term: parseInt(uploadTerm),
+              categoryNumList: checkedInputs,
+              category: selectedCategory,
+            })
+          );
+
+          axios
+            .get(process.env.REACT_APP_BACKEND_URL + "/api/user", {
+              headers: {
+                Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+              },
+            })
+            .then((response) => {
+              console.log(response.data);
+            });
+          setSubmitBoolean(Boolean(true));
+          //window.location.replace("/mypage/profile");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
     }
   };
 
@@ -160,7 +201,7 @@ function Profile() {
                     checked={checkedInputs.includes(idx) ? true : false}
                     key={idx}
                   />
-                  <span>{item}</span>
+                  <label htmlFor={item}>{item}</label>
                 </>
               );
             })}

@@ -125,26 +125,35 @@
     padding: 0;
     text-align: center;
     font-weight: bold;
+    font-size: 22px;
   }
 
   .categoryContainer {
-    width: 300px;
+    width: 320px;
     padding: 10px;
     border: 1px solid black;
     border-radius: 10px;
     input[type="checkbox"] {
       margin: 0 5px;
     }
+    .categoryName {
+      font-size: 18px;
+    }
   }
 
   .btnContainer {
-    margin-top: 6vh;
+    margin-top: 3vh;
     font-weight: bold;
+    .upload_term {
+      font-size: 22px;
+    }
 
     button {
       height: 40px;
-      width: 100px;
+      width: 120px;
       color: white;
+      font-size: 16px;
+      font-weight: bold;
       border: none;
       box-shadow: 3px 3px 2px rgba(15, 15, 15, 0.301) !important;
     }

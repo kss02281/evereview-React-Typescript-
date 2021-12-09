@@ -15,7 +15,8 @@ parser.add_argument(
 )
 
 
-@api.route("/<string:comment_id>")
+@api.route("/<string:cluster_id>/<string:comment_id>")
+@api.doc(params={"cluster_id": "cluster id"})
 @api.doc(params={"comment_id": "comment id"})
 @api.response(200, "Comment Success", CommentDto.comment)
 @api.response(400, "Channel Fail(잘못된 요청)", CommentDto.fail)
@@ -24,20 +25,20 @@ parser.add_argument(
 class Comment(Resource):
     @api.expect(parser)
     @jwt_required()
-    def get(self, comment_id):
+    def get(self, cluster_id, comment_id):
         """
         댓글 하나의 정보
         """
-        comment = get_comment(comment_id)
+        comment = get_comment(cluster_id, comment_id)
         if comment is None:
             return {"result": "fail", "message": "존재하지 않는 리소스입니다."}, 404
 
-        result = comment.to_dict()
+        result = comment
 
         return result, 200
 
 
-@api.route("/cluster/<string:cluster_id>")
+@api.route("/<string:cluster_id>")
 @api.doc(params={"cluster_id": "analysis 요청으로 얻은 cluster_id"})
 @api.response(200, "Comments Success", CommentDto.comment_list)
 @api.response(400, "Channel Fail(잘못된 요청)", CommentDto.fail)

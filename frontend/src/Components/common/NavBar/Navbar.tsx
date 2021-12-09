@@ -1,12 +1,12 @@
 import React, { Reducer, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ROUTES from "../../../constants/routes";
+import ROUTES from "constants/routes";
 import styles from "./Navbar.module.scss";
 import classNames from "classnames/bind";
-import logo from "../../../img/logo_transparent.png";
-import { actions } from "../../../store/modules";
+import logo from "img/logo_transparent.png";
+import { actions } from "store/modules";
 import { useDispatch, useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
+import { ReducerType } from "store/modules";
 import { NavBarProfile } from "./NavBarProfile";
 import axios from "axios";
 const cx = classNames.bind(styles);
@@ -43,6 +43,7 @@ function Navbar() {
       })
       .catch((error) => {
         alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+        window.localStorage.removeItem("token");
         dispatch(
           actions.saveAllUserInfo({
             email: "",
@@ -50,6 +51,7 @@ function Navbar() {
             img_url: "",
             nickName: "",
             category: [],
+            categoryNumList: [],
             upload_term: 0,
             inputName: "",
           })

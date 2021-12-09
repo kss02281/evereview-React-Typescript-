@@ -27,12 +27,13 @@ class Comment(db.Model):
     def to_dict(self):
         result = {
             "id": self.id,
+            "cluster_id": self.cluster_id,
             "author": self.author,
             "author_img": self.author_img,
             "text_display": self.text_display,
             "text_original": self.text_original,
             "like_count": self.like_count,
-            "published_at": self.published_at,
+            "published_at": self.published_at.isoformat(),
         }
 
         return result

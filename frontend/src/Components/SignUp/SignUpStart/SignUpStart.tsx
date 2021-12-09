@@ -3,7 +3,7 @@ import styles from "./SignUpStart.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
+import { ReducerType } from "store/modules";
 
 const cx = classNames.bind(styles);
 

@@ -2,15 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import classNames from "classnames/bind";
 import styles from "./LoginPage.module.scss";
-import { Navbar } from "../../Components/common";
+import { Navbar } from "Components/common";
 import GoogleLogin from "react-google-login";
-import loginPageImg from "../../img/loginPageImg.png";
+import loginPageImg from "img/loginPageImg.png";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useHistory } from "react-router";
-import ROUTES from "../../constants/routes";
+import ROUTES from "constants/routes";
 
 import { useDispatch } from "react-redux";
-import { actions } from "../../store/modules";
+import { actions } from "store/modules";
 
 const cx = classNames.bind(styles);
 
@@ -47,11 +47,34 @@ function LoginPage() {
           })
           .then((response) => {
             const channelInfo = response.data.channel_items;
-            channelInfo.forEach((item: any) => {
-              if (item.video_count > 0) {
-                dispatch(actions.saveYoutubeInfo({ channelUrl: item.channel_url, channelTitle: item.title, channelImgUrl: item.img_url }));
-              }
-            });
+
+            if (channelInfo.length > 0) {
+              console.log(channelInfo[0]);
+              dispatch(
+                actions.saveYoutubeInfo({
+                  channelUrl: channelInfo[0].channel_url,
+                  channelTitle: channelInfo[0].title,
+                  channelImgUrl: channelInfo[0].img_url,
+                })
+              );
+            } else {
+              alert("YouTube 채널이 존재하지 않습니다. 채널을 생성한 후에 다시 로그인 해주세요.");
+              window.localStorage.removeItem("token");
+              dispatch(
+                actions.saveAllUserInfo({
+                  email: "",
+                  name: "",
+                  img_url: "",
+                  nickName: "",
+                  category: [],
+                  categoryNumList: [],
+                  upload_term: 0,
+                  inputName: "",
+                })
+              );
+              dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+              dispatch(actions.loginSuccess({ success: Boolean(false) }));
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -63,17 +86,57 @@ function LoginPage() {
         console.log(user_info);
         dispatch(actions.saveUser({ email: `${user_info.email}`, name: `${user_info.name}`, img_url: `${user_info.img_url}` }));
         history.push(`${ROUTES.SIGNUP}`);
+        if (error.response.status === 403) {
+          alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+          window.localStorage.removeItem("token");
+          dispatch(
+            actions.saveAllUserInfo({
+              email: "",
+              name: "",
+              img_url: "",
+              nickName: "",
+              category: [],
+              categoryNumList: [],
+              upload_term: 0,
+              inputName: "",
+            })
+          );
+          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+        }
       });
   };
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo").then((response) => {
-      const scopeList = response.data.scopes;
-      const scopeString = scopeList.join(" ");
-      console.log(response.data);
-      setClientId(response.data.client_id);
-      setScope(scopeString);
-    });
+    axios
+      .get(process.env.REACT_APP_BACKEND_URL + "/api/oauth/clientinfo")
+      .then((response) => {
+        const scopeList = response.data.scopes;
+        const scopeString = scopeList.join(" ");
+        console.log(response.data);
+        setClientId(response.data.client_id);
+        setScope(scopeString);
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+          window.localStorage.removeItem("token");
+          dispatch(
+            actions.saveAllUserInfo({
+              email: "",
+              name: "",
+              img_url: "",
+              nickName: "",
+              category: [],
+              categoryNumList: [],
+              upload_term: 0,
+              inputName: "",
+            })
+          );
+          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+        }
+      });
   }, []);
 
   return (

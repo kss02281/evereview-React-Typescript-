@@ -3,7 +3,7 @@ import styles from "./SignUpChannelInfo.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
-import { actions } from "../../../store/modules";
+import { actions } from "store/modules";
 
 const cx = classNames.bind(styles);
 
@@ -13,15 +13,6 @@ function SignUpChannelInfo(props: any) {
   const [checkedInputs, setCheckedInputs] = useState([] as number[]);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const [uploadTerm, setUploadTerm] = useState("" as string);
-
-  useEffect(() => {
-    checkedInputs.map((id) => {
-      let check = selectedCategory.findIndex((i) => i === category[id]);
-      if (check === -1) {
-        setSelectedCategory([...selectedCategory, category[id]]);
-      }
-    });
-  }, [checkedInputs]);
 
   useEffect(() => {
     const numList = ["1", "2", "3"];
@@ -48,6 +39,7 @@ function SignUpChannelInfo(props: any) {
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
+      setSelectedCategory([...selectedCategory, category[id]]);
     } else {
       setCheckedInputs(checkedInputs.filter((el) => el !== id));
       setSelectedCategory(selectedCategory.filter((el) => el !== category[id]));
@@ -98,7 +90,9 @@ function SignUpChannelInfo(props: any) {
                     checked={checkedInputs.includes(idx) ? true : false}
                     key={idx}
                   />
-                  <span>{item}</span>
+                  <label htmlFor={item} className={cx("categoryName")}>
+                    {item}
+                  </label>
                 </>
               );
             })}

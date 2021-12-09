@@ -1,29 +1,23 @@
 import React, { Reducer, useEffect, useState } from "react";
 import styles from "./Profile.module.scss";
 import classNames from "classnames/bind";
-import { Sidebar } from "../../../Components/common";
-import { useSelector } from "react-redux";
-import { ReducerType } from "../../../store/modules";
+import { Sidebar } from "Components/common";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "store/modules";
+import { ReducerType } from "store/modules";
 import axios from "axios";
-
 const cx = classNames.bind(styles);
 
 function Profile() {
-  const name = useSelector((state: ReducerType) => state.user.name);
-  const nickName = useSelector((state: ReducerType) => state.user.nickName);
-  const email = useSelector((state: ReducerType) => state.user.email);
-  const img_url = useSelector((state: ReducerType) => state.user.img_url);
-  const upload_term = useSelector((state: ReducerType) => state.user.upload_term);
-  const categoryState = useSelector((state: ReducerType) => state.user.categoryNumList);
-  const channelUrl = useSelector((state: ReducerType) => state.user.channelUrl);
-  const channelImgUrl = useSelector((state: ReducerType) => state.user.channelImgUrl);
-  const channelName = useSelector((state: ReducerType) => state.user.channelTitle);
+  const dispatch = useDispatch();
+  const user = useSelector((state: ReducerType) => state.user);
   const category: string[] = ["먹방", "일상", "리뷰", "게임", "피트니스", "ASMR", "주식", "부동산", "이슈", "교육", "기타"];
-  const [checkedInputs, setCheckedInputs] = useState(categoryState ? categoryState : ([] as number[]));
-  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
-  const [uploadTerm, setUploadTerm] = useState("" + upload_term);
-  const [currNickName, setCurrNickName] = useState(nickName);
+  const [checkedInputs, setCheckedInputs] = useState(user.categoryNumList ? user.categoryNumList : ([] as number[]));
+  const [selectedCategory, setSelectedCategory] = useState(user.category ? user.category : []);
+  const [uploadTerm, setUploadTerm] = useState("" + user.upload_term);
+  const [currNickName, setCurrNickName] = useState(user.nickName);
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
+  const [submitBoolean, setSubmitBoolean] = useState(Boolean(false));
 
   const user = useSelector((state: ReducerType) => state.user)
 
@@ -32,26 +26,18 @@ function Profile() {
 
   useEffect(() => {
     const sortCheckedInputs = checkedInputs.slice().sort((a, b) => b - a);
-    const sortCategoryState = categoryState.slice().sort((a, b) => b - a);
+    const sortCategoryState = user.categoryNumList.slice().sort((a, b) => b - a);
     if (
       JSON.stringify(sortCheckedInputs) !== JSON.stringify(sortCategoryState) ||
-      uploadTerm !== "" + upload_term ||
-      currNickName !== nickName
+      uploadTerm !== "" + user.upload_term ||
+      currNickName !== user.nickName
     ) {
       setChangeBoolean(Boolean(false));
+      setSubmitBoolean(Boolean(false));
     } else {
       setChangeBoolean(true);
     }
-  }, [checkedInputs, uploadTerm, currNickName]);
-
-  useEffect(() => {
-    checkedInputs.map((id) => {
-      let check = selectedCategory.findIndex((i) => i === category[id]);
-      if (check === -1) {
-        setSelectedCategory([...selectedCategory, category[id]]);
-      }
-    });
-  }, [checkedInputs]);
+  }, [checkedInputs, uploadTerm, currNickName, submitBoolean]);
 
   useEffect(() => {
     const numList = ["1", "2", "3"];
@@ -78,6 +64,7 @@ function Profile() {
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
+      setSelectedCategory([...selectedCategory, category[id]]);
     } else {
       setCheckedInputs(checkedInputs.filter((el) => el !== id));
       setSelectedCategory(selectedCategory.filter((el) => el !== category[id]));
@@ -86,8 +73,53 @@ function Profile() {
 
   const saveButtonHandler = () => {
     console.log(currNickName, selectedCategory, uploadTerm);
+    const anySelectedCategory: any = selectedCategory;
+    const newUserInfo = new FormData();
+    newUserInfo.append("nickname", currNickName);
+    newUserInfo.append("upload_term", uploadTerm);
+    newUserInfo.append("contents_category", anySelectedCategory);
+
     if (checkedInputs.length === 0 || uploadTerm === "" || currNickName === "") {
       alert("입력되지 않은 칸이 존재합니다.");
+    } else {
+      axios
+        .patch(process.env.REACT_APP_BACKEND_URL + "/api/user", newUserInfo, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          alert("변경사항 저장 성공!");
+          dispatch(
+            actions.saveName({
+              inputName: user.name,
+              nickName: currNickName,
+            })
+          );
+          dispatch(
+            actions.saveChannelInfo({
+              upload_term: parseInt(uploadTerm),
+              categoryNumList: checkedInputs,
+              category: selectedCategory,
+            })
+          );
+
+          axios
+            .get(process.env.REACT_APP_BACKEND_URL + "/api/user", {
+              headers: {
+                Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+              },
+            })
+            .then((response) => {
+              console.log(response.data);
+            });
+          setSubmitBoolean(Boolean(true));
+          //window.location.replace("/mypage/profile");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
     }
   };
 
@@ -104,11 +136,11 @@ function Profile() {
 
         <div className={cx("profileImgTextContainer")}>
           <p className={cx("profileImgText")}>사용자 이미지</p>
-          <img className={cx("profileImg")} src={img_url} alt="profileImg" />
+          <img className={cx("profileImg")} src={user.img_url} alt="profileImg" />
           <p className={cx("profileTextlabel")}>연결된 구글 계정</p>
-          <p className={cx("profileText")}>{email}</p>
+          <p className={cx("profileText")}>{user.email}</p>
           <p className={cx("profileTextlabel")}>이름</p>
-          <p className={cx("profileText")}>{name}</p>
+          <p className={cx("profileText")}>{user.name}</p>
 
           <div className={cx("inputContainer")}>
             <label id="nickName" htmlFor="nickName">
@@ -122,18 +154,18 @@ function Profile() {
         <p className={cx("channelInfoTitle")}>분석하고 있는 채널 정보</p>
         <div className={cx("channelInfoImgName")}>
           <div className={cx("channelInfoImgBox")}>
-            <img className={cx("channelInfoImg")} src={channelImgUrl} alt="channelImgUrl" />
+            <img className={cx("channelInfoImg")} src={user.channelImgUrl} alt="channelImgUrl" />
           </div>
           <div className={cx("channelInfoName")}>
             채널이름
-            <br />[ {channelName} ]
+            <br />[ {user.channelTitle} ]
           </div>
         </div>
         <div className={cx("channelInfoUrlBox")}>
           채널 주소<span className={cx("channelInfoUrlDescription")}>클릭하여 채널로 이동할 수 있습니다.</span>
           <br />
-          <a className={cx("channelInfoUrl")} href={channelUrl} target="_blank">
-            {channelUrl}
+          <a className={cx("channelInfoUrl")} href={user.channelUrl} target="_blank">
+            {user.channelUrl}
           </a>
         </div>
         <div className={cx("channelUploadTerm")}>
@@ -174,7 +206,7 @@ function Profile() {
                     checked={checkedInputs.includes(idx) ? true : false}
                     key={idx}
                   />
-                  <span>{item}</span>
+                  <label htmlFor={item}>{item}</label>
                 </>
               );
             })}

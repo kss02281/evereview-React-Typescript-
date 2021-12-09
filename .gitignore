@@ -4,6 +4,7 @@ __pycache__
 venv
 migrations
 docker-mysql-dir
+docker.env
 
 .DS_Store
 node_modules

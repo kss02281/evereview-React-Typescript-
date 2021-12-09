@@ -24,6 +24,7 @@ def insert_user(**kwargs):
                 kwargs.get("contents_category"), ensure_ascii=False
             ),
             img_url=kwargs.get("img_url"),
+            admin=(kwargs.get("email") == "evereview2021@gmail.com"),
         )
         db.session.add(new_user)
         db.session.commit()
@@ -59,7 +60,9 @@ def update_user(user_id, **kwargs):
 
         user.nickname = kwargs.get("nickname")
         user.upload_term = kwargs.get("upload_term")
-        user.contents_category = json.dumps(kwargs.get("contents_category"))
+        user.contents_category = json.dumps(
+            kwargs.get("contents_category"), ensure_ascii=False
+        )
 
         db.session.commit()
         return user

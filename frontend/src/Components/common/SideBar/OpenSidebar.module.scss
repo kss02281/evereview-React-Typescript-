@@ -28,6 +28,11 @@ a {
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.87);
   transition: all 0.5s ease-in-out;
+  -webkit-user-select:none; 
+  -moz-user-select:none; 
+  -ms-user-select:none; 
+  user-select:none;
+  z-index: 3;
 }
 
 .closeSideBar {
@@ -39,12 +44,16 @@ a {
   height: 100vh;
   transition: all 0.5s ease-in-out;
   opacity: 0;
+  -webkit-user-select:none; 
+  -moz-user-select:none; 
+  -ms-user-select:none; 
+  user-select:none
 }
 
 .openDashboard {
   margin-top: calc(max(10vh, 75px));
   padding-top: 50px;
-  margin-bottom: 100px;
+  margin-bottom: 130px;
 }
 
 .openContent {
@@ -52,7 +61,7 @@ a {
 
 .openFeedback {
   font-size: 16px !important;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .AllFeedback {
@@ -67,12 +76,16 @@ a {
   margin-top: 5px;
 }
 
+.contentsFeedback{
+  margin-top: 5px;
+}
+
 .openProfile {
 }
 
 .openSetting {
-  margin-top: 10px;
-  margin-bottom: 100px;
+  margin-top: 20px;
+  margin-bottom: 130px;
 }
 
 .openNotification {

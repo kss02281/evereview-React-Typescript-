@@ -19,6 +19,10 @@ function Profile() {
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
   const [submitBoolean, setSubmitBoolean] = useState(Boolean(false));
 
+
+
+  console.log(user)
+
   useEffect(() => {
     const sortCheckedInputs = checkedInputs.slice().sort((a, b) => b - a);
     const sortCategoryState = user.categoryNumList.slice().sort((a, b) => b - a);

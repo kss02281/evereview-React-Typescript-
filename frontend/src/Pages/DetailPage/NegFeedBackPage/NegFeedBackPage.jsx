@@ -1,15 +1,15 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import { Navbar, Sidebar } from "../../Components/common";
-import SearchBar from "../../Components/SearchBar/SearchBar/SearchBar";
+import { Navbar, Sidebar } from "../../../Components/common";
+import SearchBar from "../../../Components/SearchBar/SearchBar/SearchBar";
 import classNames from "classnames/bind";
 import styles from "./NegFeedBackPage.module.scss";
-import { nowCategory } from "../../store/modules/category";
+import { nowCategory } from "../../../store/modules/category";
 import { Link } from "react-router-dom";
-import ROUTES from "../../constants/routes";
-import { actions } from "../../store/modules";
-import NegBarChart from "../../Components/barChart/NegBarChart";
-import NegLineChart from "../../Components/LineChart/NegLineChart";
+import ROUTES from "../../../constants/routes";
+import { actions } from "../../../store/modules";
+import NegBarChart from "../../../Components/barChart/NegBarChart";
+import NegLineChart from "../../../Components/LineChart/NegLineChart";
 import axios from "axios";
 
 const cx = classNames.bind(styles);
@@ -104,7 +104,7 @@ function NegFeedBackPage() {
                       <div>순위</div>
                       <div>피드백</div>
                       <div>총 댓글 수</div>
-                      <div>싫어요</div>
+                      <div>조회수</div>
                       <div>좋아요</div>
                     </div>
                     <div className={cx("feedBackComments")}>
@@ -125,7 +125,7 @@ function NegFeedBackPage() {
                                   <div>원래 댓글</div>
                                   <div>댓글 작성 일자</div>
                                   <div>좋아요</div>
-                                  <div>싫어요</div>
+                                  <div>조회수</div>
                                 </div>
                                 {Object.keys(thisData[i].details).map((data, j) => {
                                   return (

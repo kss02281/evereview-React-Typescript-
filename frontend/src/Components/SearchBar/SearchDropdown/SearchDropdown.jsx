@@ -2,26 +2,44 @@ import React, { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SearchDropdown.module.scss';
 import VideoDropdown from './VideoDropdown';
-import {  useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { actions } from "../../../store/modules";
 import axios from 'axios';
+import API_ROUTES from '../../../constants/apiRoutes';
+import queryString from "query-string";
 
 const cx = classNames.bind(styles);
 
 
 
-function SearchDropdown(props) {
+function SearchDropdown( props ) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
   const [searchWord, setSearchWord] = useState("");
 
+  const user = useSelector((state) => state.user)
+  const channel_id = user.channelUrl.substring(32)
+  
+
+
   async function getVideoSelectedList() {
-   const response = await axios.get("http://localhost:8000/videoList");
-    console.log(response.data);
-    dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(500).fill(false)})));
-    dispatch((actions.updateVideoList(response.data)))
-  }
+    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos/?channel_id=${channel_id}`, {
+      headers: {
+        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
+      },
+    })
+    .then(response => { 
+    dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
+    dispatch((actions.updateVideoList(response.data.video_items)))
+    })
+    .catch(error => {
+      console.log(error.response)
+    });
+    console.log(response)
+  }  
+  
+
 
   useEffect(() => {
     getVideoSelectedList()

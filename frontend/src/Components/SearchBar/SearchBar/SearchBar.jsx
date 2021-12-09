@@ -6,6 +6,7 @@ import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx';
 import SearchDropdown from '../SearchDropdown/SearchDropdown.jsx';
 import CommentDropdown from '../CommentDropdown/CommentDropdown';
 import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
+import { nowVideoList } from '../../../store/modules/video';
 import { nowDate } from '../../../store/modules/date';
 import { nowCategory } from '../../../store/modules/category';
 
@@ -16,6 +17,7 @@ function SearchBar() {
     const isVideoList = useSelector(nowSelectedVideoList)
     const isDate = useSelector(nowDate);
     const isCategorySelect = useSelector(nowCategory);
+    const isNowVideoList = useSelector(nowVideoList)
 
     const commentSubmit = () => {
         console.log(isDate)
@@ -25,7 +27,7 @@ function SearchBar() {
         const selectedVideoArray = []
         for (let i = 0; i < isVideoList.selectedVideoList.length; i++) {
             if (isVideoList.selectedVideoList[i] === true) {
-                selectedVideoArray.push(i)
+                selectedVideoArray.push(isNowVideoList[i].id)
             }
         }
         console.log(selectedVideoArray)

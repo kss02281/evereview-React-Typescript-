@@ -6,10 +6,11 @@
   background-color: white;
   display: grid;
   grid-template-rows: 1fr 7fr 2fr;
-  z-index: 2;
+  z-index: 5;
 }
 
 .sideLogo {
+  position: relative;
   text-align: center;
   svg {
     width: 45px !important;
@@ -24,7 +25,7 @@
   padding-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 90px;
+  gap: 120px;
   align-items: center;
   svg {
     width: 30px !important;
@@ -58,7 +59,6 @@
 
 .openButton {
   position: absolute;
-  width: calc(5vw+50px);
   min-width: 125px;
   height: 45px;
   display: flex;

@@ -1,6 +1,21 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { AboutPage, LoginPage, MainPage, NotFound, SignUpPage, DashBoard, Contents, Profile, Setting, Notification, AllFeedBackPage, PosFeedBackPage, NegFeedBackPage } from "./Pages";
+import {
+  AboutPage,
+  LoginPage,
+  MainPage,
+  NotFound,
+  SignUpPage,
+  DashBoard,
+  Contents,
+  Profile,
+  Setting,
+  Notification,
+  AllFeedBackPage,
+  PosFeedBackPage,
+  NegFeedBackPage,
+  ContentsFeedBackPage,
+} from "./Pages";
 import ROUTES from "./constants/routes";
 
 const Root: React.FC = () => (
@@ -19,6 +34,7 @@ const Root: React.FC = () => (
       <Route path={ROUTES.ALLFEEDBACK} component={AllFeedBackPage} />
       <Route path={ROUTES.POSFEEDBACK} component={PosFeedBackPage} />
       <Route path={ROUTES.NEGFEEDBACK} component={NegFeedBackPage} />
+      <Route path={ROUTES.CONTENTSFEEDBACK} component={ContentsFeedBackPage} />
       <Redirect path="*" to="/notFound" />
     </Switch>
   </BrowserRouter>

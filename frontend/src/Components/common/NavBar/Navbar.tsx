@@ -43,6 +43,7 @@ function Navbar() {
       })
       .catch((error) => {
         alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
+        window.localStorage.removeItem("token");
         dispatch(
           actions.saveAllUserInfo({
             email: "",
@@ -50,6 +51,7 @@ function Navbar() {
             img_url: "",
             nickName: "",
             category: [],
+            categoryNumList: [],
             upload_term: 0,
             inputName: "",
           })

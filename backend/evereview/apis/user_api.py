@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 

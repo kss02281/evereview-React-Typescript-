@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SearchDropdown.module.scss';
 import VideoDropdown from './VideoDropdown';
-import {  useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { actions } from "../../../store/modules";
 import axios from 'axios';
+import API_ROUTES from '../../../constants/apiRoutes';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +17,9 @@ function SearchDropdown(props) {
   const [isLeave, setIsLeave] = useState(false);
   const [searchWord, setSearchWord] = useState("");
 
+  const user = useSelector((state) => state.user)
+  const channel_id = user.channelUrl.substring(32)
+
   async function getVideoSelectedList() {
    const response = await axios.get("http://localhost:8000/videoList");
     console.log(response.data);
@@ -23,8 +27,44 @@ function SearchDropdown(props) {
     dispatch((actions.updateVideoList(response.data)))
   }
 
+  async function tA() {
+    const parameter = {
+    channel_id: `${channel_id}`
+    };
+    const config = {
+      headers: {
+        "Authorization": `Bearer ${window.localStorage.getItem("token")}`
+      },
+    }
+    const videoForm = new FormData();
+    videoForm.append("channel_id", channel_id);
+    
+    console.log(videoForm)
+    console.log(config.headers)
+    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + "/api/videos", {
+      channel_id: channel_id
+    }, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+      },
+    })
+    .then(response => { 
+    console.log(response)
+    })
+    .catch(error => {
+      console.log(error.response)
+    });
+    console.log(response)
+  }
+  
+
+  
+  
+
+
   useEffect(() => {
     getVideoSelectedList()
+    tA()
     console.log('get Data!')
   },[]);
 

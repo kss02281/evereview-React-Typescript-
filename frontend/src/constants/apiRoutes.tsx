@@ -4,6 +4,7 @@ const API_ROUTES = {
     },
     GET: {
       COMMENT: '/api/get/comment',
+      VIDEOS: '/api/videos',
     }
   };
   

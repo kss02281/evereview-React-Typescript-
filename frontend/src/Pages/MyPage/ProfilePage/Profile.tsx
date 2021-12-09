@@ -27,6 +27,7 @@ function Profile() {
 
   const user = useSelector((state: ReducerType) => state.user)
 
+
   console.log(user)
 
   useEffect(() => {

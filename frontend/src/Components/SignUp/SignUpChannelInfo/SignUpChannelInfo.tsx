@@ -3,7 +3,7 @@ import styles from "./SignUpChannelInfo.module.scss";
 import classNames from "classnames/bind";
 import { UilEditAlt } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
-import { actions } from "../../../store/modules";
+import { actions } from "store/modules";
 
 const cx = classNames.bind(styles);
 

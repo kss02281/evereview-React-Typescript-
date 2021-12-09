@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./SignUpPage.module.scss";
-import { Navbar } from "../../Components/common";
+import { Navbar } from "Components/common";
 import { SignUpStart, SignUpUserInfo, SignUpChannelInfo, SignUpFinish } from "../../Components/SignUp";
 
 const cx = classNames.bind(styles);

@@ -4,7 +4,8 @@ from datetime import timedelta
 JSON_AS_ASCII = False
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+# JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=10)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=14)
 
 SECRET_KEY = "dev"
@@ -12,7 +13,7 @@ JWT_SECRET_KEY = "dev"
 
 DB_HOST = "localhost"
 USER = "root"
-PASSWORD = "pw123"
+PASSWORD = "1234"
 DB_NAME = "evereview"
 SQLALCHEMY_DATABASE_URI = (
     f"mysql+pymysql://{USER}:{PASSWORD}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"

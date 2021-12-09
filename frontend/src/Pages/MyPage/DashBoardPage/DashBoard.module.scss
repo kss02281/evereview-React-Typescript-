@@ -15,7 +15,7 @@
 
 .sideLine{
     position: relative;
-    z-index: 1;
+    z-index: 4;
     width: 2px;
     height: 90%;
     align-self: center;
@@ -197,7 +197,7 @@ div.recharts-wrapper{
   margin-top: 10px;
 }
 
-.squareLike{
+.allSquareLike{
   display: inline-block;
   width: 0.7vw;
   height: 0.7vw;
@@ -207,7 +207,7 @@ div.recharts-wrapper{
   border-radius: 36px;
 }
 
-.squareComment{
+.allSquareComment{
   display: inline-block;
   width: 0.7vw;
   height: 0.7vw;
@@ -217,7 +217,61 @@ div.recharts-wrapper{
   border-radius: 36px;
 }
 
-.squareP{
+.allSquareP{
+  display: inline-block;
+  font-family: $notoSans;
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.negSquareLike{
+  display: inline-block;
+  width: 0.7vw;
+  height: 0.7vw;
+  background-color: #FF6969;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 36px;
+}
+
+.negSquareComment{
+  display: inline-block;
+  width: 0.7vw;
+  height: 0.7vw;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #E11C1C;
+  border-radius: 36px;
+}
+
+.negSquareP{
+  display: inline-block;
+  font-family: $notoSans;
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.posSquareLike{
+  display: inline-block;
+  width: 0.7vw;
+  height: 0.7vw;
+  background-color: #B4B0FF;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 36px;
+}
+
+.posSquareComment{
+  display: inline-block;
+  width: 0.7vw;
+  height: 0.7vw;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #8884D8;
+  border-radius: 36px;
+}
+
+.posSquareP{
   display: inline-block;
   font-family: $notoSans;
   font-size: 1vw;

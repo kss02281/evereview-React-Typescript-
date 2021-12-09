@@ -100,11 +100,11 @@ function DashBoardVideo() {
       <div className={cx("dashBoardWrapMiddle")}>
         <div className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>모든 피드백</p>
-          <div className={cx("squareWrap")}>
-            <div className={cx("squareLike")}></div>
-            <p className={cx("squareP")}>좋아요 수</p>
-            <div className={cx("squareComment")}></div>
-            <p className={cx("squareP")}>댓글 수</p>
+          <div className={cx("allSquareWrap")}>
+            <div className={cx("allSquareLike")}></div>
+            <p className={cx("allSquareP")}>좋아요 수</p>
+            <div className={cx("allSquareComment")}></div>
+            <p className={cx("allSquareP")}>댓글 수</p>
           </div>
           <div className={cx("allBarChart")}>
             {thisData.map((data, i) => {
@@ -144,10 +144,10 @@ function DashBoardVideo() {
           <div className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>긍정 피드백</p>
             <div className={cx("squareWrap")}>
-              <div className={cx("squareLike")}></div>
-              <p className={cx("squareP")}>좋아요 수</p>
-              <div className={cx("squareComment")}></div>
-              <p className={cx("squareP")}>댓글 수</p>
+              <div className={cx("posSquareLike")}></div>
+              <p className={cx("posSquareP")}>좋아요 수</p>
+              <div className={cx("posSquareComment")}></div>
+              <p className={cx("posSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
               {thisData.map((data, i) => {
@@ -168,11 +168,11 @@ function DashBoardVideo() {
           </div>
           <div className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>부정 피드백</p>
-            <div className={cx("squareWrap")}>
-              <div className={cx("squareLike")}></div>
-              <p className={cx("squareP")}>좋아요 수</p>
-              <div className={cx("squareComment")}></div>
-              <p className={cx("squareP")}>댓글 수</p>
+            <div className={cx("negSquareWrap")}>
+              <div className={cx("negSquareLike")}></div>
+              <p className={cx("negSquareP")}>좋아요 수</p>
+              <div className={cx("negSquareComment")}></div>
+              <p className={cx("negSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
               {thisData.map((data, i) => {

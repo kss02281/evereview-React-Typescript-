@@ -19,7 +19,6 @@ function Profile() {
   const [changeBoolean, setChangeBoolean] = useState(Boolean(true));
   const [submitBoolean, setSubmitBoolean] = useState(Boolean(false));
 
-  const user = useSelector((state: ReducerType) => state.user)
 
 
   console.log(user)

@@ -1,21 +1,20 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect, useState} from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import { Navbar, Sidebar } from '../../Components/common';
-import SearchBar from '../../Components/SearchBar/SearchBar/SearchBar';
+import { Navbar, Sidebar } from '../../../Components/common';
+import SearchBar from '../../../Components/SearchBar/SearchBar/SearchBar';
 import classNames from "classnames/bind";
-import styles from "./PosFeedBackPage.module.scss";
-import { nowCategory } from '../../store/modules/category';
-import ROUTES from '../../constants/routes';
+import styles from "./AllFeedBackPage.module.scss";
+import { nowCategory } from '../../../store/modules/category';
 import { Link } from 'react-router-dom';
-import { actions } from '../../store/modules';
-import PosBarChart from '../../Components/barChart/PosBarChart';
-import PosLineChart from '../../Components/LineChart/PosLineChart';
+import ROUTES from '../../../constants/routes';
+import { actions } from '../../../store/modules';
+import AllBarChart from '../../../Components/barChart/AllBarChart';
+import AllLineChart from '../../../Components/LineChart/AllLineChart';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
-
-function PosFeedBackPage() {
+function AllFeedBackPage() {
 
   const [thisData,setThisData] = useState([])
   const [thissData,setThissData] = useState([])
@@ -52,11 +51,11 @@ function PosFeedBackPage() {
     setThissData(thissData.concat(testArr))
     console.log(thissData)
   };
-
-    return (
-      <Fragment>
+  
+  return (
+    <Fragment>
       <div className={cx('feedBackContainer')}>
-      <Sidebar id={4} />
+      <Sidebar id={3} />
       <div className={cx("sideLine")}></div>
       <div className={cx("feedBackWrap")}>
         <div className={cx("feedBackWrapHeader")}>
@@ -69,8 +68,8 @@ function PosFeedBackPage() {
           
         </div>
         <div className={cx("feedBackContentWrap")}>
-          <Link className={cx("allFeedbackSelect")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>모든 피드백</Link>
-          <Link className={cx("posFeedbackSelected")} to={ROUTES.POSFEEDBACK} onClick={setVideo}>긍정 피드백</Link>
+          <Link className={cx("allFeedbackSelected")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>모든 피드백</Link>
+          <Link className={cx("posFeedbackSelect")} to={ROUTES.POSFEEDBACK} onClick={setVideo}>긍정 피드백</Link>
           <Link className={cx("negFeedbackSelect")} to={ROUTES.NEGFEEDBACK} onClick={setVideo}>부정 피드백</Link>
           <div className={cx("feedBackContent")}>
             <div className={cx("feedBackPageSearch")}>
@@ -81,7 +80,7 @@ function PosFeedBackPage() {
                 <div></div>
                 <div></div>
                 <div className={cx("feedBackBarGrpah")}>
-                { isCategorySelect.category === '영상별 분석' ? <PosBarChart /> : <PosLineChart /> }
+                { isCategorySelect.category === '영상별 분석' ? <AllBarChart /> : <AllLineChart /> }
                 </div>
                 <div>
                   <div className={cx("allBarChart")}>
@@ -103,7 +102,7 @@ function PosFeedBackPage() {
                   <div>순위</div>
                   <div>피드백</div>
                   <div>총 댓글 수</div>
-                  <div>싫어요</div>
+                  <div>조회수</div>
                   <div>좋아요</div>
                 </div>
                 <div className={cx("feedBackComments")}>
@@ -124,7 +123,7 @@ function PosFeedBackPage() {
                           <div>원래 댓글</div>
                           <div>댓글 작성 일자</div>
                           <div>좋아요</div>
-                          <div>싫어요</div>
+                          <div>조회수</div>
                         </div>
                         {Object.keys(thisData[i].details).map((data, j) => {
                       return (
@@ -157,4 +156,4 @@ function PosFeedBackPage() {
   );
 }
 
-export default PosFeedBackPage;
+export default AllFeedBackPage;

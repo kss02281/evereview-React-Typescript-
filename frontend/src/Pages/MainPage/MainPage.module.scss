@@ -12,6 +12,11 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  -webkit-user-select:none; 
+  -moz-user-select:none; 
+  -ms-user-select:none; 
+  user-select:none
+
 }
 
 .leftContainer {

@@ -6,19 +6,34 @@ import uuid
 from celery import Celery
 import pandas as pd
 import numpy as np
+import pymysql
 
 from predict_worker.youtube.data_etl import review_etl
 from predict_worker.db_connect import get_mysql_engine
+from predict_worker.utils.exceptions import VideosDateException
 
+pymysql.install_as_MySQLdb()
 
 RABBITMQ_USER = os.environ.get("RABBITMQ_DEFAULT_USER")
 RABBITMQ_PASSWORD = os.environ.get("RABBITMQ_DEFAULT_PASS")
 RABBITMQ_HOST = os.environ.get("RABBITMQ_HOST")
+DB_HOST = os.environ.get("DB_HOST")
+DB_USER = os.environ.get("DB_USER")
+DB_PASS = os.environ.get("DB_PASS")
+DB_NAME = os.environ.get("DB_NAME")
 
 CELERY_BROKER_URL = f"pyamqp://{RABBITMQ_USER}:{RABBITMQ_PASSWORD}@{RABBITMQ_HOST}//"
-CELERY_RESULT_BACKEND = "rpc://"
+CELERY_RESULT_BACKEND = (
+    f"db+mysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"
+)
 
 app = Celery("evereview", broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
+
+app.conf.update(
+    task_track_started=True,
+    result_expires=86400,  # one day,
+    timezone="Asia/Seoul",
+)
 
 
 @app.task(name="evereview.predict", bind=True)
@@ -32,7 +47,7 @@ def predict(self, user_id, channel_id, **kwargs):
     if videos and day_start and day_end:
         # 영상별 + 기간별
         # 실패(임시)
-        return {"result": "fail"}
+        raise VideosDateException()
     elif videos:
         # 영상별
         comment_list = review_extracter.extract(video_id=videos)
@@ -43,7 +58,7 @@ def predict(self, user_id, channel_id, **kwargs):
         )
     else:
         # 실패
-        return {"result": "fail"}
+        raise VideosDateException()
 
     ## extract raw text
     # textOriginal 리스트 or df 생성

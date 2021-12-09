@@ -12,3 +12,12 @@ class Analysis(db.Model):
         nullable=False,
     )
     analysis_at = db.Column(db.DateTime(), nullable=False)
+
+    def to_dict(self):
+        result = {
+            "id": self.id,
+            "user_id": self.id,
+            "analysis_at": self.analysis_at.isoformat(),
+        }
+
+        return result

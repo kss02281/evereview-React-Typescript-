@@ -14,8 +14,7 @@ from evereview.apis.user_api import api as user_namespace
 from evereview.apis.channel_api import api as channel_namespace
 from evereview.apis.video_api import api as video_namespace
 from evereview.apis.comment_api import api as comment_namespace
-from evereview.apis.chart_api import chart_namespace
-from evereview.apis.analysis_api import analysis_namespace
+from evereview.apis.analysis_api import api as analysis_namespace
 
 
 def create_app():
@@ -39,7 +38,6 @@ def create_app():
     restx.add_namespace(channel_namespace)
     restx.add_namespace(video_namespace)
     restx.add_namespace(comment_namespace)
-    restx.add_namespace(chart_namespace)
     restx.add_namespace(analysis_namespace)
 
     @restx.errorhandler

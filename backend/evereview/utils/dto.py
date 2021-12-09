@@ -152,3 +152,52 @@ class CommentDto:
     comment_list = api.model(
         "comment_list", {"comment_items": fields.List(fields.Nested(comment))}
     )
+
+
+class AnalysisDto:
+    api = Namespace("analysis", description="분석 api")
+
+    fail = api.model(
+        "fail", {"result": fields.String(default="fail"), "message": fields.String}
+    )
+    predict = api.model("predict", {"analisys_id": fields.String})
+    analysis = api.model(
+        "analysis",
+        {
+            "id": fields.String,
+            "analysis_at": fields.DateTime,
+        },
+    )
+    comment = api.model(
+        "comment",
+        {
+            "comment_id": fields.String,
+            "cluster_id": fields.String,
+            "video_id": fields.String,
+            "author": fields.String,
+            "author_img_url": fields.String,
+            "text_display": fields.String,
+            "text_original": fields.String,
+            "like_count": fields.Integer,
+            "published_at": fields.DateTime,
+        },
+    )
+    cluster = api.model(
+        "cluster",
+        {
+            "id": fields.String,
+            "top_comment": fields.Nested(comment),
+            "code": fields.String,
+            "code_description": fields.String,
+            "count": fields.Integer,
+            "like_count": fields.Integer,
+        },
+    )
+    result = api.model(
+        "result",
+        {
+            "state": fields.String,
+            "analisys": fields.Nested(analysis),
+            "clusters": fields.List(fields.Nested(cluster)),
+        },
+    )

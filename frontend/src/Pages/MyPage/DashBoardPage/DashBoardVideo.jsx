@@ -135,7 +135,7 @@ function DashBoardVideo() {
             })}
           </div>
           <div className={cx("pieGraph")}>
-            <PieChartC />
+            <PieChartC data={gameData} />
           </div>
         </div>
       </div>

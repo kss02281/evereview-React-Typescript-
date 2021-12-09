@@ -10,9 +10,11 @@ def get_comments(cluster_id):
     return result
 
 
-def get_comment(comment_id):
-    comment = Comment.query.filter_by(comment_id=comment_id).one_or_none()
-    return comment
+def get_comment(cluster_id, comment_id):
+    comment = Comment.query.filter_by(
+        id=comment_id, cluster_id=cluster_id
+    ).one_or_none()
+    return comment.to_dict()
 
 
 def insert_comment(**kwargs):

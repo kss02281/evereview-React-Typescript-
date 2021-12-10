@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import ROUTES from "../../../constants/routes";
 import styles from "./Sidebar.module.scss";
@@ -27,7 +27,7 @@ function Sidebar(props) {
   const grey = "#2f2f2f50";
   const blue = "#6563FF";
   const [isActive, setActive] = useState(false);
-  const logOut = () => {
+  const logOut = useCallback(() => {
     dispatch(
       actions.saveAllUserInfo({
         email: "",
@@ -42,7 +42,7 @@ function Sidebar(props) {
     );
     dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
     dispatch(actions.loginSuccess({ success: Boolean(false) }));
-  };
+  }, []);
   const handleToggle = () => {
     setActive(!isActive);
   };

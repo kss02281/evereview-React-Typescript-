@@ -2,7 +2,7 @@ import styles from "./NavBarProfile.module.scss";
 import classNames from "classnames/bind";
 import ROUTES from "constants/routes";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { actions } from "store/modules";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -37,6 +37,23 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
     history.push(ROUTES.PROFILE);
   };
 
+  const logoutDispatch = useCallback(() => {
+    dispatch(
+      actions.saveAllUserInfo({
+        email: "",
+        name: "",
+        img_url: "",
+        nickName: "",
+        category: [],
+        categoryNumList: [],
+        upload_term: 0,
+        inputName: "",
+      })
+    );
+    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+  }, []);
+
   const logoutHandler = () => {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/auth/signout", {
@@ -47,38 +64,12 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
       .then((response) => {
         console.log(response.data);
         window.localStorage.removeItem("token");
-        dispatch(
-          actions.saveAllUserInfo({
-            email: "",
-            name: "",
-            img_url: "",
-            nickName: "",
-            category: [],
-            categoryNumList: [],
-            upload_term: 0,
-            inputName: "",
-          })
-        );
-        dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-        dispatch(actions.loginSuccess({ success: Boolean(false) }));
+        logoutDispatch();
       })
       .catch((error) => {
         if (error.response.status === 403) {
           alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
-          dispatch(
-            actions.saveAllUserInfo({
-              email: "",
-              name: "",
-              img_url: "",
-              nickName: "",
-              category: [],
-              categoryNumList: [],
-              upload_term: 0,
-              inputName: "",
-            })
-          );
-          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+          logoutDispatch();
         }
       });
   };

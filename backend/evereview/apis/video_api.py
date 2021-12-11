@@ -37,7 +37,7 @@ class Video(Resource):
         return result, 200
 
 
-@api.route("/")
+@api.route("")
 @api.response(200, "Video Success", VideoDto.video_list)
 @api.response(400, "Channel Fail(잘못된 요청)", VideoDto.fail)
 @api.response(403, "Channel Fail(권한 없음)", VideoDto.fail)

@@ -136,8 +136,8 @@ class CommentDto:
     fail = api.model(
         "fail", {"result": fields.String(default="fail"), "message": fields.String}
     )
-    video = api.model(
-        "video",
+    video_with_comment = api.model(
+        "video_with_comment",
         {
             "title": fields.String,
             "view_count": fields.Integer,
@@ -153,7 +153,7 @@ class CommentDto:
             "text_original": fields.String,
             "like_count": fields.Integer,
             "published_at": fields.DateTime,
-            "video": fields.Nested(video),
+            "video": fields.Nested(video_with_comment),
         },
     )
     comment_list = api.model(
@@ -175,8 +175,8 @@ class AnalysisDto:
             "analysis_at": fields.DateTime,
         },
     )
-    comment = api.model(
-        "comment",
+    top_comment = api.model(
+        "top_comment",
         {
             "comment_id": fields.String,
             "cluster_id": fields.String,
@@ -193,7 +193,7 @@ class AnalysisDto:
         "cluster",
         {
             "id": fields.String,
-            "top_comment": fields.Nested(comment),
+            "top_comment": fields.Nested(top_comment),
             "code": fields.String,
             "code_description": fields.String,
             "count": fields.Integer,

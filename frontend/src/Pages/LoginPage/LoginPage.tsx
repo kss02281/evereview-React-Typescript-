@@ -37,7 +37,7 @@ function LoginPage() {
         inputName: "",
       })
     );
-    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+    dispatch(actions.saveYoutubeInfo({ channelId: "", channelUrl: "", channelTitle: "", channelImgUrl: "" }));
     dispatch(actions.loginSuccess({ success: Boolean(false) }));
   }, []);
 
@@ -69,6 +69,7 @@ function LoginPage() {
               console.log(channelInfo[0]);
               dispatch(
                 actions.saveYoutubeInfo({
+                  channelId: channelInfo[0].id,
                   channelUrl: channelInfo[0].channel_url,
                   channelTitle: channelInfo[0].title,
                   channelImgUrl: channelInfo[0].img_url,

@@ -1,14 +1,17 @@
 import React from "react";
 import styles from "./DashBoard.module.scss";
 import classNames from "classnames/bind";
-import PieChartC from "../../../Components/PieChart/PieChart";
-import AllBarChart from "../../../Components/barChart/AllBarChart.tsx";
-import NegBarChart from "../../../Components/barChart/NegBarChart.tsx";
-import PosBarChart from "../../../Components/barChart/PosBarChart.tsx";
+import PieChartC from "Components/PieChart/PieChart";
+import AllBarChart from "Components/barChart/AllBarChart.tsx";
+import NegBarChart from "Components/barChart/NegBarChart.tsx";
+import PosBarChart from "Components/barChart/PosBarChart.tsx";
+import { useHistory } from "react-router";
+import ROUTES from "constants/routes";
 
 const cx = classNames.bind(styles);
 
 function DashBoardVideo() {
+  const history = useHistory();
   const thisData = [
     {
       id: 1,
@@ -95,6 +98,10 @@ function DashBoardVideo() {
     { name: "스타크래프트", value: 100 },
   ];
 
+  const goContentsFeedBack = () => {
+    history.push(`${ROUTES.CONTENTSFEEDBACK}`);
+  };
+
   return (
     <>
       <div className={cx("dashBoardWrapMiddle")}>
@@ -121,7 +128,7 @@ function DashBoardVideo() {
           </div>
         </div>
         <div className={cx("dashBoardWrapMiddleBlank")}></div>
-        <div className={cx("dashBoardAllFeedback")}>
+        <div onClick={goContentsFeedBack} className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>

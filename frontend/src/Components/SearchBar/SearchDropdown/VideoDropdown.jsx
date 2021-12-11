@@ -62,7 +62,7 @@ function VideoDropdown(searchWord) {
   const [nowPage,setNowPage] = useState("")
 
   async function getVideos() {
-    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos/?channel_id=${channel_id}&page_token=${nowPage}`, {
+    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${nowPage}`, {
       headers: {
         'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
       },

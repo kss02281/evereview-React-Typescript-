@@ -98,7 +98,7 @@ def predict(self, user_id, channel_id, **kwargs):
             code.append("F" + cluster[1])
         elif fc == 1:
             cluster = content_cluster_list[random.randrange(len(content_cluster_list))]
-            cluster_id.append(cluster[0])
+            cluster_id.append(cluster)
             code.append("C")
     comment_list["cluster_id"] = cluster_id
     comment_list["code"] = code

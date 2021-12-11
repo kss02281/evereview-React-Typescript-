@@ -1,11 +1,10 @@
 from datetime import datetime
 
-from flask_restx import Namespace, Resource, reqparse, inputs
+from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from celery import states
 
 from evereview.utils.dto import AnalysisDto
-from evereview.services.analysis_service import Analysis
 from evereview.services.channel_service import get_channel
 from evereview.services.video_service import get_videos
 from evereview.services.analysis_service import get_analysis

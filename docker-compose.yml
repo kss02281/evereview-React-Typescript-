@@ -46,4 +46,4 @@ services:
         ports:
             - "5000:5000"
         working_dir: /app
-        command: gunicorn evereview.app:application -b 0.0.0.0:5000 --workers=4 --threads=4
+        command: gunicorn evereview.app:application -b 0.0.0.0:5000 --workers=4 --threads=4 --log-level error

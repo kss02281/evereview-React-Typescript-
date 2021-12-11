@@ -6,7 +6,12 @@ def get_comments(cluster_id):
 
     result = []
     for comment in comments:
-        result.append(comment.to_dict())
+        item = comment.to_dict()
+        item["video"] = {
+            "title": comment.video.title,
+            "view_count": comment.video.view_count,
+        }
+        result.append(item)
     return result
 
 
@@ -14,7 +19,16 @@ def get_comment(cluster_id, comment_id):
     comment = Comment.query.filter_by(
         id=comment_id, cluster_id=cluster_id
     ).one_or_none()
-    return comment.to_dict()
+
+    if comment is None:
+        return comment
+
+    result = comment.to_dict()
+    result["video"] = {
+        "title": comment.video.title,
+        "view_count": comment.video.view_count,
+    }
+    return result
 
 
 def insert_comment(**kwargs):

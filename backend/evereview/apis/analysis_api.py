@@ -1,11 +1,10 @@
 from datetime import datetime
 
-from flask_restx import Namespace, Resource, reqparse, inputs
+from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from celery import states
 
 from evereview.utils.dto import AnalysisDto
-from evereview.services.analysis_service import Analysis
 from evereview.services.channel_service import get_channel
 from evereview.services.video_service import get_videos
 from evereview.services.analysis_service import get_analysis
@@ -49,20 +48,20 @@ class Predict(Resource):
         "day_start",
         type=str,
         location="form",
-        help="시작 날짜",
+        help="시작 날짜 : YYYY-MM-dd",
     )
     predict_parser.add_argument(
         "day_end",
         type=str,
         location="form",
-        help="마지막 날짜",
+        help="마지막 날짜: YYYY-MM-dd",
     )
 
     @api.expect(predict_parser)
     @jwt_required()
     def post(self):
         """
-        ToDo
+        분석 요청하기
             1. day_start < day_end
                 - 날짜 포맷 정하기
                 - 입력, worker에서 날짜 포맷 통일
@@ -86,6 +85,10 @@ class Predict(Resource):
                 return {"result": "fail", "message": f"없는 영상입니다.({video})"}, 404
 
         # day validate startdate < enddate
+        if day_start:
+            day_start = datetime.strptime(day_start, "%Y-%m-%d")
+        if day_end:
+            day_end = datetime.strptime(day_end, "%Y-%m-%d")
 
         if videos and (day_start or day_end):
             return {"result": "fail", "message": "비디오랑 날짜 둘 중 한가지만 입력해주세요"}, 400

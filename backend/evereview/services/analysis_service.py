@@ -8,10 +8,10 @@ def get_analysis(analysis_id):
 
 
 def get_analysises(user_id):
-    analysises = Analysis.query.filter_by(id=analysis_id).one_or_none()
+    analysises = Analysis.query.filter_by(id=user_id).all()
 
     result = []
     for analysis in analysises:
-        result.append(analysises.to_dict())
+        result.append(analysis.to_dict())
 
     return result

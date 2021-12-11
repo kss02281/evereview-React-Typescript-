@@ -86,9 +86,7 @@ def predict(self, user_id, channel_id, **kwargs):
         (uuid.uuid4().hex[:8], "P" if random.randrange(0, 2) == 1 else "N")
         for _ in range(10)
     ]
-    content_cluster_list = [
-        (uuid.uuid4().hex[:8], str(random.randrange(0, 10))) for _ in range(10)
-    ]
+    content_cluster_list = [uuid.uuid4().hex[:8] for _ in range(10)]
     cluster_id = []
     code = []
     for fc in feedback_or_content:
@@ -100,8 +98,8 @@ def predict(self, user_id, channel_id, **kwargs):
             code.append("F" + cluster[1])
         elif fc == 1:
             cluster = content_cluster_list[random.randrange(len(content_cluster_list))]
-            cluster_id.append(cluster[0])
-            code.append("C" + cluster[1])
+            cluster_id.append(cluster)
+            code.append("C")
     comment_list["cluster_id"] = cluster_id
     comment_list["code"] = code
 

@@ -1,4 +1,4 @@
-import React, { Reducer, useEffect, useState } from "react";
+import React, { Reducer, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import ROUTES from "constants/routes";
 import styles from "./Navbar.module.scss";
@@ -17,6 +17,43 @@ function Navbar() {
   const [imgUrl, setImgUrl] = useState("" as string);
   const [nickName, setNickName] = useState("" as string);
 
+  const logoutDispatch = useCallback(() => {
+    dispatch(
+      actions.saveAllUserInfo({
+        email: "",
+        name: "",
+        img_url: "",
+        nickName: "",
+        category: [],
+        categoryNumList: [],
+        upload_term: 0,
+        inputName: "",
+      })
+    );
+    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+  }, []);
+  const category: string[] = ["먹방", "일상", "리뷰", "게임", "피트니스", "ASMR", "주식", "부동산", "이슈", "교육", "기타"];
+  var categoryNumList: number[] = [];
+  const loginDispatch = useCallback((userInfo) => {
+    categoryNumList = userInfo.contents_category.map((element: string) => {
+      return category.indexOf(element);
+    });
+    dispatch(
+      actions.saveAllUserInfo({
+        email: userInfo.email,
+        name: userInfo.name,
+        img_url: userInfo.img_url,
+        nickName: userInfo.nickname,
+        category: userInfo.contents_category,
+        categoryNumList: categoryNumList,
+        upload_term: userInfo.upload_term,
+        inputName: "",
+      })
+    );
+    console.log(userInfo.contents_category);
+  }, []);
+
   const getUserInfo = () => {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/user", {
@@ -27,38 +64,14 @@ function Navbar() {
       .then((response) => {
         console.log(response.data);
         const userInfo = response.data;
-        dispatch(
-          actions.saveAllUserInfo({
-            email: userInfo.email,
-            name: userInfo.name,
-            img_url: userInfo.img_url,
-            nickName: userInfo.nickname,
-            category: userInfo.contents_category,
-            upload_term: userInfo.upload_term,
-            inputName: "",
-          })
-        );
+        loginDispatch(userInfo);
         setImgUrl(userInfo.img_url);
         setNickName(userInfo.nickname);
       })
       .catch((error) => {
         alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
         window.localStorage.removeItem("token");
-        dispatch(
-          actions.saveAllUserInfo({
-            email: "",
-            name: "",
-            img_url: "",
-            nickName: "",
-            category: [],
-            categoryNumList: [],
-            upload_term: 0,
-            inputName: "",
-          })
-        );
-        dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-
-        dispatch(actions.loginSuccess({ success: Boolean(false) }));
+        logoutDispatch();
       });
   };
 

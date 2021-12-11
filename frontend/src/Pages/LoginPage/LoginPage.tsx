@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import classNames from "classnames/bind";
 import styles from "./LoginPage.module.scss";
@@ -23,6 +23,23 @@ function LoginPage() {
     const code = res.code;
     requestSignin(code);
   };
+
+  const logoutDispatch = useCallback(() => {
+    dispatch(
+      actions.saveAllUserInfo({
+        email: "",
+        name: "",
+        img_url: "",
+        nickName: "",
+        category: [],
+        categoryNumList: [],
+        upload_term: 0,
+        inputName: "",
+      })
+    );
+    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+  }, []);
 
   const requestSignin = (code: string) => {
     const signinForm = new FormData();
@@ -60,20 +77,7 @@ function LoginPage() {
             } else {
               alert("YouTube 채널이 존재하지 않습니다. 채널을 생성한 후에 다시 로그인 해주세요.");
               window.localStorage.removeItem("token");
-              dispatch(
-                actions.saveAllUserInfo({
-                  email: "",
-                  name: "",
-                  img_url: "",
-                  nickName: "",
-                  category: [],
-                  categoryNumList: [],
-                  upload_term: 0,
-                  inputName: "",
-                })
-              );
-              dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-              dispatch(actions.loginSuccess({ success: Boolean(false) }));
+              logoutDispatch();
             }
           })
           .catch((error) => {
@@ -89,20 +93,7 @@ function LoginPage() {
         if (error.response.status === 403) {
           alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
           window.localStorage.removeItem("token");
-          dispatch(
-            actions.saveAllUserInfo({
-              email: "",
-              name: "",
-              img_url: "",
-              nickName: "",
-              category: [],
-              categoryNumList: [],
-              upload_term: 0,
-              inputName: "",
-            })
-          );
-          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+          logoutDispatch();
         }
       });
   };
@@ -121,20 +112,7 @@ function LoginPage() {
         if (error.response.status === 403) {
           alert("토큰이 만료되었습니다! 다시 로그인 해주세요!");
           window.localStorage.removeItem("token");
-          dispatch(
-            actions.saveAllUserInfo({
-              email: "",
-              name: "",
-              img_url: "",
-              nickName: "",
-              category: [],
-              categoryNumList: [],
-              upload_term: 0,
-              inputName: "",
-            })
-          );
-          dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-          dispatch(actions.loginSuccess({ success: Boolean(false) }));
+          logoutDispatch();
         }
       });
   }, []);

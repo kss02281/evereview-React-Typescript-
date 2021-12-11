@@ -24,6 +24,8 @@ class Comment(db.Model):
     like_count = db.Column(db.Integer, nullable=False)
     published_at = db.Column(db.DateTime(), nullable=False)
 
+    video = db.relationship("Video", backref="video", lazy="joined")
+
     def to_dict(self):
         result = {
             "id": self.id,

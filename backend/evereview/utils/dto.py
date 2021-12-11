@@ -136,7 +136,13 @@ class CommentDto:
     fail = api.model(
         "fail", {"result": fields.String(default="fail"), "message": fields.String}
     )
-
+    video = api.model(
+        "video",
+        {
+            "title": fields.String,
+            "view_count": fields.Integer,
+        },
+    )
     comment = api.model(
         "comment",
         {
@@ -147,6 +153,7 @@ class CommentDto:
             "text_original": fields.String,
             "like_count": fields.Integer,
             "published_at": fields.DateTime,
+            "video": fields.Nested(video),
         },
     )
     comment_list = api.model(

@@ -2,9 +2,11 @@ import React from "react";
 import styles from "./DashBoard.module.scss";
 import classNames from "classnames/bind";
 import PieChartC from "../../../Components/PieChart/PieChart";
-import AllBarChart from "../../../Components/barChart/AllBarChart.tsx";
-import NegBarChart from "../../../Components/barChart/NegBarChart.tsx";
-import PosBarChart from "../../../Components/barChart/PosBarChart.tsx";
+import AllBarChart from "../../../Components/barChart/AllBarChart.jsx";
+import NegBarChart from "../../../Components/barChart/NegBarChart.jsx";
+import PosBarChart from "../../../Components/barChart/PosBarChart.jsx";
+import { useSelector } from "react-redux";
+import { nowAllTenArray, nowNegFiveArray, nowPogFiveArray } from "store/modules/analysis";
 
 const cx = classNames.bind(styles);
 
@@ -94,6 +96,12 @@ function DashBoardVideo() {
     { name: "메이플스토리", value: 150 },
     { name: "스타크래프트", value: 100 },
   ];
+  
+  const isAllTen = useSelector(nowAllTenArray);
+  const isNegFive = useSelector(nowNegFiveArray);
+  const isPosFive = useSelector(nowPogFiveArray);
+  
+  console.log(isPosFive, isNegFive, isAllTen)
 
   return (
     <>

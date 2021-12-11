@@ -4,7 +4,7 @@ import styles from './SearchDropdown.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from "../../../store/modules";
 import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
-import { nowVideoList } from '../../../store/modules/video';
+import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from '../../../store/modules/video';
 import * as Hangul from 'hangul-js';
 import { useRef } from 'react';
 import _, {debounce} from 'lodash';
@@ -12,16 +12,14 @@ import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
-function VideoDropdown(searchWord) {
+function VideoDropdown(props) {
   const dispatch = useDispatch();
   const modalRef = useRef();
   const isSelectedVideoList = useSelector(nowSelectedVideoList)
   const isVideoList = useSelector(nowVideoList)
-
   
   const user = useSelector((state) => state.user)
   const channel_id = user.channelUrl.substring(32)
-
   const handleBtn = (btnId) => (e) => {
     e.preventDefault();
     dispatch(actions.selectSelectedVideo(btnId))
@@ -32,13 +30,11 @@ function VideoDropdown(searchWord) {
     dispatch(actions.closeSelectedVideo(btnId))
   };
 
-
-
   const handleClickCloseAll = () => {
     Object.keys(isSelectedVideoList.selectedVideoList).map((keyName, i) => (
       dispatch(actions.closeSelectedVideo(keyName))
     ))
-    searchWord.setSearchWord("")
+    props.setSearchWord("")
   };
 
   const handleClickSelectAll = () => {
@@ -50,47 +46,48 @@ function VideoDropdown(searchWord) {
   function compareWord(origin) {
     let compareTitle = origin;
     let filteredTitle = Hangul.disassemble(compareTitle,true);
-    console.log(searchWord.searchWord)
+    console.log(props.searchWord)
     let chosung="";
     for (var i=0,l=filteredTitle.length;i<l;i++){
       chosung+=filteredTitle[i][0];
     }
     return chosung
   }
-
   
-  const [nowPage,setNowPage] = useState("")
+  const isNextVideoPage = useSelector(nowNextVideoPage)
+  const isPrevVideoPage = useSelector(nowPrevVideoPage)
+  
+  // async function getVideos() {
+  //   const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos/?channel_id=${channel_id}&page_token=${isNextVideoPage}`, {
+  //     headers: {
+  //       'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //   .then(response => { 
+  //     if (response.data.prev_page_token == null){
+  //       dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
+  //       dispatch((actions.updateVideoList(response.data.video_items)))
+  //       dispatch((actions.setNextVideoPage(response.data.next_page_token)))
+  //     } else if (response.data.prev_page_token != null ){
+  //       let testArr = [...isVideoList];
+  //       dispatch((actions.updateVideoList(testArr.concat(response.data.video_items))))
+  //       dispatch((actions.setNextVideoPage(response.data.next_page_token)))
+  //     } else if (isPrevVideoPage == null && isNextVideoPage == null ) {
+  //       console.log("Done!")
+  //     }
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //   });
+  //   console.log(response)
+  // }
 
-  async function getVideos() {
-    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos/?channel_id=${channel_id}&page_token=${nowPage}`, {
-      headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
-      },
-    })
-    .then(response => { 
-      if (response.data.prev_page_token == null ){
-        dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
-        dispatch((actions.updateVideoList(response.data.video_items)))
-        setNowPage(response.data.next_page_token)
-      } else if (response.data.prev_page_token != null ){
-        let testArr = [...isVideoList];
-        dispatch((actions.updateVideoList(testArr.concat(response.data.video_items))))
-        console.log(testArr.concat(response.data.video_items))
-        setNowPage(response.data.next_page_token)
-      } else if (response.data.prev_page_token == null && response.data.next_page_token == null ) {
-        console.log("Done!")
-      }
-    })
-    .catch(error => {
-      console.log(error.response)
-    });
-    console.log(response)
-  }
+
 
   const modalScroll = _.debounce(() => {
     const { scrollHeight, scrollTop, clientHeight } = modalRef.current;
-    if (scrollHeight && scrollTop && clientHeight && scrollHeight - 10 < scrollTop + clientHeight) getVideos();  
-  }, 200);
+    if (scrollHeight && scrollTop && clientHeight && scrollHeight - 10 < scrollTop + clientHeight) props.func();  
+  }, 100);
 
     return (
       <>
@@ -106,9 +103,9 @@ function VideoDropdown(searchWord) {
             </div>
             <div className={cx("videoItems")} ref={modalRef} onScroll={modalScroll}>
                 {isVideoList && isVideoList.filter((val)=> {
-                  if (searchWord.searchWord && searchWord.searchWord == "")
+                  if (props.searchWord && props.searchWord == "")
                   {return val}
-                  else if (val.title.toLowerCase().includes(searchWord.searchWord.toLowerCase()) || (Hangul.search(val.title.toLowerCase(), searchWord.searchWord.toLowerCase()) > -1) || compareWord(val.title.toLowerCase()).includes(searchWord.searchWord.toLowerCase()))
+                  else if (val.title.toLowerCase().includes(props.searchWord.toLowerCase()) || (Hangul.search(val.title.toLowerCase(), props.searchWord.toLowerCase()) > -1) || compareWord(val.title.toLowerCase()).includes(props.searchWord.toLowerCase()))
                   {return val}
                   return false
                 } 

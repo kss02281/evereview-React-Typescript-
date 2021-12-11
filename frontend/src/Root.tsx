@@ -23,7 +23,7 @@ const Root: React.FC = () => (
     <Switch>
       <Route exact path={ROUTES.HOME} component={MainPage} />
       <Route path={ROUTES.ABOUT} component={AboutPage} />
-      <Route path={ROUTES.DASHBOARD} component={DashBoard} />
+      <Route path={ROUTES.DASHBOARD} exact component={DashBoard} />
       <Route path={ROUTES.CONTENTS} component={Contents} />
       <Route path={ROUTES.PROFILE} component={Profile} />
       <Route path={ROUTES.SETTING} component={Setting} />

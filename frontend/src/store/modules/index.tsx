@@ -6,6 +6,7 @@ import selectedVideoSliceReducer, { selectedVideoSliceActions } from './selected
 import videoSliceReducer, { videoSliceActions } from './video';
 import dateReducer, {dateActions} from './date'
 import categoryReducer, {categoryActions} from './category';
+import analysisReducer, { analysisActions } from './analysis';
 
 export const actions = {
   ...userActions,
@@ -13,12 +14,13 @@ export const actions = {
   ...videoSliceActions,
   ...dateActions,
   ...categoryActions,
+  ...analysisActions,
 };
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user','selectedVideos','videos','date','category'],
+  whitelist: ['user','selectedVideos','videos','date','category','analysis'],
 };
 
 const rootReducer = combineReducers({
@@ -27,6 +29,7 @@ const rootReducer = combineReducers({
   videoSlice: videoSliceReducer,
   date: dateReducer,
   category: categoryReducer,
+  analysis: analysisReducer,
 });
 
 export type ReducerType = ReturnType<typeof rootReducer>;

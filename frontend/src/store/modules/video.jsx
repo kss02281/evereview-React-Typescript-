@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import axios from "axios";
 
 // Define Actions & Reducer
 const videoSlice = createSlice({
@@ -7,8 +7,16 @@ const videoSlice = createSlice({
   initialState: {
     videoList: [],
     videoListLength: 0,
+    nextVideoPage: "",
+    prevVideoPage: "",
   },
   reducers: {
+    setPrevVideoPage: (state, action) => {
+      state.prevVideoPage = action.payload
+  },
+    setNextVideoPage: (state, action) => {
+    state.nextVideoPage = action.payload
+  },
     updateVideoList: (state, action) => {
       state.videoList = action.payload
   },
@@ -30,4 +38,6 @@ const videoSlice = createSlice({
 export const videoSliceActions = videoSlice.actions;
 export const nowVideoList = state => state.videoSlice.videoList;
 export const nowVideoListLength = state => state.videoSlice.videoListLength;
+export const nowNextVideoPage = state => state.videoSlice.nextVideoPage;
+export const nowPrevVideoPage = state => state.videoSlice.prevVideoPage;
 export default videoSlice.reducer;

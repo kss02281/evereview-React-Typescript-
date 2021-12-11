@@ -23,28 +23,6 @@ function SearchDropdown( props ) {
   
 
 
-  async function getVideoSelectedList() {
-    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos/?channel_id=${channel_id}`, {
-      headers: {
-        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
-      },
-    })
-    .then(response => { 
-    dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
-    dispatch((actions.updateVideoList(response.data.video_items)))
-    })
-    .catch(error => {
-      console.log(error.response)
-    });
-    console.log(response)
-  }  
-  
-
-
-  useEffect(() => {
-    getVideoSelectedList()
-    console.log('get Data!')
-  },[]);
 
 
 
@@ -111,7 +89,7 @@ function SearchDropdown( props ) {
           value = {searchWord}
           >
           </input>
-          {isOpen ? <VideoDropdown searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
+          {isOpen ? <VideoDropdown func={props.func} searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
         </div>
       </div>
     );

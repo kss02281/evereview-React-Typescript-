@@ -1,3 +1,4 @@
+import os
 import json
 
 from evereview.models.user import db, User
@@ -24,7 +25,7 @@ def insert_user(**kwargs):
                 kwargs.get("contents_category"), ensure_ascii=False
             ),
             img_url=kwargs.get("img_url"),
-            admin=(kwargs.get("email") == "evereview2021@gmail.com"),
+            admin=(kwargs.get("email") == os.environ.get("ADMIN_EMAIL")),
         )
         db.session.add(new_user)
         db.session.commit()

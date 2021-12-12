@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from './SearchBar.module.scss';
 import classNames from 'classnames/bind';
@@ -85,18 +85,29 @@ function SearchBar(props) {
         console.log('out')
       };
 
-    return (
-        <>
-            <div className={cx('searchBarContainer')}>
-                <div className={cx('categoryDropdown')}>
-                    <CategoryDropdown />
-                    {isCategorySelect.category === '영상별 분석' ? <SearchDropdown func={props.func} className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
-                    {isCategorySelect.category === '영상별 분석' ? <div className={cx('submitButton')} onClick={videoSubmit}>적용하기</div> : <div className={cx('submitButton')} onClick={commentSubmit}>적용하기</div> }
-                </div>
+  return (
+    <>
+      <div className={cx("searchBarContainer")}>
+        <div className={cx("categoryDropdown")}>
+          <CategoryDropdown />
+          {isCategorySelect.category === "영상별 분석" ? (
+            <SearchDropdown func={props.func} className={cx("videoSearch")} onMouseOut={handleClickOut} />
+          ) : (
+            <CommentDropdown className={cx("commentSearch")} />
+          )}
+          {isCategorySelect.category === "영상별 분석" ? (
+            <div className={cx("submitButton")} onClick={videoSubmit}>
+              적용하기
             </div>
-        </>
-    );
-  }
-
+          ) : (
+            <div className={cx("submitButton")} onClick={commentSubmit}>
+              적용하기
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
 
 export default SearchBar;

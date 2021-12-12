@@ -11,6 +11,7 @@ import { actions } from '../../../store/modules';
 import AllBarChart from '../../../Components/barChart/AllBarChart';
 import AllLineChart from '../../../Components/LineChart/AllLineChart';
 import axios from 'axios';
+import { nowAllTenArray, nowAnalysis } from 'store/modules/analysis';
 
 const cx = classNames.bind(styles);
 
@@ -18,19 +19,51 @@ function AllFeedBackPage() {
 
   const [thisData,setThisData] = useState([])
   const [thissData,setThissData] = useState([])
+  const [sortByViewCount,setSortByViewCount] = useState([])
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([])
+  const nowAllTen = useSelector(nowAllTenArray);
+  const isAnalysis = useSelector(nowAnalysis);
+  const clusterId = isAnalysis.analysisArray.clusters[0].id
+
+  const getUserInfo = () => {
+    axios
+      .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        const result = response.data.sort(function (a, b) {
+          return a.video.view_count - b.video.view_count;
+      });
+      let obj = result.reduce((res, curr) =>
+      {
+          if (res[curr.video.view_count])
+              res[curr.video.view_count].push(curr);
+          else
+              Object.assign(res, {[curr.video.view_count]: [curr]});
+          return res;
+      }, {});
+        console.log(result);
+        setSortByViewCount(obj)
+        console.log(obj)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
 
   async function getFeedBackList() {
-    const response = await axios.get("http://localhost:8000/feedBackList");
-    setThisData(response.data)
-    setIsSelectedCommentArray(Array.from({ length: response.data.length }, (v, i) => false))
-    console.log(response.data.length)
+    setThisData(nowAllTen)
+    setIsSelectedCommentArray(Array.from({ length: nowAllTen.length }, (v, i) => false))
+    console.log(nowAllTen.length)
    }
 
  
    useEffect(() => {
+    getUserInfo()
     getFeedBackList()
-     console.log('get Data!')
    },[]);
 
   const dispatch = useDispatch();
@@ -52,6 +85,8 @@ function AllFeedBackPage() {
     console.log(thissData)
   };
   
+
+
   return (
     <Fragment>
       <div className={cx('feedBackContainer')}>
@@ -102,7 +137,6 @@ function AllFeedBackPage() {
                   <div>순위</div>
                   <div>피드백</div>
                   <div>총 댓글 수</div>
-                  <div>조회수</div>
                   <div>좋아요</div>
                 </div>
                 <div className={cx("feedBackComments")}>
@@ -110,11 +144,10 @@ function AllFeedBackPage() {
                       return (
                         <>
                         <div className={cx("feedBackComment")} id={i} onClick={() => setSelect(i)}>
-                        <div>{data.id}위</div>
-                        <div>{data.name}</div>
-                        <div>{data.댓글수} 개</div>
-                        <div>{data.좋아요수} 개</div>
-                        <div>{data.box} 개</div>
+                        <div style={{overflow:"hidden", height: '50px'}}>{data.id}위</div>
+                        <div style={{overflow:"hidden", height: '50px'}}>{data.name}</div>
+                        <div style={{overflow:"hidden", height: '50px'}}>{data.댓글수} 개</div>
+                        <div style={{overflow:"hidden", height: '50px'}}>{data.좋아요수} 개</div>
                       </div>
                       {isSelectedCommentArray[i] ? 
                       <div>
@@ -125,18 +158,19 @@ function AllFeedBackPage() {
                           <div>좋아요</div>
                           <div>조회수</div>
                         </div>
-                        {Object.keys(thisData[i].details).map((data, j) => {
-                      return (
-                        <div className={cx("feedBackDetail")}>
-                          <div>{data}</div>
-                          <div>{thisData[i].details[data]}</div>
-                          <div>{data}</div>
-                          <div>4</div>
-                          <div>5</div>
-                        </div>
-                        
-                      );
-                    })}
+                          {sortByViewCount[thisData[i].top_comment.video.view_count].map((sortData, j) => {
+                            return (
+                              <div className={cx("feedBackDetail")}>
+                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].video.title}</div>
+                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].text_original}</div>
+                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].published_at}</div>
+                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].like_count}</div>
+                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].video.view_count}</div>
+                              </div>
+                            );
+                          })}
+                          )
+                      
                       </div>
                        : null}
                       </>

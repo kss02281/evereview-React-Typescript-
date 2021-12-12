@@ -83,6 +83,9 @@
   text-align: left;
   font-family: $notoSans;
   font-weight: 400;
+  line-height: 20px;
+  height: 45px;
+  overflow: hidden;
 }
 
 .feedBackContent{
@@ -193,7 +196,7 @@
   height: 30px;
   background-color: #009C5B;
   display: grid;
-  grid-template-columns: 2fr 5fr 2fr 2fr 2fr;
+  grid-template-columns: 2fr 5fr 2fr 2fr;
   place-content: center center;
   text-align: center;
   background: #FFFFFF;
@@ -233,7 +236,7 @@
   border-radius: 10px;
   margin-bottom: 10px;
   display: grid;
-  grid-template-columns: 2fr 5fr 2fr 2fr 2fr;
+  grid-template-columns: 2fr 5fr 2fr 2fr;
   place-content: center center;
   text-align: center;
   cursor: pointer;

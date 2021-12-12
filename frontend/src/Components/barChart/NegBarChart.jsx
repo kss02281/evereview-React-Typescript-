@@ -27,11 +27,14 @@ function NegBarChart() {
         name: isAnalysis[i].top_comment.text_display,
         댓글수: isAnalysis[i].count,
         좋아요수: isAnalysis[i].like_count,
-        box: 10
+        box: 10,
+        comment_id: isAnalysis[i].id,
+        top_comment: isAnalysis[i].top_comment
       }
       dataArray.push(object[i])
     }
     setAnalysisData(dataArray)
+    dispatch(actions.setNegFive(dataArray))
   }
 
   useEffect(() => {

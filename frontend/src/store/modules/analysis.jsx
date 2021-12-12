@@ -21,10 +21,10 @@ const analysisSlice = createSlice({
         state.allTenArray = action.payload;
     },
     setNegFive(state, action) {
-        state.posFiveArray = action.payload;
+        state.negFiveArray = action.payload;
     },
     setPosFive(state, action) {
-        state.negFiveArray = action.payload;
+        state.posFiveArray = action.payload;
     },
     setLoading(state, action) {
         state.loading = action.payload;
@@ -34,8 +34,8 @@ const analysisSlice = createSlice({
 
 export const analysisActions = analysisSlice.actions;
 export const nowAnalysis = state => state.analysis;
-export const nowAllTenArray = state => state.allTenArray;
-export const nowNegFiveArray = state => state.posFiveArray;
-export const nowPogFiveArray = state => state.negFiveArray;
+export const nowAllTenArray = state => state.analysis.allTenArray;
+export const nowNegFiveArray = state => state.analysis.negFiveArray;
+export const nowPogFiveArray = state => state.analysis.posFiveArray;
 export const nowLoading = state => state.loading;
 export default analysisSlice.reducer;

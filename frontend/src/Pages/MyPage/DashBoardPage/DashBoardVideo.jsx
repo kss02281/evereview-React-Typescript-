@@ -7,10 +7,12 @@ import NegBarChart from "../../../Components/barChart/NegBarChart.jsx";
 import PosBarChart from "../../../Components/barChart/PosBarChart.jsx";
 import { useSelector } from "react-redux";
 import { nowAllTenArray, nowNegFiveArray, nowPogFiveArray } from "store/modules/analysis";
-
+import ROUTES from "constants/routes";
+import { useHistory } from "react-router";
 const cx = classNames.bind(styles);
 
 function DashBoardVideo() {
+  const history = useHistory();
   const thisData = [
     {
       id: 1,
@@ -96,12 +98,16 @@ function DashBoardVideo() {
     { name: "메이플스토리", value: 150 },
     { name: "스타크래프트", value: 100 },
   ];
-  
+
   const isAllTen = useSelector(nowAllTenArray);
   const isNegFive = useSelector(nowNegFiveArray);
   const isPosFive = useSelector(nowPogFiveArray);
-  
-  console.log(isPosFive, isNegFive, isAllTen)
+
+  console.log(isPosFive, isNegFive, isAllTen);
+
+  const goContentsFeedBack = () => {
+    history.push(`${ROUTES.CONTENTSFEEDBACK}`);
+  };
 
   return (
     <>
@@ -129,7 +135,7 @@ function DashBoardVideo() {
           </div>
         </div>
         <div className={cx("dashBoardWrapMiddleBlank")}></div>
-        <div className={cx("dashBoardAllFeedback")}>
+        <div onClick={goContentsFeedBack} className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>

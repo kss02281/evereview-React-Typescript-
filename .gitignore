@@ -5,6 +5,7 @@ venv
 migrations
 docker-mysql-dir
 docker.env
+develop.env.sh
 
 .DS_Store
 node_modules

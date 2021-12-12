@@ -25,7 +25,6 @@ function DashBoard() {
   const isAnalysis = useSelector(nowAnalysis);
   const nowLoading = useSelector(nowAnalysis).loading;
   const name = useSelector((state) => state.user.nickName);
-  console.log(nowLoading);
   const isNextVideoPage = useSelector(nowNextVideoPage);
   const isPrevVideoPage = useSelector(nowPrevVideoPage);
   const isVideoList = useSelector(nowVideoList);
@@ -123,6 +122,31 @@ function DashBoard() {
       });
     console.log(response);
   }
+
+  useEffect(() => {
+    console.log("분석완료");
+    const analysisDataArray = isAnalysis.analysisArray.clusters;
+    console.log(analysisDataArray);
+    const dataArray = [];
+    const object = {};
+    if (analysisDataArray) {
+      dispatch(actions.setLoading(false));
+      for (let i = 0; i < 10; i++) {
+        object[i] = {
+          rank: i + 1,
+          cluster_id: analysisDataArray[i].id,
+          total_value: analysisDataArray[i].like_count + analysisDataArray[i].count,
+          total_like: analysisDataArray[i].like_count,
+          total_count: analysisDataArray[i].count,
+          top_comment_text: analysisDataArray[i].top_comment.text_display,
+        };
+        dataArray.push(object[i]);
+      }
+      dispatch(actions.saveContentsFeedBackAnalysis(dataArray));
+    } else {
+      dispatch(actions.setLoading(true));
+    }
+  }, [isAnalysis.analysisArray.clusters]);
 
   useEffect(() => {
     getVideos();

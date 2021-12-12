@@ -10,22 +10,10 @@ import PieChartC from "Components/PieChart/PieChart";
 
 const cx = classNames.bind(styles);
 
-const gameData = [
-  { name: "배틀그라운드", value: 600 },
-  { name: "리그오브레전드", value: 500 },
-  { name: "카트라이더", value: 40 },
-  { name: "오버워치", value: 40 },
-  { name: "리니지", value: 200 },
-  { name: "서든어택", value: 120 },
-  { name: "로스트아크", value: 120 },
-  { name: "피파 온라인", value: 80 },
-  { name: "메이플스토리", value: 150 },
-  { name: "스타크래프트", value: 100 },
-];
-
 function ContentsFeedBackPage() {
   const dispatch = useDispatch();
   const isCategorySelect = useSelector(nowCategory);
+  const contentsFeedBackData = useSelector((state: ReducerType) => state.contentsFeedBack.analysisData);
   const finishAnalysis = useSelector((state: ReducerType) => state.contentsFeedBack.IsEnter);
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
 
@@ -63,7 +51,7 @@ function ContentsFeedBackPage() {
           </div>
           <div className={cx("pieChartFBBox")}>
             <div className={cx("pieChartFB")}>
-              <PieChartC data={gameData} />
+              <PieChartC data={contentsFeedBackData} />
             </div>
           </div>
         </div>

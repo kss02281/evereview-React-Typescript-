@@ -112,6 +112,7 @@ const userSlice = createSlice({
       state.category = [] as string[];
       state.categoryNumList = [] as number[];
       state.upload_term = 0;
+      state.channelId = "";
       state.channelTitle = "";
       state.channelUrl = "";
       state.channelImgUrl = "";

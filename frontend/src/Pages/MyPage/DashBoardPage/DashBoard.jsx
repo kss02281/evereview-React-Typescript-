@@ -23,8 +23,9 @@ function DashBoard() {
   const dispatch = useDispatch();
   const isCategorySelect = useSelector(nowCategory);
   const isAnalysis = useSelector(nowAnalysis);
+  const nowLoading = useSelector(nowAnalysis).loading;
   const name = useSelector((state) => state.user.nickName);
-  
+  console.log(nowLoading)
   const isNextVideoPage = useSelector(nowNextVideoPage)
   const isPrevVideoPage = useSelector(nowPrevVideoPage)
   const isVideoList = useSelector(nowVideoList)
@@ -45,8 +46,7 @@ function DashBoard() {
     const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
     .then(response => { 
       if (response.data.prev_page_token == null){ 
-        setIsLoading(false)
-        
+        console.log(response.data)
         dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
         dispatch((actions.updateVideoList(response.data.video_items)))
         dispatch((actions.setNextVideoPage(response.data.next_page_token)))
@@ -93,7 +93,7 @@ function DashBoard() {
                             dispatch((actions.setAnalysis(response.data)))
                             console.log(isAnalysis)
                             clearInterval(thisis)
-                            setIsLoading(true)
+                            dispatch((actions.setLoading(true)))
                           }
                         })
                         .catch(error => {
@@ -126,15 +126,15 @@ function DashBoard() {
 
   useEffect(() => {
     getVideos()
-  }, []);
+  }, [isAnalysis]);
 
 
   return (
     
     <div className={cx('dashBoardContainer')}>
-      { isloading ? null : <div className={cx("loadingPage")}>
+      { nowLoading ? <div className={cx("loadingPage")}>
         <Hypnosis color="#0000008f" width="200px" height="200px" />
-      </div> }
+      </div> : null }
       <Sidebar id={1} />
       <div className={cx("sideLine")}></div>
       <div className={cx("dashBoardWrap")}>

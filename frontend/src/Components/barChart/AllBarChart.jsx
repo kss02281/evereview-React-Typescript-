@@ -21,6 +21,9 @@ function AllBarChart() {
     const dataArray = []
     const object = {}
     function sortAnalysis() {
+      console.log(isAnalysis)
+      if (isAnalysis != undefined){
+        dispatch(actions.setLoading(false))
       for (let i=10; i<isAnalysis.length; i++) {
         object[i] = {
           id: i-9,
@@ -35,6 +38,9 @@ function AllBarChart() {
       }
       setAnalysisData(dataArray)
       dispatch(actions.setAllTen(dataArray))
+    } else {
+      dispatch(actions.setLoading(true))
+    }
     }
 
     useEffect(() => {

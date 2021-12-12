@@ -21,6 +21,8 @@ function PosBarChart() {
   const dataArray = []
   const object = {}
   function sortAnalysis() {
+    if (isAnalysis != undefined){
+      dispatch(actions.setLoading(false))
     for (let i=15; i<isAnalysis.length; i++) {
       object[i] = {
         id: i-14,
@@ -35,7 +37,10 @@ function PosBarChart() {
     }
     setAnalysisData(dataArray)
     dispatch(actions.setPosFive(dataArray))
+  } else {
+    dispatch(actions.setLoading(true))
   }
+}
 
   useEffect(() => {
     sortAnalysis()

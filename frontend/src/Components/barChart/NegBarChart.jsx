@@ -21,6 +21,8 @@ function NegBarChart() {
   const dataArray = []
   const object = {}
   function sortAnalysis() {
+    if (isAnalysis != undefined){
+      dispatch(actions.setLoading(false))
     for (let i=10; i<isAnalysis.length-5; i++) {
       object[i] = {
         id: i-9,
@@ -35,7 +37,10 @@ function NegBarChart() {
     }
     setAnalysisData(dataArray)
     dispatch(actions.setNegFive(dataArray))
+  } else {
+    dispatch(actions.setLoading(true))
   }
+}
 
   useEffect(() => {
     sortAnalysis()

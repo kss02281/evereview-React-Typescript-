@@ -1,4 +1,6 @@
 import os
+from datetime import datetime, timedelta
+
 import numpy as np
 import pandas as pd
 
@@ -10,6 +12,10 @@ class review_etl:
         api_key = os.environ.get("API_KEY")
         api_obj = build("youtube", "v3", developerKey=api_key)
         comments = list()
+        if day_start:
+            day_start = datetime.fromisoformat(day_start)
+        if day_end:
+            day_end = datetime.fromisoformat(day_end) + timedelta(days=1)
 
         # 영상별 수집
         if video_id:
@@ -90,7 +96,7 @@ class review_etl:
                 ],
             )
             result_df["published_at"] = result_df["published_at"].apply(
-                lambda x: int(x[0:4] + x[5:7] + x[8:10])
+                lambda x: x[:-1]
             )
 
             comments = result_df
@@ -150,9 +156,31 @@ class review_etl:
                 .execute()
             )
 
+            # 코드 수정 부분 : 모든 플레이리스트가 들어갈 변수 [플레이리스트1, 플레이리스트2, ...]
+            playlist_list = [response_playlists]
+
+            # 코드 수정 부분 : playlists 끝까지 받아오도록 함
+            while response_playlists:
+                if "nextPageToken" in response_playlists:
+                    response_playlists = (
+                        api_obj.playlistItems()
+                        .list(
+                            part="contentDetails",
+                            playlistId=playlist,
+                            maxResults=50,
+                            pageToken=response_playlists["nextPageToken"],
+                        )
+                        .execute()
+                    )
+                    playlist_list.append(response_playlists)
+                else:
+                    break
+
+            # 코드 수정 부분 : 모든 video_id가 들어갈 변수 ['video_id_1', ''video_id_2', ...]
             all_video_id = []
-            for res in response_playlists["items"]:
-                all_video_id.append(res["contentDetails"]["videoId"])
+            for playlist in playlist_list:
+                for res in playlist["items"]:
+                    all_video_id.append(res["contentDetails"]["videoId"])
 
             # 이 반복 코드는 영상별 수집 코드와 동일합니다.
             for video_id in all_video_id:
@@ -163,22 +191,30 @@ class review_etl:
                 )
 
                 while response:
+                    comment_date = None
                     for item in response["items"]:
                         comment_id = item["id"]
                         comment = item["snippet"]["topLevelComment"]["snippet"]
-
-                        comments.append(
-                            [
-                                comment_id,
-                                comment["videoId"],
-                                comment["authorDisplayName"],
-                                comment["authorProfileImageUrl"],
-                                comment["textDisplay"],
-                                comment["textOriginal"],
-                                comment["likeCount"],
-                                comment["publishedAt"],
-                            ]
+                        comment_date = datetime.fromisoformat(
+                            comment["publishedAt"][:-1]
                         )
+
+                        if comment_date >= day_start and comment_date < day_end:
+                            comments.append(
+                                [
+                                    comment_id,
+                                    comment["videoId"],
+                                    comment["authorDisplayName"],
+                                    comment["authorProfileImageUrl"],
+                                    comment["textDisplay"],
+                                    comment["textOriginal"],
+                                    comment["likeCount"],
+                                    comment["publishedAt"],
+                                ]
+                            )
+
+                    if comment_date < day_start:
+                        break
 
                     if "nextPageToken" in response:
                         response = (
@@ -210,18 +246,9 @@ class review_etl:
                 ],
             )
             result_df["published_at"] = result_df["published_at"].apply(
-                lambda x: int(x[0:4] + x[5:7] + x[8:10])
+                lambda x: x[:-1]
             )
 
-            # 쿼리문
-            result_df = (
-                result_df[
-                    (result_df["published_at"] >= day_start)
-                    & (result_df["published_at"] <= day_end)
-                ]
-                .reset_index()
-                .iloc[:, 1:]
-            )
             comments = result_df
 
             return comments

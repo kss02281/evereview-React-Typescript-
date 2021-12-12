@@ -34,7 +34,7 @@ services:
             - db
             - rabbitmq
         working_dir: /app
-        command: celery -A predict_worker.app worker
+        command: celery -A predict_worker.app worker --loglevel debug
     backend:
         build:
             context: ./backend

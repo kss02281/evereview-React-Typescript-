@@ -124,7 +124,7 @@ function DashBoard() {
 
   useEffect(() => {
     console.log("분석완료");
-    const analysisDataArray = isAnalysis.analysisArray.clusters;
+    const analysisDataArray = isAnalysis?.analysisArray?.clusters;
     console.log(analysisDataArray);
     const dataArray = [];
     const object = {};
@@ -145,7 +145,7 @@ function DashBoard() {
     } else {
       dispatch(actions.setLoading(true));
     }
-  }, [isAnalysis.analysisArray.clusters]);
+  }, [isAnalysis.analysisArray?.clusters]);
 
   useEffect(() => {
     getVideos();

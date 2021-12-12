@@ -2,13 +2,10 @@ import os
 import requests
 import jwt
 
-CLIENT_ID = "454620242965-32sssfft8n8pir78gfg1r62sgfibfsrm.apps.googleusercontent.com"
-CLIENT_SECRET = "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"
-API_KEY = "AIzaSyCdk85MLRA8PqiUJc7jYUQLzjgr3mTSwt8"
-if os.environ.get("FLASK_ENV") == "production":
-    CLIENT_ID = os.environ.get("CLIENT_ID")
-    CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
-    API_KEY = os.environ.get("API_KEY")
+
+CLIENT_ID = os.environ.get("CLIENT_ID")
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+API_KEY = os.environ.get("API_KEY")
 
 SCOPE = [
     "openid",

@@ -144,7 +144,7 @@ function DashBoard() {
             <div className={cx("dashBoardDescription")}>댓글들을 분석하고 사용자들의 피드백을 확인해보세요!</div>
           </div>
           <div className={cx("dashBoardSearch")}>
-            <SearchBar data={1} func={getVideos} />
+            <SearchBar data={1} func={getVideos} /> 
           </div>
         </div>
         <div></div>

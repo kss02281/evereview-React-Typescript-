@@ -41,7 +41,7 @@ function DashBoard() {
 
   async function getVideos() {
     const response = await axios
-      .get(process.env.REACT_APP_BACKEND_URL + `api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
+      .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
       .then((response) => {
         if (response.data.prev_page_token == null) {
           console.log(response.data);
@@ -86,7 +86,7 @@ function DashBoard() {
                   if (response.data.clusters === null && response.data.analysis === null) {
                     const thisis = setInterval(() => {
                       axios
-                        .get(process.env.REACT_APP_BACKEND_URL + `api/analysis/result/${analyticDatas}`, config)
+                        .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
                         .then((response) => {
                           console.log(response.data.analysis);
                           console.log(response.data.clusters);

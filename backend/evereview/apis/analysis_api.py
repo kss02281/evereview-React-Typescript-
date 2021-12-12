@@ -80,9 +80,10 @@ class Predict(Resource):
 
         videos_db = get_videos(channel_id)
         videos_db = set(map(lambda item: item.get("id"), videos_db))
-        for video in videos:
-            if video not in videos_db:
-                return {"result": "fail", "message": f"없는 영상입니다.({video})"}, 404
+        if videos is not None:
+            for video in videos:
+                if video not in videos_db:
+                    return {"result": "fail", "message": f"없는 영상입니다.({video})"}, 404
 
         # day validate startdate < enddate
         if day_start:

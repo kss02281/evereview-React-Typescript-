@@ -25,7 +25,6 @@ function DashBoard() {
   const isAnalysis = useSelector(nowAnalysis);
   const nowLoading = useSelector(nowAnalysis).loading;
   const name = useSelector((state) => state.user.nickName);
-  console.log(nowLoading)
   const isNextVideoPage = useSelector(nowNextVideoPage)
   const isPrevVideoPage = useSelector(nowPrevVideoPage)
   const isVideoList = useSelector(nowVideoList)
@@ -121,12 +120,11 @@ function DashBoard() {
     .catch(error => {
       console.log(error)
     });
-    console.log(response)
   }
 
   useEffect(() => {
     getVideos()
-  }, [isAnalysis]);
+  }, []);
 
 
   return (

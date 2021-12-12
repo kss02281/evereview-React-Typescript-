@@ -4,6 +4,7 @@ import ROUTES from "constants/routes";
 import styles from "./Navbar.module.scss";
 import classNames from "classnames/bind";
 import logo from "img/logo_transparent.png";
+import logo2 from "img/logo.png";
 import { actions } from "store/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { ReducerType } from "store/modules";
@@ -74,7 +75,7 @@ function Navbar() {
   return (
     <div className={cx("header")}>
       <Link className={cx("logo")} to={ROUTES.HOME}>
-        <img style={{ width: "auto", height: "55px" }} src={logo} alt="logo" />
+        <img style={{ width: "auto", height: "90px" }} src={logo2} alt="logo" />
       </Link>
       <div className={cx("linkWrapper")}>
         <Link className={cx("link")} to={ROUTES.HOME}>

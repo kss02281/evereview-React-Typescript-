@@ -32,6 +32,7 @@ function Sidebar(props) {
     dispatch(actions.resetSelectedVideo());
     dispatch(actions.resetVideo());
     dispatch(actions.resetUserInfo());
+    dispatch(actions.resetContentsFeedBack());
   }, []);
   const handleToggle = () => {
     setActive(!isActive);

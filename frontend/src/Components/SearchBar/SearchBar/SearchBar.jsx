@@ -24,6 +24,7 @@ function SearchBar(props) {
   const isAnalysis = useSelector(nowAnalysis);
   const user = useSelector((state) => state.user);
   const channel_id = user.channelUrl.substring(32);
+  const isFeedBackPage = useSelector((state) => state.contentsFeedBack.IsEnter);
   const analyticData = new FormData();
   const config = {
     headers: {
@@ -41,6 +42,11 @@ function SearchBar(props) {
       if (isVideoList.selectedVideoList[i] === true) {
         selectedVideoArray.push(isNowVideoList[i].id);
       }
+    }
+    dispatch(actions.saveSelectedVideosId({ selectedVideosId: selectedVideoArray }));
+    if (isFeedBackPage) {
+      console.log("피드백 페이지에서 분석 요청");
+      dispatch(actions.requestAnalysis(Boolean(true)));
     }
     console.log(selectedVideoArray.join());
 

@@ -102,6 +102,7 @@ function DashBoardVideo() {
   const isAllTen = useSelector(nowAllTenArray);
   const isNegFive = useSelector(nowNegFiveArray);
   const isPosFive = useSelector(nowPogFiveArray);
+  const feedBackAnalysis = useSelector((state) => state.contentsFeedBack.analysisData);
 
   console.log(isPosFive, isNegFive, isAllTen);
 
@@ -139,17 +140,24 @@ function DashBoardVideo() {
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>
-            {gameData.map((data, i) => {
+            {feedBackAnalysis.map((data, i) => {
               return (
                 <div className={cx("chartWrap")}>
                   <div className={cx("chartLeft")}>{i + 1}.</div>
-                  <div className={cx("chartRight")}>{data.name}</div>
+                  <div className={cx("chartRight")}>
+                    {data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                      ? data.top_comment_text
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 22) + "..."
+                      : data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                  </div>
                 </div>
               );
             })}
           </div>
           <div className={cx("pieGraph")}>
-            <PieChartC data={gameData} />
+            <PieChartC data={feedBackAnalysis} />
           </div>
         </div>
       </div>

@@ -25,19 +25,18 @@ function DashBoard() {
   const isAnalysis = useSelector(nowAnalysis);
   const nowLoading = useSelector(nowAnalysis).loading;
   const name = useSelector((state) => state.user.nickName);
-  const isNextVideoPage = useSelector(nowNextVideoPage)
-  const isPrevVideoPage = useSelector(nowPrevVideoPage)
-  const isVideoList = useSelector(nowVideoList)
-  
-  const user = useSelector((state) => state.user)
-  const channel_id = user.channelUrl.substring(32)
-  const uploadTerm = user.upload_term
-  const config = 
-        {
-          headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
-          }
-        }
+  const isNextVideoPage = useSelector(nowNextVideoPage);
+  const isPrevVideoPage = useSelector(nowPrevVideoPage);
+  const isVideoList = useSelector(nowVideoList);
+
+  const user = useSelector((state) => state.user);
+  const channel_id = user.channelUrl.substring(32);
+  const uploadTerm = user.upload_term;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
 
   async function getVideos() {
     const response = await axios
@@ -97,36 +96,60 @@ function DashBoard() {
                             dispatch(actions.setLoading(true));
                           }
                         })
-                        .catch(error => {
-                          console.log(error)
-                        })
-                      },1000)
-                }
-              })
-              .catch(error => {
-                console.log(error)
-              });
-          })
-          .catch((error) => {
-            console.log(error)
-          });
-        
-      } else if (response.data.prev_page_token != null ){
-        let testArr = [...isVideoList];
-        dispatch((actions.updateVideoList(testArr.concat(response.data.video_items))))
-        dispatch((actions.setNextVideoPage(response.data.next_page_token)))
-      } else if (isNextVideoPage == null ) {
-        console.log("Done!")
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    });
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }, 1000);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (response.data.prev_page_token != null) {
+          let testArr = [...isVideoList];
+          dispatch(actions.updateVideoList(testArr.concat(response.data.video_items)));
+          dispatch(actions.setNextVideoPage(response.data.next_page_token));
+        } else if (isNextVideoPage == null) {
+          console.log("Done!");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   useEffect(() => {
-    getVideos()
-  }, []);
+    console.log("분석완료");
+    const analysisDataArray = isAnalysis.analysisArray.clusters;
+    console.log(analysisDataArray);
+    const dataArray = [];
+    const object = {};
+    if (analysisDataArray) {
+      dispatch(actions.setLoading(false));
+      for (let i = 0; i < 10; i++) {
+        object[i] = {
+          rank: i + 1,
+          cluster_id: analysisDataArray[i].id,
+          total_value: analysisDataArray[i].like_count + analysisDataArray[i].count,
+          total_like: analysisDataArray[i].like_count,
+          total_count: analysisDataArray[i].count,
+          top_comment_text: analysisDataArray[i].top_comment.text_display,
+        };
+        dataArray.push(object[i]);
+      }
+      dispatch(actions.saveContentsFeedBackAnalysis(dataArray));
+    } else {
+      dispatch(actions.setLoading(true));
+    }
+  }, [isAnalysis.analysisArray.clusters]);
+
+  useEffect(() => {
+    getVideos();
+  }, [isAnalysis]);
 
   return (
     <div className={cx("dashBoardContainer")}>
@@ -144,7 +167,7 @@ function DashBoard() {
             <div className={cx("dashBoardDescription")}>댓글들을 분석하고 사용자들의 피드백을 확인해보세요!</div>
           </div>
           <div className={cx("dashBoardSearch")}>
-            <SearchBar data={1} func={getVideos} /> 
+            <SearchBar data={1} func={getVideos} />
           </div>
         </div>
         <div></div>

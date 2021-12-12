@@ -19,31 +19,6 @@ function SearchDropdown(props) {
   const user = useSelector((state) => state.user);
   const channel_id = user.channelUrl.substring(32);
 
-<<<<<<< HEAD
-=======
-  async function getVideoSelectedList() {
-    const response = await axios
-      .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}`, {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        dispatch(actions.updateSelectedVideoList({ selectedVideoList: Array(response.data.page_info.totalResults).fill(false) }));
-        dispatch(actions.updateVideoList(response.data.video_items));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-    console.log(response);
-  }
-
-  useEffect(() => {
-    getVideoSelectedList();
-    console.log("get Data!");
-  }, []);
->>>>>>> feature/contents_detail
-
   const [thissData, setThissData] = useState([]);
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
 
@@ -99,17 +74,9 @@ function SearchDropdown(props) {
           onChange={(e) => {
             setSearchWord(e.target.value);
           }}
-<<<<<<< HEAD
-          value = {searchWord}
-          >
-          </input>
-          {isOpen ? <VideoDropdown func={props.func} searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
-        </div>
-=======
           value={searchWord}
         ></input>
-        {isOpen ? <VideoDropdown searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
->>>>>>> feature/contents_detail
+        {isOpen ? <VideoDropdown func={props.func} searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
       </div>
     </div>
   );

@@ -1,18 +1,15 @@
 import React from "react";
 import styles from "./DashBoard.module.scss";
 import classNames from "classnames/bind";
-import PieChartC from "Components/PieChart/PieChart";
-import { nowCategory } from "store/modules/category";
-import PosLineChart from "Components/LineChart/PosLineChart";
-import NegLineChart from "Components/LineChart/NegLineChart";
-import AllLineChart from "Components/LineChart/AllLineChart";
-import { useHistory } from "react-router";
-import ROUTES from "constants/routes";
+import PieChartC from "../../../Components/PieChart/PieChart";
+import { nowCategory } from "../../../store/modules/category";
+import PosLineChart from "../../../Components/LineChart/PosLineChart";
+import NegLineChart from "../../../Components/LineChart/NegLineChart";
+import AllLineChart from "../../../Components/LineChart/AllLineChart";
 
 const cx = classNames.bind(styles);
 
 function DashBoardComment() {
-  const history = useHistory();
   const thisData = [
     {
       id: 1,
@@ -98,77 +95,17 @@ function DashBoardComment() {
     { name: "메이플스토리", value: 150 },
     { name: "스타크래프트", value: 100 },
   ];
-  const goContentsFeedBack = () => {
-    history.push(`${ROUTES.CONTENTSFEEDBACK}`);
-  };
+
   return (
     <>
-<<<<<<< HEAD
-    <div className={cx('dashBoardWrapMiddle')}>
-          <div className={cx('dashBoardAllFeedback')}>
-            <p className={cx('dashP')}>모든 피드백</p>
-            <div className={cx('squareWrap')}>
-              <div className={cx('allSquareLike')}></div><p className={cx('allSquareP')}>좋아요 수</p>
-              <div className={cx('allSquareComment')}></div><p className={cx('allSquareP')}>댓글 수</p>
-            </div>
-            <div className={cx('allBarChart')}>
-              
-                {thisData.map((data, i) => {
-                  return (
-                    <div className={cx('chartWrap')}>
-                      <div className={cx('chartLeft')}>
-                        {i+1}.
-                      </div>
-                      <div className={cx('chartRight')}>
-                        {data.name}
-                      </div>
-                    </div>
-                  )})
-              }
-              </div>
-            <div className={cx('allBarGraph')}>
-              <AllLineChart />
-            </div>
-            </div>
-          <div className={cx('dashBoardWrapMiddleBlank')}></div>
-          <div className={cx('dashBoardAllFeedback')}>
-            <p className={cx('dashP')}>사용자 요구 분석</p>
-            
-            <div className={cx('allBarChart')}>
-                {gameData.map((data, i) => {
-                  return (
-                    <div className={cx('chartWrap')}>
-                      <div className={cx('chartLeft')}>
-                        {i+1}.
-                      </div>
-                      <div className={cx('chartRight')}>
-                        {data.name}
-                      </div>
-                    </div>
-                  )})
-              }
-              </div>
-            <div className={cx('pieGraph')}>
-              <PieChartC data={gameData}/>
-            </div>
-            </div>
-          </div>
-        <div className={cx('dashBoardWrapDown')}>
-          <div className={cx('dashBoardWrapDownGrid')}>
-          <div className={cx('dashBoardPosFeedback')}>
-            <p className={cx('dashP')}>긍정 피드백</p>
-            <div className={cx('squareWrap')}>
-              <div className={cx('posSquareLike')}></div><p className={cx('posSquareP')}>좋아요 수</p>
-              <div className={cx('posSquareComment')}></div><p className={cx('posSquareP')}>댓글 수</p>
-=======
       <div className={cx("dashBoardWrapMiddle")}>
         <div className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>모든 피드백</p>
           <div className={cx("squareWrap")}>
-            <div className={cx("squareLike")}></div>
-            <p className={cx("squareP")}>좋아요 수</p>
-            <div className={cx("squareComment")}></div>
-            <p className={cx("squareP")}>댓글 수</p>
+            <div className={cx("allSquareLike")}></div>
+            <p className={cx("allSquareP")}>좋아요 수</p>
+            <div className={cx("allSquareComment")}></div>
+            <p className={cx("allSquareP")}>댓글 수</p>
           </div>
           <div className={cx("allBarChart")}>
             {thisData.map((data, i) => {
@@ -185,7 +122,7 @@ function DashBoardComment() {
           </div>
         </div>
         <div className={cx("dashBoardWrapMiddleBlank")}></div>
-        <div onClick={goContentsFeedBack} className={cx("dashBoardAllFeedback")}>
+        <div className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>
@@ -208,11 +145,10 @@ function DashBoardComment() {
           <div className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>긍정 피드백</p>
             <div className={cx("squareWrap")}>
-              <div className={cx("squareLike")}></div>
-              <p className={cx("squareP")}>좋아요 수</p>
-              <div className={cx("squareComment")}></div>
-              <p className={cx("squareP")}>댓글 수</p>
->>>>>>> feature/contents_detail
+              <div className={cx("posSquareLike")}></div>
+              <p className={cx("posSquareP")}>좋아요 수</p>
+              <div className={cx("posSquareComment")}></div>
+              <p className={cx("posSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
               {thisData.map((data, i) => {
@@ -234,18 +170,11 @@ function DashBoardComment() {
           <div className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>부정 피드백</p>
             <div className={cx("squareWrap")}>
-              <div className={cx("squareLike")}></div>
-              <p className={cx("squareP")}>좋아요 수</p>
-              <div className={cx("squareComment")}></div>
-              <p className={cx("squareP")}>댓글 수</p>
+              <div className={cx("negSquareLike")}></div>
+              <p className={cx("negSquareP")}>좋아요 수</p>
+              <div className={cx("negSquareComment")}></div>
+              <p className={cx("negSquareP")}>댓글 수</p>
             </div>
-<<<<<<< HEAD
-            <div className={cx('dashBoardPosFeedback')}>
-            <p className={cx('dashP')}>부정 피드백</p>
-            <div className={cx('squareWrap')}>
-              <div className={cx('negSquareLike')}></div><p className={cx('negSquareP')}>좋아요 수</p>
-              <div className={cx('negSquareComment')}></div><p className={cx('negSquareP')}>댓글 수</p>
-=======
             <div className={cx("allBarChart")}>
               {thisData.map((data, i) => {
                 return (
@@ -255,7 +184,6 @@ function DashBoardComment() {
                   </div>
                 );
               })}
->>>>>>> feature/contents_detail
             </div>
             <div className={cx("allBarGraph")}>
               <NegLineChart />

@@ -13,21 +13,13 @@ import { actions } from "store/modules";
 
 const cx = classNames.bind(styles);
 
-<<<<<<< HEAD
 function SearchBar(props) {
-    const isVideoList = useSelector(nowSelectedVideoList)
-    const isDate = useSelector(nowDate);
-    const isCategorySelect = useSelector(nowCategory);
-    const isNowVideoList = useSelector(nowVideoList)
-=======
-function SearchBar() {
   const dispatch = useDispatch();
   const isVideoList = useSelector(nowSelectedVideoList);
   const isDate = useSelector(nowDate);
   const isCategorySelect = useSelector(nowCategory);
   const isNowVideoList = useSelector(nowVideoList);
   const isFeedBackPage = useSelector((state) => state.contentsFeedBack.IsEnter);
->>>>>>> feature/contents_detail
 
   const commentSubmit = () => {
     console.log(isDate);
@@ -48,30 +40,19 @@ function SearchBar() {
     console.log("out");
   };
 
-<<<<<<< HEAD
-    return (
-        <>
-            <div className={cx('searchBarContainer')}>
-                <div className={cx('categoryDropdown')}>
-                    <CategoryDropdown />
-                    {isCategorySelect.category === '영상별 분석' ? <SearchDropdown func={props.func} className={cx('videoSearch')} onMouseOut={handleClickOut}/> : <CommentDropdown className={cx('commentSearch')} />}
-                    {isCategorySelect.category === '영상별 분석' ? <div className={cx('submitButton')} onClick={videoSubmit}>적용하기</div> : <div className={cx('submitButton')} onClick={commentSubmit}>적용하기</div> }
-                </div>
-=======
   return (
     <>
       <div className={cx("searchBarContainer")}>
         <div className={cx("categoryDropdown")}>
           <CategoryDropdown />
           {isCategorySelect.category === "영상별 분석" ? (
-            <SearchDropdown className={cx("videoSearch")} onMouseOut={handleClickOut} />
+            <SearchDropdown func={props.func} className={cx("videoSearch")} onMouseOut={handleClickOut} />
           ) : (
             <CommentDropdown className={cx("commentSearch")} />
           )}
           {isCategorySelect.category === "영상별 분석" ? (
             <div className={cx("submitButton")} onClick={videoSubmit}>
               적용하기
->>>>>>> feature/contents_detail
             </div>
           ) : (
             <div className={cx("submitButton")} onClick={commentSubmit}>

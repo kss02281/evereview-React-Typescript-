@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import { combineReducers } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import userReducer, { userActions } from './user';
-import selectedVideoSliceReducer, { selectedVideoSliceActions } from './selectedVideo';
-import videoSliceReducer, { videoSliceActions } from './video';
-import dateReducer, {dateActions} from './date'
-import categoryReducer, {categoryActions} from './category';
-import analysisReducer, { analysisActions } from './analysis';
-=======
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -18,9 +7,9 @@ import selectedVideoSliceReducer, { selectedVideoSliceActions } from "./selected
 import videoSliceReducer, { videoSliceActions } from "./video";
 import dateReducer, { dateActions } from "./date";
 import categoryReducer, { categoryActions } from "./category";
+import analysisReducer, { analysisActions } from "./analysis";
 import testSaga from "./testSaga";
 import { all, call } from "redux-saga/effects";
->>>>>>> feature/contents_detail
 
 export const actions = {
   ...userActions,
@@ -28,11 +17,8 @@ export const actions = {
   ...videoSliceActions,
   ...dateActions,
   ...categoryActions,
-<<<<<<< HEAD
   ...analysisActions,
-=======
   ...contentsFeedBackActions,
->>>>>>> feature/contents_detail
 };
 
 export function* rootSaga() {
@@ -42,11 +28,7 @@ export function* rootSaga() {
 const persistConfig = {
   key: "root",
   storage,
-<<<<<<< HEAD
-  whitelist: ['user','selectedVideos','videos','date','category','analysis'],
-=======
-  whitelist: ["user", "selectedVideos", "videos", "date", "category", "contentsFeedBack"],
->>>>>>> feature/contents_detail
+  whitelist: ["user", "selectedVideos", "videos", "date", "category", "analysis", "contentsFeedBack"],
 };
 
 const rootReducer = combineReducers({

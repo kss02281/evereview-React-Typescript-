@@ -100,6 +100,20 @@ const userSlice = createSlice({
       state.channelUrl = channelUrl;
       state.channelImgUrl = channelImgUrl;
     },
+    resetUserInfo(state) {
+      state.email = "";
+      state.name = "";
+      state.img_url = "";
+      state.nickName = "";
+      state.inputName = "";
+      state.category = [] as string[];
+      state.categoryNumList = [] as number[];
+      state.upload_term = 0;
+      state.channelTitle = "";
+      state.channelUrl = "";
+      state.channelImgUrl = "";
+      state.success = Boolean(false);
+    },
   },
 });
 

@@ -38,20 +38,10 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
   };
 
   const logoutDispatch = useCallback(() => {
-    dispatch(
-      actions.saveAllUserInfo({
-        email: "",
-        name: "",
-        img_url: "",
-        nickName: "",
-        category: [],
-        categoryNumList: [],
-        upload_term: 0,
-        inputName: "",
-      })
-    );
-    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+    dispatch(actions.resetAnalysisData());
+    dispatch(actions.resetSelectedVideo());
+    dispatch(actions.resetVideo());
+    dispatch(actions.resetUserInfo());
   }, []);
 
   const logoutHandler = () => {

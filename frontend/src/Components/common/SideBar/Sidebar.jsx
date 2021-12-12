@@ -28,20 +28,10 @@ function Sidebar(props) {
   const blue = "#6563FF";
   const [isActive, setActive] = useState(false);
   const logOut = useCallback(() => {
-    dispatch(
-      actions.saveAllUserInfo({
-        email: "",
-        name: "",
-        img_url: "",
-        nickName: "",
-        category: [],
-        categoryNumList: [],
-        upload_term: 0,
-        inputName: "",
-      })
-    );
-    dispatch(actions.saveYoutubeInfo({ channelUrl: "", channelTitle: "", channelImgUrl: "" }));
-    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+    dispatch(actions.resetAnalysisData());
+    dispatch(actions.resetSelectedVideo());
+    dispatch(actions.resetVideo());
+    dispatch(actions.resetUserInfo());
   }, []);
   const handleToggle = () => {
     setActive(!isActive);

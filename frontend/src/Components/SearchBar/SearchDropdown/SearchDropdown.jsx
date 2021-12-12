@@ -1,66 +1,81 @@
-import React, { useRef, useState, useEffect } from 'react';
-import classNames from 'classnames/bind';
-import styles from './SearchDropdown.module.scss';
-import VideoDropdown from './VideoDropdown';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useRef, useState, useEffect } from "react";
+import classNames from "classnames/bind";
+import styles from "./SearchDropdown.module.scss";
+import VideoDropdown from "./VideoDropdown";
+import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../../../store/modules";
-import axios from 'axios';
-import API_ROUTES from '../../../constants/apiRoutes';
+import axios from "axios";
+import API_ROUTES from "../../../constants/apiRoutes";
 import queryString from "query-string";
 
 const cx = classNames.bind(styles);
 
-
-
-function SearchDropdown( props ) {
+function SearchDropdown(props) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isLeave, setIsLeave] = useState(false);
   const [searchWord, setSearchWord] = useState("");
 
-  const user = useSelector((state) => state.user)
-  const channel_id = user.channelUrl.substring(32)
-  
+  const user = useSelector((state) => state.user);
+  const channel_id = user.channelUrl.substring(32);
 
+<<<<<<< HEAD
+=======
+  async function getVideoSelectedList() {
+    const response = await axios
+      .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        dispatch(actions.updateSelectedVideoList({ selectedVideoList: Array(response.data.page_info.totalResults).fill(false) }));
+        dispatch(actions.updateVideoList(response.data.video_items));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    console.log(response);
+  }
 
+  useEffect(() => {
+    getVideoSelectedList();
+    console.log("get Data!");
+  }, []);
+>>>>>>> feature/contents_detail
 
-
-
-  const [thissData,setThissData] = useState([])
-  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([])
+  const [thissData, setThissData] = useState([]);
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
 
   const setSelect = (number) => {
     let testArr = [...isSelectedCommentArray];
-    setThissData(thissData.concat(testArr))
-    console.log(thissData)
+    setThissData(thissData.concat(testArr));
+    console.log(thissData);
   };
 
-
-
-
-  function handleClickOpen(){
-    setIsOpen(true)
-  };  
-  function handleClickClose(){
-    if (isLeave === true) {
-    setIsOpen(false)
-    console.log('click!!')
+  function handleClickOpen() {
+    setIsOpen(true);
   }
-  };  
-  function handleClickEnter(){
-    console.log('enter')
-    setIsLeave(false)
-  };
-  function handleClickLeave(){
-    console.log('leave')
-    setIsLeave(true)
-  };
+  function handleClickClose() {
+    if (isLeave === true) {
+      setIsOpen(false);
+      console.log("click!!");
+    }
+  }
+  function handleClickEnter() {
+    console.log("enter");
+    setIsLeave(false);
+  }
+  function handleClickLeave() {
+    console.log("leave");
+    setIsLeave(true);
+  }
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
-          setIsOpen(false)
+          setIsOpen(false);
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -73,26 +88,31 @@ function SearchDropdown( props ) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
-
-
-    return (
-      <div className={cx("searchContainer")} >
-        <div className={cx("menu-container")} ref={wrapperRef}>
-          <input 
-          type="text" 
-          className={cx("videoSearchWrap")} 
-          onClick={handleClickOpen} 
-          placeholder="자신의 채널에서 분석하고자 하는 영상을 선택해주세요!" 
+  return (
+    <div className={cx("searchContainer")}>
+      <div className={cx("menu-container")} ref={wrapperRef}>
+        <input
+          type="text"
+          className={cx("videoSearchWrap")}
+          onClick={handleClickOpen}
+          placeholder="자신의 채널에서 분석하고자 하는 영상을 선택해주세요!"
           onChange={(e) => {
-          setSearchWord(e.target.value);
+            setSearchWord(e.target.value);
           }}
+<<<<<<< HEAD
           value = {searchWord}
           >
           </input>
           {isOpen ? <VideoDropdown func={props.func} searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
         </div>
+=======
+          value={searchWord}
+        ></input>
+        {isOpen ? <VideoDropdown searchWord={searchWord} setSearchWord={setSearchWord} /> : null}
+>>>>>>> feature/contents_detail
       </div>
-    );
+    </div>
+  );
 }
 
 export default SearchDropdown;

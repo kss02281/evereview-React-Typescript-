@@ -83,6 +83,34 @@ function VideoDropdown(props) {
   // }
 
 
+<<<<<<< HEAD
+=======
+  async function getVideos() {
+    const response = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${nowPage}`, {
+      headers: {
+        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
+      },
+    })
+    .then(response => { 
+      if (response.data.prev_page_token == null ){
+        dispatch((actions.updateSelectedVideoList({selectedVideoList:Array(response.data.page_info.totalResults).fill(false)})));
+        dispatch((actions.updateVideoList(response.data.video_items)))
+        setNowPage(response.data.next_page_token)
+      } else if (response.data.prev_page_token != null ){
+        let testArr = [...isVideoList];
+        dispatch((actions.updateVideoList(testArr.concat(response.data.video_items))))
+        console.log(testArr.concat(response.data.video_items))
+        setNowPage(response.data.next_page_token)
+      } else if (response.data.prev_page_token == null && response.data.next_page_token == null ) {
+        console.log("Done!")
+      }
+    })
+    .catch(error => {
+      console.log(error.response)
+    });
+    console.log(response)
+  }
+>>>>>>> feature/contents_detail
 
   const modalScroll = _.debounce(() => {
     const { scrollHeight, scrollTop, clientHeight } = modalRef.current;

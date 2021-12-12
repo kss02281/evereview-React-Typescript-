@@ -33,6 +33,7 @@ interface AllUserInfo {
 }
 
 interface ChannelInfo {
+  channelId: string;
   channelTitle: string;
   channelUrl: string;
   channelImgUrl: string;
@@ -47,6 +48,7 @@ const initialState = {
   category: [] as string[],
   categoryNumList: [] as number[],
   upload_term: 0,
+  channelId: "",
   channelTitle: "",
   channelUrl: "",
   channelImgUrl: "",
@@ -95,7 +97,8 @@ const userSlice = createSlice({
       state.inputName = inputName;
     },
     saveYoutubeInfo(state, action: PayloadAction<ChannelInfo>) {
-      const { channelTitle, channelUrl, channelImgUrl } = action.payload;
+      const { channelId, channelTitle, channelUrl, channelImgUrl } = action.payload;
+      state.channelId = channelId;
       state.channelTitle = channelTitle;
       state.channelUrl = channelUrl;
       state.channelImgUrl = channelImgUrl;

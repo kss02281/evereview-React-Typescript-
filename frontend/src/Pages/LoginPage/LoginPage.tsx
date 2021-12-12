@@ -25,10 +25,27 @@ function LoginPage() {
   };
 
   const logoutDispatch = useCallback(() => {
+<<<<<<< HEAD
     dispatch(actions.resetAnalysisData());
     dispatch(actions.resetSelectedVideo());
     dispatch(actions.resetVideo());
     dispatch(actions.resetUserInfo());
+=======
+    dispatch(
+      actions.saveAllUserInfo({
+        email: "",
+        name: "",
+        img_url: "",
+        nickName: "",
+        category: [],
+        categoryNumList: [],
+        upload_term: 0,
+        inputName: "",
+      })
+    );
+    dispatch(actions.saveYoutubeInfo({ channelId: "", channelUrl: "", channelTitle: "", channelImgUrl: "" }));
+    dispatch(actions.loginSuccess({ success: Boolean(false) }));
+>>>>>>> feature/contents_detail
   }, []);
 
   const requestSignin = (code: string) => {
@@ -59,6 +76,7 @@ function LoginPage() {
               console.log(channelInfo[0]);
               dispatch(
                 actions.saveYoutubeInfo({
+                  channelId: channelInfo[0].id,
                   channelUrl: channelInfo[0].channel_url,
                   channelTitle: channelInfo[0].title,
                   channelImgUrl: channelInfo[0].img_url,

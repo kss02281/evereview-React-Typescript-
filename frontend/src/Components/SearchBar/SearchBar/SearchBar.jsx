@@ -34,6 +34,10 @@ function SearchBar(props) {
     }
     console.log(selectedVideoArray);
     dispatch(actions.saveSelectedVideosId({ selectedVideosId: selectedVideoArray }));
+    if (isFeedBackPage) {
+      console.log("피드백 페이지에서 분석 요청");
+      dispatch(actions.requestAnalysis(Boolean(true)));
+    }
     alert(selectedVideoArray);
   };
   const handleClickOut = (e) => {

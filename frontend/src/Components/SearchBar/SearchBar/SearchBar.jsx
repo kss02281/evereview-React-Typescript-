@@ -33,7 +33,7 @@ function SearchBar(props) {
       }
     }
     console.log(selectedVideoArray);
-    if (isFeedBackPage) dispatch(actions.saveSelectedVideosId({ selectedVideosId: selectedVideoArray }));
+    dispatch(actions.saveSelectedVideosId({ selectedVideosId: selectedVideoArray }));
     alert(selectedVideoArray);
   };
   const handleClickOut = (e) => {

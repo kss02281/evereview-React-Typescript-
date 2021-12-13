@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Rochester&display=swap");
+
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.innerTableHead {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 15px;
+  background-color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 0.7vw;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.authorImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  border-right: 2px solid rgba(92, 92, 92, 0.342);
+}
+
+.textContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  border-right: 2px solid rgba(92, 92, 92, 0.342);
+  height: 100%;
+  font-size: 0.7vw;
+  text-align: center;
+  padding: 3px;
+}
+
+.likeCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 70px;
+  height: 100%;
+  border-right: 2px solid rgba(92, 92, 92, 0.342);
+  text-align: center;
+}
+
+.commentTime {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 140px;
+  height: 100%;
+  border-right: 2px solid rgba(92, 92, 92, 0.342);
+  text-align: center;
+}
+
+.videoTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 200px;
+  height: 100%;
+  border-right: 2px solid rgba(92, 92, 92, 0.342);
+  text-align: center;
+}
+.videoViewCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 70px;
+  height: 100%;
+  text-align: center;
+  border-radius: 0 10px 10px 0;
+}

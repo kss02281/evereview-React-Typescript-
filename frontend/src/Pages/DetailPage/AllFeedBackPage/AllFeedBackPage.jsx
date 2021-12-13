@@ -22,7 +22,7 @@ function AllFeedBackPage() {
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
   const nowAllTen = useSelector(nowAllTenArray);
   const isAnalysis = useSelector(nowAnalysis);
-  const clusterId = isAnalysis.analysisArray.clusters[0].id;
+  const clusterId = isAnalysis?.analysisArray?.clusters[0].id;
 
   const getUserInfo = () => {
     axios

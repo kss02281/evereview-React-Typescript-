@@ -4,7 +4,7 @@ import styles from "./SearchDropdown.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../../../store/modules";
 import { nowSelectedVideoList } from "../../../store/modules/selectedVideo";
-import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store/modules/video";
+import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store/modules/videos";
 import * as Hangul from "hangul-js";
 import { useRef } from "react";
 import _, { debounce } from "lodash";
@@ -17,7 +17,8 @@ function VideoDropdown(props) {
   const modalRef = useRef();
   const isSelectedVideoList = useSelector(nowSelectedVideoList);
   const isVideoList = useSelector(nowVideoList);
-
+  console.log(isVideoList)
+  console.log(isSelectedVideoList)
   const user = useSelector((state) => state.user);
   const channel_id = user.channelUrl.substring(32);
   const handleBtn = (btnId) => (e) => {
@@ -120,7 +121,7 @@ function VideoDropdown(props) {
               .map((videoInfo, i) => {
                 return (
                   <div
-                    className={cx(`videoItem_${isSelectedVideoList.selectedVideoList[videoInfo.id - 1]}`)}
+                    className={cx(`videoItem_${!undefined && isSelectedVideoList.selectedVideoList[videoInfo.id - 1]}`)}
                     id="videoItem"
                     onClick={!undefined && handleBtn(i)}
                     style={{ backgroundColor: isSelectedVideoList.selectedVideoList[i] ? "#D0E9FF" : "#ffffff" }}

@@ -7,7 +7,7 @@ import SearchBar from "../../../Components/SearchBar/SearchBar/SearchBar.jsx";
 import { actions } from "../../../store/modules";
 import { useSelector, useDispatch } from "react-redux";
 import { nowCategory } from "../../../store/modules/category";
-import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store/modules/video";
+import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store/modules/videos";
 import DashBoardVideo from "./DashBoardVideo";
 import DashBoardComment from "./DashBoardComment";
 import axios from "axios";
@@ -42,9 +42,9 @@ function DashBoard() {
     const response = await axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
       .then((response) => {
-        if (response.data.prev_page_token == null) {
+        if (response.data.prev_page_token == null || response.data.page_info.totalResults == null) {
           console.log(response.data);
-          dispatch(actions.updateSelectedVideoList({ selectedVideoList: Array(response.data.page_info.totalResults).fill(false) }));
+          dispatch(actions.updateSelectedVideoList({selectedVideoList: Array(!null && response.data.page_info.totalResults).fill(false) }));
           dispatch(actions.updateVideoList(response.data.video_items));
           dispatch(actions.setNextVideoPage(response.data.next_page_token));
           console.log(response.data.video_items);
@@ -83,17 +83,17 @@ function DashBoard() {
                   console.log(response.data.analysis);
                   console.log(response.data.clusters);
                   if (response.data.clusters === null && response.data.analysis === null) {
+                    dispatch(actions.setLoading(true));
                     const thisis = setInterval(() => {
                       axios
                         .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
                         .then((response) => {
-                          console.log(response.data.analysis);
-                          console.log(response.data.clusters);
+                          console.log("data is fetching..");
                           if (response.data.clusters !== null && response.data.analysis !== null) {
                             dispatch(actions.setAnalysis(response.data));
                             console.log(isAnalysis);
                             clearInterval(thisis);
-                            dispatch(actions.setLoading(true));
+                            dispatch(actions.setLoading(false));
                           }
                         })
                         .catch((error) => {

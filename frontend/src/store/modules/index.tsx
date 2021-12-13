@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer, { userActions } from "./user";
 import contentsFeedBackReducer, { contentsFeedBackActions } from "./contentsFeedBack";
 import selectedVideoSliceReducer, { selectedVideoSliceActions } from "./selectedVideo";
-import videoSliceReducer, { videoSliceActions } from "./video";
+import videoSliceReducer, { videoSliceActions } from "./videos";
 import dateReducer, { dateActions } from "./date";
 import categoryReducer, { categoryActions } from "./category";
 import analysisReducer, { analysisActions } from "./analysis";
@@ -28,7 +28,7 @@ export function* rootSaga() {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "selectedVideos", "videos", "date", "category", "analysis", "contentsFeedBack"],
+  whitelist: ["user", "selectedVideoSlice", "videoSlice", "date", "category", "analysis", "contentsFeedBack"],
 };
 
 const rootReducer = combineReducers({

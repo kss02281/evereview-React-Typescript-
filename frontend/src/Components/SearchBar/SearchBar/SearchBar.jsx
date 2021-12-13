@@ -6,7 +6,7 @@ import CategoryDropdown from "../CategoryDropdown/CategoryDropdown.jsx";
 import SearchDropdown from "../SearchDropdown/SearchDropdown.jsx";
 import CommentDropdown from "../CommentDropdown/CommentDropdown";
 import { nowSelectedVideoList } from "../../../store/modules/selectedVideo";
-import { nowVideoList } from "../../../store/modules/video";
+import { nowVideoList } from "../../../store/modules/videos";
 import { nowDate } from "../../../store/modules/date";
 import { nowCategory } from "../../../store/modules/category";
 import axios from "axios";

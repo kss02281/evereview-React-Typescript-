@@ -11,20 +11,30 @@ import { actions } from "../../../store/modules";
 import AllBarChart from "../../../Components/barChart/AllBarChart";
 import AllLineChart from "../../../Components/LineChart/AllLineChart";
 import axios from "axios";
-import { nowAllTenArray, nowAnalysis } from "store/modules/analysis";
+import { nowAllTenArray, nowAnalysis, nowClusterData } from "store/modules/analysis";
+import { nowVideoList } from "store/modules/videos";
+import { nowSelectedVideoList } from "store/modules/selectedVideo";
 
 const cx = classNames.bind(styles);
 
 function AllFeedBackPage() {
   const [thisData, setThisData] = useState([]);
   const [thissData, setThissData] = useState([]);
+  const [clusterData, setClusterData] = useState([]);
   const [sortByViewCount, setSortByViewCount] = useState([]);
-  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(false);
   const nowAllTen = useSelector(nowAllTenArray);
   const isAnalysis = useSelector(nowAnalysis);
-  const clusterId = isAnalysis.analysisArray.clusters[0].id;
-
+  const isCluster = useSelector(nowClusterData);
+  const isNowVideo = useSelector(nowVideoList);
+  
+  const isSelectedVideoList = useSelector(nowSelectedVideoList);
+  
   const getUserInfo = () => {
+    const clusterArray = []
+    const obj = {};
+    for (let i=10; i<20; i++){
+      const clusterId = isAnalysis.analysisArray.clusters[i].id;
     axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
         headers: {
@@ -32,21 +42,16 @@ function AllFeedBackPage() {
         },
       })
       .then((response) => {
-        const result = response.data.sort(function (a, b) {
-          return a.video.view_count - b.video.view_count;
-        });
-        let obj = result.reduce((res, curr) => {
-          if (res[curr.video.view_count]) res[curr.video.view_count].push(curr);
-          else Object.assign(res, { [curr.video.view_count]: [curr] });
-          return res;
-        }, {});
-        console.log(result);
-        setSortByViewCount(obj);
-        console.log(obj);
+        console.log(response)
+        console.log(i)
+        obj[i-10] = response.data
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       });
+    }
+    setClusterData([obj])
+    dispatch(actions.setCluster(clusterData))
   };
 
   async function getFeedBackList() {
@@ -73,12 +78,11 @@ function AllFeedBackPage() {
     let newArr = [...isSelectedCommentArray];
     newArr[number] = !isSelectedCommentArray[number];
     setIsSelectedCommentArray(newArr);
-    console.log(newArr);
-    let testArr = [...isSelectedCommentArray];
-    setThissData(thissData.concat(testArr));
-    console.log(thissData);
   };
 
+  
+
+  
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
@@ -119,7 +123,12 @@ function AllFeedBackPage() {
                         return (
                           <div className={cx("chartWrap")}>
                             <div className={cx("chartLeft")}>{i + 1}.</div>
-                            <div className={cx("chartRight")}>{data.name}</div>
+                            <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
                           </div>
                         );
                       })}
@@ -152,30 +161,44 @@ function AllFeedBackPage() {
                                   <div>원래 댓글</div>
                                   <div>댓글 작성 일자</div>
                                   <div>좋아요</div>
-                                  <div>조회수</div>
                                 </div>
-                                {sortByViewCount[thisData[i].top_comment.video.view_count].map((sortData, j) => {
-                                  return (
-                                    <div className={cx("feedBackDetail")}>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].video.title}
+                                <div>
+                                {clusterData.map((sortData, j) => {
+                                  return(
+                                    <div>
+                                  {sortData[i].map((sortedData, j) => {
+                                    console.log(sortedData)
+                                    return (
+                                      <div className={cx("feedBackDetail")}>
+                                        <div>
+                                      {sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.video.title
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.text_original
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {new Date(sortedData.published_at).getFullYear()}년 {new Date(sortedData.published_at).getMonth()+1}월 {new Date(sortedData.published_at).getDate()}일
+                                        </div>
+                                        <div>
+                                      {sortedData.like_count} 개
+                                        </div>
                                       </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].text_original}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].published_at}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].like_count}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].video.view_count}
-                                      </div>
-                                    </div>
-                                  );
+                                    );
                                 })}
+                                  </div>
                                 )
+                                })}
+                                </div>
                               </div>
                             ) : null}
                           </>

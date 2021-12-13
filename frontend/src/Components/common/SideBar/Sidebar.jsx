@@ -59,9 +59,6 @@ function Sidebar(props) {
           <Link className={cx("logo")} to={ROUTES.ALLFEEDBACK} onClick={setVideo}>
             <UilChart className={cx("sideContents")} style={propsArray.includes(props.id) ? { color: blue } : { color: grey }} />
           </Link>
-          <Link className={cx("logo")} to={ROUTES.SETTING} onClick={setVideo}>
-            <UilSetting className={cx("sideSetting")} style={props.id === 6 ? { color: blue } : { color: grey }} />
-          </Link>
           <Link className={cx("logo")} to={ROUTES.NOTIFICATION} onClick={setVideo}>
             <UilBell className={cx("sideNotification")} style={props.id === 7 ? { color: blue } : { color: grey }} />
           </Link>

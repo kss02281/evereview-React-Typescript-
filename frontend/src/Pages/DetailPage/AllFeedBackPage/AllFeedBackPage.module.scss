@@ -59,7 +59,7 @@
 }
 
 .allBarChart{
-  width: 80%;
+  width: 99%;
   height: 81%;
   padding-top: 20%;
   margin: 0 auto;
@@ -69,7 +69,7 @@
   background-color: rgb(255, 255, 255);
   border-radius: 36px;
   box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.137);
-
+  margin-left: 7%;
 }
 
 .chartWrap{
@@ -169,7 +169,7 @@
 .feedBackPageContainer{
   display: grid;
   height: 95%;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 6fr 5fr;
 }
 
 .feedBackPageLeft{
@@ -187,7 +187,7 @@
 }
 
 .feedBackPageRight{
-  width: 80%;
+  width: 95%;
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 9fr;
@@ -195,7 +195,7 @@
 
 .feedBackCommentsContatiner{
   width: 100%;
-  margin-left: 12%;
+  margin-left: 5%;
   margin-bottom: 50px;
   display: grid;
   grid-template-rows: 40px 1fr;
@@ -260,7 +260,7 @@
   margin: 0 auto;
   font-size: 13px;
   display: grid;
-  grid-template-columns: 3fr 4fr 2fr 1fr 1fr;
+  grid-template-columns: 3fr 4fr 2fr 1fr;
   place-content: center center;
   text-align: center;
   margin-bottom: 10px !important;
@@ -273,9 +273,8 @@
   margin: 0 auto;
   font-size: 13px;
   display: grid;
-  grid-template-columns: 3fr 4fr 2fr 1fr 1fr;
+  grid-template-columns: 3fr 4fr 2fr 1fr;
   place-content: center center;
   text-align: center;
-  
   margin-bottom: 5px !important;
 }

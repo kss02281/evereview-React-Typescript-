@@ -284,6 +284,7 @@ div.recharts-wrapper {
   height: 9%;
   display: grid !important;
   grid-template-columns: 2fr 6fr;
+  overflow: hidden;
 }
 
 .chartLeft {
@@ -291,12 +292,15 @@ div.recharts-wrapper {
   margin-left: 75%;
   font-family: $notoSans;
   font-weight: 400;
+  overflow: hidden;
 }
 
 .chartRight {
+  height: 25px;
   text-align: left;
   font-family: $notoSans;
   font-weight: 400;
+  overflow: hidden;
 }
 
 .loadingPage {

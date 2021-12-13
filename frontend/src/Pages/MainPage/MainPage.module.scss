@@ -1,4 +1,4 @@
-@import '../../style/font.scss';
+@import "../../style/font.scss";
 
 .mainContainer {
   position: fixed;
@@ -8,16 +8,15 @@
   display: grid;
   grid-template-columns: 50px 1fr 1fr 50px;
   overflow: hidden;
-  background-image: url('../../img/bgpattern4.png');
+  background-image: url("../../img/bgpattern4.png");
   background-position: 50% 90%;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  -webkit-user-select:none; 
-  -moz-user-select:none; 
-  -ms-user-select:none; 
-  user-select:none
-
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .leftContainer {

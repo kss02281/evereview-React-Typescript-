@@ -41,7 +41,7 @@
 
     .contentsFBBox {
       position: relative;
-
+      min-width: 1350px;
       margin-top: 45px;
       margin-right: 50px;
       width: auto;
@@ -50,62 +50,151 @@
       border-radius: 20px;
       box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.137);
 
+      .closeBtn {
+        position: absolute;
+        right: 0;
+        margin: 20px 70px 0 0;
+        width: 150px;
+        height: 50px;
+        border: 0;
+        border-radius: 20px;
+        background-color: blue;
+        font-family: $notoSans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+      }
+
       .contentsFBSearch {
         position: absolute;
-        margin: 20px 0 0 20px;
+        margin: 30px 0 0 30px;
         width: 50%;
       }
 
-      .pieChartFBBox {
+      .pieChartBox {
         display: flex;
         flex-direction: row;
-        min-width: 670px;
-        background-color: white;
-        border-radius: 20px;
-        position: relative;
-        left: 20px;
-        top: 70px;
-        width: 40%;
-        height: 40vh;
+        width: 95%;
+        .pieChartLeftBox {
+          flex-shrink: 0;
+          width: 560px;
+          background-color: white;
+          border-radius: 20px;
+          position: relative;
+          left: 30px;
+          top: 92px;
 
-        .allBarChart {
-          width: 100%;
-          height: 100%;
-          font-size: 0.7vw;
-          place-self: center;
-          text-align: center;
-          .chartWrap {
+          height: 66vh;
+
+          .pieChartFB {
+            background-color: transparent;
+            position: relative;
+            margin-top: 10%;
+            left: -10px;
             width: 100%;
-            height: 9%;
-            display: grid !important;
-            grid-template-columns: 2fr 6fr;
-            .chartLeft {
-              text-align: left;
-              margin-left: 75%;
-              font-family: $notoSans;
-              font-weight: 400;
-            }
-
-            .chartRight {
-              text-align: left;
-              font-family: $notoSans;
-              font-weight: 400;
-            }
-          }
-          th {
-            text-align: left;
-            padding-left: 10px;
-            font-weight: 500;
+            height: 85%;
           }
         }
 
-        .pieChartFB {
+        .pieChartRightBox {
+          flex-grow: 1;
           background-color: transparent;
+          border-radius: 20px;
           position: relative;
-          top: 25px;
-          left: 5px;
-          width: 66%;
-          height: 85%;
+          margin-left: 30px;
+          left: 45px;
+          top: 92px;
+          height: 66vh;
+          .allBarChart {
+            margin-top: 20px;
+            width: 100%;
+            height: 100%;
+            font-size: 0.7vw;
+            place-self: center;
+            text-align: center;
+            margin: 0;
+            .outerTableTop {
+              display: flex;
+              flex-direction: row;
+              height: 8%;
+              align-items: center;
+              border: 1px solid white;
+              border-radius: 15px;
+              background-color: white;
+              font-family: $notoSans;
+              font-weight: 400;
+              font-size: 0.9vw;
+              margin-bottom: 5px;
+              user-select: none;
+            }
+            .outerTableHead {
+              display: flex;
+              flex-direction: row;
+              height: 50px;
+              align-items: center;
+              border: 1px solid white;
+              border-radius: 15px;
+              background-color: white;
+              font-family: $notoSans;
+              font-weight: 400;
+              font-size: 0.9vw;
+              margin-bottom: 5px;
+              user-select: none;
+            }
+            .outerTableHead:hover {
+              background-color: rgba(216, 236, 195, 0.301);
+            }
+            .tableBottom {
+              overflow-y: auto;
+              height: 90%;
+            }
+            .rankTd {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              width: 100px;
+              height: 100%;
+              text-align: center;
+              border-radius: 10px 0 0 10px;
+              border-right: 2px solid rgba(92, 92, 92, 0.342);
+            }
+
+            .textTd {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-grow: 1;
+              border-right: 2px solid rgba(92, 92, 92, 0.342);
+              height: 100%;
+              font-size: 0.8vw;
+              text-align: center;
+              padding: 3px;
+            }
+
+            .cntTd {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              width: 100px;
+              height: 100%;
+              border-right: 2px solid rgba(92, 92, 92, 0.342);
+              text-align: center;
+            }
+
+            .likeTd {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              width: 100px;
+              height: 100%;
+              text-align: center;
+              border-radius: 0 10px 10px 0;
+            }
+          }
         }
       }
     }

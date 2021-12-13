@@ -31,10 +31,57 @@ function SearchBar(props) {
       Authorization: `Bearer ${window.localStorage.getItem("token")}`,
     },
   };
-  const commentSubmit = () => {
-    console.log(isDate);
-    alert(`${isDate[0]} \n ${isDate[1]}`);
+  const commentSubmit = async () => {
+    const submitStartDate = `${isDate[0].getFullYear()}` + '-' + `${isDate[0].getMonth()+1}`+'-'+`${isDate[0].getDate()}`
+    const submitEndDate = `${isDate[1].getFullYear()}` + '-' + `${isDate[1].getMonth()+1}`+'-'+`${isDate[1].getDate()}`
+    
+    dispatch(actions.setLoading(true));
+    dispatch(actions.saveDate({ startDate: submitStartDate, endDate: submitEndDate }));
+    if (isFeedBackPage) {
+      console.log("피드백 페이지에서 분석 요청");
+      dispatch(actions.requestAnalysis(Boolean(true)));
+    }
+
+    analyticData.append("channel_id", channel_id);
+    analyticData.append("day_start", submitStartDate);
+    analyticData.append("day_end", submitEndDate);
+
+    const response = axios.post(process.env.REACT_APP_BACKEND_URL + "/api/analysis/predict", analyticData, config).then((response) => {
+      const analyticDatas = response.data["analysis_id"];
+      console.log(submitStartDate,submitEndDate)
+      axios
+        .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${response.data["analysis_id"]}`, config)
+        .then((response) => {
+          console.log(response.data.analysis);
+          console.log(response.data.clusters);
+          if (response.data.clusters === null && response.data.analysis === null) {
+            const thisis = setInterval(() => {
+              axios
+                .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
+                .then((response) => {
+                  console.log(response.data);
+                  if (response.data.clusters !== null && response.data.analysis !== null) {
+                    dispatch(actions.setDateAllTen(response.data.clusters.slice(10,20)));
+                    dispatch(actions.setDateNegFive(response.data.clusters.slice(10,15)));
+                    dispatch(actions.setDatePosFive(response.data.clusters.slice(15)));
+                    dispatch(actions.setDateAnalysis(response.data));
+                    console.log(response.data.clusters.slice(15));
+                    clearInterval(thisis);
+                    dispatch(actions.setLoading(false));
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }, 1000);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
+
   const videoSubmit = async () => {
     dispatch(actions.setLoading(true));
     const selectedVideoArray = [];

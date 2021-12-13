@@ -6,7 +6,7 @@ import AllBarChart from "../../../Components/barChart/AllBarChart.jsx";
 import NegBarChart from "../../../Components/barChart/NegBarChart.jsx";
 import PosBarChart from "../../../Components/barChart/PosBarChart.jsx";
 import { useSelector } from "react-redux";
-import { nowAllTenArray, nowNegFiveArray, nowPogFiveArray } from "store/modules/analysis";
+import { nowAllTenArray, nowNegFiveArray, nowPosFiveArray } from "store/modules/analysis";
 import ROUTES from "constants/routes";
 import { useHistory } from "react-router";
 const cx = classNames.bind(styles);
@@ -16,17 +16,26 @@ function DashBoardVideo() {
   
   const isAllTen = useSelector(nowAllTenArray);
   const isNegFive = useSelector(nowNegFiveArray);
-  const isPosFive = useSelector(nowPogFiveArray);
+  const isPosFive = useSelector(nowPosFiveArray);
   const feedBackAnalysis = useSelector((state) => state.contentsFeedBack.analysisData);
 
   const goContentsFeedBack = () => {
     history.push(`${ROUTES.CONTENTSFEEDBACK}`);
   };
+  const goAllFeedBack = () => {
+    history.push(`${ROUTES.ALLFEEDBACK}`);
+  };
+  const goNegFeedBack = () => {
+    history.push(`${ROUTES.NEGFEEDBACK}`);
+  };
+  const goPosFeedBack = () => {
+    history.push(`${ROUTES.POSFEEDBACK}`);
+  };
 
   return (
     <>
       <div className={cx("dashBoardWrapMiddle")}>
-        <div className={cx("dashBoardAllFeedback")}>
+        <div onClick={goAllFeedBack} className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>모든 피드백</p>
           <div className={cx("allSquareWrap")}>
             <div className={cx("allSquareLike")}></div>
@@ -81,7 +90,7 @@ function DashBoardVideo() {
       </div>
       <div className={cx("dashBoardWrapDown")}>
         <div className={cx("dashBoardWrapDownGrid")}>
-          <div className={cx("dashBoardPosFeedback")}>
+          <div onClick={goPosFeedBack} className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>긍정 피드백</p>
             <div className={cx("squareWrap")}>
               <div className={cx("posSquareLike")}></div>
@@ -111,7 +120,7 @@ function DashBoardVideo() {
           <div className={cx("dashBoardWrapDownBlank")}>
             <div className={cx("BlankLine")}></div>
           </div>
-          <div className={cx("dashBoardPosFeedback")}>
+          <div onClick={goNegFeedBack} className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>부정 피드백</p>
             <div className={cx("negSquareWrap")}>
               <div className={cx("negSquareLike")}></div>

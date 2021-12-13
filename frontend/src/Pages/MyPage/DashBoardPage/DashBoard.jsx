@@ -11,16 +11,20 @@ import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store
 import DashBoardVideo from "./DashBoardVideo";
 import DashBoardComment from "./DashBoardComment";
 import axios from "axios";
-import { nowAllTenArray, nowAnalysis, nowNegFiveArray, nowPogFiveArray } from "store/modules/analysis";
+import { nowAllTenArray, nowAnalysis, nowNegFiveArray } from "store/modules/analysis";
 import { Hypnosis } from "react-cssfx-loading";
 
 const cx = classNames.bind(styles);
 
 function DashBoard() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    
+  dispatch(actions.selectCategory('영상별 분석'))
+  }, []);
   const [isloading, setIsLoading] = useState(true);
 
   const [videoString, setVideoString] = useState("");
-  const dispatch = useDispatch();
   const isCategorySelect = useSelector(nowCategory);
   const isAnalysis = useSelector(nowAnalysis);
   const nowLoading = useSelector(nowAnalysis).loading;
@@ -39,6 +43,7 @@ function DashBoard() {
   };
 
   async function getVideos() {
+    if (isCategorySelect.category === "영상별 분석") {
     const response = await axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
       .then((response) => {
@@ -120,7 +125,65 @@ function DashBoard() {
       .catch((error) => {
         console.log(error);
       });
+    } else if ( isCategorySelect.category === "댓글 기간별 분석" && isAnalysis?.dateAnalysisArray?.clusters === undefined) {
+      const newStartDate = new Date();
+      const submitStartDate = `${new Date(newStartDate.setDate(newStartDate.getDate() - 1)).getFullYear()}` + '-' + `${new Date(newStartDate.setDate(newStartDate.getDate() - 1)).getMonth()+1}`+'-'+`${new Date().getDate()-1}`
+      const submitEndDate = `${new Date().getFullYear()}` + '-' + `${new Date().getMonth()+1}`+'-'+`${new Date().getDate()}`
+      console.log(new Date(newStartDate.setDate(newStartDate.getDate() - 7)))
+      
+      dispatch(actions.saveDate({ startDate: submitStartDate, endDate: submitEndDate }));
+      
+      const analyticDateData = new FormData();
+      analyticDateData.append("channel_id", channel_id);
+      analyticDateData.append("day_start", submitStartDate);
+      analyticDateData.append("day_end", submitEndDate);
+      axios
+            .post(process.env.REACT_APP_BACKEND_URL + "/api/analysis/predict", analyticDateData, config)
+            .then((response) => {
+              const analyticDatas = response.data["analysis_id"];
+              axios
+                .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${response.data["analysis_id"]}`, config)
+                .then((response) => {
+                  console.log(response.data.analysis);
+                  console.log(response.data.clusters);
+                  if (response.data.clusters === null && response.data.analysis === null) {
+                    dispatch(actions.setLoading(true));
+                    const thisis = setInterval(() => {
+                      axios
+                        .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
+                        .then((response) => {
+                          console.log(response.data)
+                          console.log("data is fetching..");
+                          if (response.data.clusters !== null && response.data.analysis !== null) {
+                            dispatch(actions.setDateAnalysis(response.data));
+                            dispatch(actions.setDateAllTen(response.data.clusters.slice(10,20)));
+                            dispatch(actions.setDateNegFive(response.data.clusters.slice(10,15)));
+                            dispatch(actions.setDatePosFive(response.data.clusters.slice(15)));
+                            console.log(response.data);
+                            clearInterval(thisis);
+                            dispatch(actions.setLoading(false));
+                          } else if (response.data.state == 'FAILURE') {
+                            clearInterval(thisis);
+                            dispatch(actions.setLoading(false));
+                            console.log('fail')
+                          }
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          dispatch(actions.setLoading(false));
+                          clearInterval(thisis);
+                        });
+                    }, 1000);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                  dispatch(actions.setLoading(false));
+                });
+            })
+        }
   }
+  
 
   useEffect(() => {
     console.log("분석완료");
@@ -154,7 +217,7 @@ function DashBoard() {
 
   useEffect(() => {
     getVideos();
-  }, [isAnalysis]);
+  }, [isCategorySelect.category]);
 
   return (
     <div className={cx("dashBoardContainer")}>

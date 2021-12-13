@@ -7,10 +7,18 @@ import PosLineChart from "../../../Components/LineChart/PosLineChart";
 import NegLineChart from "../../../Components/LineChart/NegLineChart";
 import AllLineChart from "../../../Components/LineChart/AllLineChart";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import ROUTES from "constants/routes";
+import { nowAllDateTenArray, nowNegDateFiveArray, nowPosDateFiveArray } from "store/modules/analysis";
 
 const cx = classNames.bind(styles);
 
 function DashBoardComment() {
+  const history = useHistory();
+    
+  const isAllTen = useSelector(nowAllDateTenArray);
+  const isNegFive = useSelector(nowNegDateFiveArray);
+  const isPosFive = useSelector(nowPosDateFiveArray);
   const feedBackAnalysis = useSelector((state) => state.contentsFeedBack.analysisData);
 
   const thisData = [
@@ -86,23 +94,24 @@ function DashBoardComment() {
     },
   ];
 
-  const gameData = [
-    { name: "배틀그라운드", value: 600 },
-    { name: "리그오브레전드", value: 500 },
-    { name: "카트라이더", value: 40 },
-    { name: "오버워치", value: 40 },
-    { name: "리니지", value: 200 },
-    { name: "서든어택", value: 120 },
-    { name: "로스트아크", value: 120 },
-    { name: "피파 온라인", value: 80 },
-    { name: "메이플스토리", value: 150 },
-    { name: "스타크래프트", value: 100 },
-  ];
+  const goContentsFeedBack = () => {
+    history.push(`${ROUTES.CONTENTSFEEDBACK}`);
+  };
+  const goAllFeedBack = () => {
+    history.push(`${ROUTES.ALLFEEDBACK}`);
+  };
+  const goNegFeedBack = () => {
+    history.push(`${ROUTES.NEGFEEDBACK}`);
+  };
+  const goPosFeedBack = () => {
+    history.push(`${ROUTES.POSFEEDBACK}`);
+  };
+
 
   return (
     <>
       <div className={cx("dashBoardWrapMiddle")}>
-        <div className={cx("dashBoardAllFeedback")}>
+        <div onClick={goAllFeedBack} className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>모든 피드백</p>
           <div className={cx("squareWrap")}>
             <div className={cx("allSquareLike")}></div>
@@ -111,7 +120,7 @@ function DashBoardComment() {
             <p className={cx("allSquareP")}>댓글 수</p>
           </div>
           <div className={cx("allBarChart")}>
-            {thisData.map((data, i) => {
+            {isAllTen?.map((data, i) => {
               return (
                 <div className={cx("chartWrap")}>
                   <div className={cx("chartLeft")}>{i + 1}.</div>
@@ -125,7 +134,7 @@ function DashBoardComment() {
           </div>
         </div>
         <div className={cx("dashBoardWrapMiddleBlank")}></div>
-        <div className={cx("dashBoardAllFeedback")}>
+        <div onClick={goContentsFeedBack} className={cx("dashBoardAllFeedback")}>
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>
@@ -152,7 +161,7 @@ function DashBoardComment() {
       </div>
       <div className={cx("dashBoardWrapDown")}>
         <div className={cx("dashBoardWrapDownGrid")}>
-          <div className={cx("dashBoardPosFeedback")}>
+          <div onClick={goPosFeedBack} className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>긍정 피드백</p>
             <div className={cx("squareWrap")}>
               <div className={cx("posSquareLike")}></div>
@@ -161,7 +170,7 @@ function DashBoardComment() {
               <p className={cx("posSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
-              {thisData.map((data, i) => {
+              {isPosFive.map((data, i) => {
                 return (
                   <div className={cx("chartWrap")}>
                     <div className={cx("chartLeft")}>{i + 1}.</div>
@@ -177,7 +186,7 @@ function DashBoardComment() {
           <div className={cx("dashBoardWrapDownBlank")}>
             <div className={cx("BlankLine")}></div>
           </div>
-          <div className={cx("dashBoardPosFeedback")}>
+          <div onClick={goNegFeedBack} className={cx("dashBoardPosFeedback")}>
             <p className={cx("dashP")}>부정 피드백</p>
             <div className={cx("squareWrap")}>
               <div className={cx("negSquareLike")}></div>
@@ -186,7 +195,7 @@ function DashBoardComment() {
               <p className={cx("negSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
-              {thisData.map((data, i) => {
+              {isNegFive?.map((data, i) => {
                 return (
                   <div className={cx("chartWrap")}>
                     <div className={cx("chartLeft")}>{i + 1}.</div>

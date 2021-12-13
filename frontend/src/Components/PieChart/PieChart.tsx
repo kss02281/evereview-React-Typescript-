@@ -82,8 +82,8 @@ const PieChartC: React.FC<PieChartDataProps> = ({ data }) => {
           activeIndex={activeIndex}
           activeShape={renderActiveShape}
           data={Data}
-          innerRadius="40%"
-          outerRadius="70%"
+          innerRadius="30%"
+          outerRadius="60%"
           fill="#8884d8"
           dataKey="value"
           onMouseEnter={onPieEnter}

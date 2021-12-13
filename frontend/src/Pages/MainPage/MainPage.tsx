@@ -7,12 +7,21 @@ import ROUTES from "constants/routes";
 import VerticalCarousel from "Components/verticalSlider/VerticalCarousel";
 import mockData from "constants/mockData.json";
 import AnimationPage from "Components/Animation/AnimationPage";
-
+import { useSelector } from "react-redux";
+import { ReducerType } from "store/modules";
 const cx = classNames.bind(styles);
 
 function MainPage() {
   const history = useHistory();
-  const handleStart = () => history.push(ROUTES.LOGIN);
+  const isLogin = useSelector<ReducerType>((state) => state.user.success);
+
+  const handleStart = () => {
+    if (isLogin) {
+      history.push(ROUTES.DASHBOARD);
+    } else {
+      history.push(ROUTES.LOGIN);
+    }
+  };
 
   return (
     <Fragment>

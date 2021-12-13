@@ -42,6 +42,7 @@ const NavBarProfile: React.FC<NavBarProfileProps> = ({ img_url, nickname }) => {
     dispatch(actions.resetSelectedVideo());
     dispatch(actions.resetVideo());
     dispatch(actions.resetUserInfo());
+    dispatch(actions.resetContentsFeedBack());
   }, []);
 
   const logoutHandler = () => {

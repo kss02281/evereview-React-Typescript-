@@ -23,6 +23,7 @@ function Navbar() {
     dispatch(actions.resetSelectedVideo());
     dispatch(actions.resetVideo());
     dispatch(actions.resetUserInfo());
+    dispatch(actions.resetContentsFeedBack());
   }, []);
   const category: string[] = ["먹방", "일상", "리뷰", "게임", "피트니스", "ASMR", "주식", "부동산", "이슈", "교육", "기타"];
   var categoryNumList: number[] = [];

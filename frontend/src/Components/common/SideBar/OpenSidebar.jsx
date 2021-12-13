@@ -76,11 +76,6 @@ function OpenSideBar(props) {
               </Link>
             </div>
           </div>
-          <div className={cx("openSetting")}>
-            <Link to={ROUTES.SETTING} onClick={setVideo} style={props.id === 6 ? { color: blue } : { color: grey }}>
-              환경설정
-            </Link>
-          </div>
           <div className={cx("openNotification")}>
             <Link to={ROUTES.NOTIFICATION} onClick={setVideo} style={props.id === 7 ? { color: blue } : { color: grey }}>
               알림
@@ -144,11 +139,6 @@ function OpenSideBar(props) {
                 컨텐츠 요구 분석
               </Link>
             </div>
-          </div>
-          <div className={cx("openSetting")}>
-            <Link to={ROUTES.SETTING} onClick={setVideo} style={props.id === 6 ? { color: blue } : { color: grey }}>
-              환경설정
-            </Link>
           </div>
           <div className={cx("openNotification")}>
             <Link to={ROUTES.NOTIFICATION} onClick={setVideo} style={props.id === 7 ? { color: blue } : { color: grey }}>

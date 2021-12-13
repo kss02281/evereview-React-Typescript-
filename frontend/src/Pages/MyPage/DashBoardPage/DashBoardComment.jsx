@@ -6,10 +6,13 @@ import { nowCategory } from "../../../store/modules/category";
 import PosLineChart from "../../../Components/LineChart/PosLineChart";
 import NegLineChart from "../../../Components/LineChart/NegLineChart";
 import AllLineChart from "../../../Components/LineChart/AllLineChart";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 function DashBoardComment() {
+  const feedBackAnalysis = useSelector((state) => state.contentsFeedBack.analysisData);
+
   const thisData = [
     {
       id: 1,
@@ -126,17 +129,24 @@ function DashBoardComment() {
           <p className={cx("dashP")}>사용자 요구 분석</p>
 
           <div className={cx("allBarChart")}>
-            {gameData.map((data, i) => {
+            {feedBackAnalysis.map((data, i) => {
               return (
                 <div className={cx("chartWrap")}>
                   <div className={cx("chartLeft")}>{i + 1}.</div>
-                  <div className={cx("chartRight")}>{data.name}</div>
+                  <div className={cx("chartRight")}>
+                    {data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                      ? data.top_comment_text
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 22) + "..."
+                      : data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                  </div>
                 </div>
               );
             })}
           </div>
           <div className={cx("pieGraph")}>
-            <PieChartC data={gameData} />
+            <PieChartC data={feedBackAnalysis} />
           </div>
         </div>
       </div>

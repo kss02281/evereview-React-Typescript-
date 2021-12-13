@@ -1,9 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { Navbar, Sidebar } from "../../../Components/common";
 import SearchBar from "../../../Components/SearchBar/SearchBar/SearchBar";
 import classNames from "classnames/bind";
-import styles from "./NegFeedBackPage.module.scss";
 import { nowCategory } from "../../../store/modules/category";
 import { Link } from "react-router-dom";
 import ROUTES from "../../../constants/routes";
@@ -11,20 +10,31 @@ import { actions } from "../../../store/modules";
 import NegBarChart from "../../../Components/barChart/NegBarChart";
 import NegLineChart from "../../../Components/LineChart/NegLineChart";
 import axios from "axios";
-import { nowNegFiveArray, nowAnalysis } from "store/modules/analysis";
+import { nowAllTenArray, nowAnalysis, nowClusterData, nowNegFiveArray } from "store/modules/analysis";
+import { nowVideoList } from "store/modules/videos";
+import { nowSelectedVideoList } from "store/modules/selectedVideo";
+import styles from "./NegFeedBackPage.module.scss";
 
 const cx = classNames.bind(styles);
 
 function NegFeedBackPage() {
   const [thisData, setThisData] = useState([]);
   const [thissData, setThissData] = useState([]);
-  const [sortByViewCount,setSortByViewCount] = useState([])
-  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
+  const [clusterData, setClusterData] = useState([]);
+  const [sortByViewCount, setSortByViewCount] = useState([]);
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(false);
   const nowNegFive = useSelector(nowNegFiveArray);
   const isAnalysis = useSelector(nowAnalysis);
-  const clusterId = isAnalysis.analysisArray.clusters[0].id
-
+  const isCluster = useSelector(nowClusterData);
+  const isNowVideo = useSelector(nowVideoList);
+  
+  const isSelectedVideoList = useSelector(nowSelectedVideoList);
+  
   const getUserInfo = () => {
+    const clusterArray = []
+    const obj = {};
+    for (let i=10; i<15; i++){
+      const clusterId = isAnalysis.analysisArray.clusters[i].id;
     axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
         headers: {
@@ -32,36 +42,26 @@ function NegFeedBackPage() {
         },
       })
       .then((response) => {
-        const result = response.data.sort(function (a, b) {
-          return a.video.view_count - b.video.view_count;
-      });
-      let obj = result.reduce((res, curr) =>
-      {
-          if (res[curr.video.view_count])
-              res[curr.video.view_count].push(curr);
-          else
-              Object.assign(res, {[curr.video.view_count]: [curr]});
-          return res;
-      }, {});
-        console.log(result);
-        setSortByViewCount(obj)
-        console.log(obj)
+        console.log(response)
+        console.log(i)
+        obj[i-10] = response.data
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       });
+    }
+    setClusterData([obj])
+    dispatch(actions.setCluster(clusterData))
   };
 
   async function getFeedBackList() {
-    setThisData(nowNegFive)
-    setIsSelectedCommentArray(Array.from({ length: nowNegFive.length }, (v, i) => false))
-    console.log(nowNegFive.length)
-   }
-
-
+    setThisData(nowNegFive);
+    setIsSelectedCommentArray(Array.from({ length: nowNegFive.length }, (v, i) => false));
+    console.log(nowNegFive.length);
+  }
 
   useEffect(() => {
-    getUserInfo()
+    getUserInfo();
     getFeedBackList();
   }, []);
 
@@ -78,12 +78,11 @@ function NegFeedBackPage() {
     let newArr = [...isSelectedCommentArray];
     newArr[number] = !isSelectedCommentArray[number];
     setIsSelectedCommentArray(newArr);
-    console.log(newArr);
-    let testArr = [...isSelectedCommentArray];
-    setThissData(thissData.concat(testArr));
-    console.log(thissData);
   };
 
+  
+
+  
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
@@ -124,7 +123,12 @@ function NegFeedBackPage() {
                         return (
                           <div className={cx("chartWrap")}>
                             <div className={cx("chartLeft")}>{i + 1}.</div>
-                            <div className={cx("chartRight")}>{data.name}</div>
+                            <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
                           </div>
                         );
                       })}
@@ -145,10 +149,10 @@ function NegFeedBackPage() {
                         return (
                           <>
                             <div className={cx("feedBackComment")} id={i} onClick={() => setSelect(i)}>
-                              <div style={{overflow:"hidden", height: '50px'}}>{data.id}위</div>
-                              <div style={{overflow:"hidden", height: '50px'}}>{data.name}</div>
-                              <div style={{overflow:"hidden", height: '50px'}}>{data.댓글수} 개</div>
-                              <div style={{overflow:"hidden", height: '50px'}}>{data.좋아요수} 개</div>
+                              <div style={{ overflow: "hidden", height: "50px" }}>{data.id}위</div>
+                              <div style={{ overflow: "hidden", height: "50px" }}>{data.name}</div>
+                              <div style={{ overflow: "hidden", height: "50px" }}>{data.댓글수} 개</div>
+                              <div style={{ overflow: "hidden", height: "50px" }}>{data.좋아요수} 개</div>
                             </div>
                             {isSelectedCommentArray[i] ? (
                               <div>
@@ -157,20 +161,44 @@ function NegFeedBackPage() {
                                   <div>원래 댓글</div>
                                   <div>댓글 작성 일자</div>
                                   <div>좋아요</div>
-                                  <div>조회수</div>
                                 </div>
-                                {sortByViewCount[thisData[i].top_comment.video.view_count].map((sortData, j) => {
-                            return (
-                              <div className={cx("feedBackDetail")}>
-                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].video.title}</div>
-                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].text_original}</div>
-                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].published_at}</div>
-                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].like_count}</div>
-                                <div style={{overflow:"hidden", height: '20px'}}>{sortByViewCount[thisData[i].top_comment.video.view_count][j].video.view_count}</div>
-                              </div>
-                            );
-                          })}
-                          )
+                                <div>
+                                {clusterData.map((sortData, j) => {
+                                  return(
+                                    <div>
+                                  {sortData[i].map((sortedData, j) => {
+                                    console.log(sortedData)
+                                    return (
+                                      <div className={cx("feedBackDetail")}>
+                                        <div>
+                                      {sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.video.title
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.text_original
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {new Date(sortedData.published_at).getFullYear()}년 {new Date(sortedData.published_at).getMonth()+1}월 {new Date(sortedData.published_at).getDate()}일
+                                        </div>
+                                        <div>
+                                      {sortedData.like_count} 개
+                                        </div>
+                                      </div>
+                                    );
+                                })}
+                                  </div>
+                                )
+                                })}
+                                </div>
                               </div>
                             ) : null}
                           </>

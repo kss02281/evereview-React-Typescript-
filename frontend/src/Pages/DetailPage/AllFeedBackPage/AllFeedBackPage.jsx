@@ -11,7 +11,7 @@ import { actions } from "../../../store/modules";
 import AllBarChart from "../../../Components/barChart/AllBarChart";
 import AllLineChart from "../../../Components/LineChart/AllLineChart";
 import axios from "axios";
-import { nowAllTenArray, nowAnalysis } from "store/modules/analysis";
+import { nowAllTenArray, nowAnalysis, nowClusterData } from "store/modules/analysis";
 import { nowVideoList } from "store/modules/videos";
 import { nowSelectedVideoList } from "store/modules/selectedVideo";
 
@@ -22,15 +22,17 @@ function AllFeedBackPage() {
   const [thissData, setThissData] = useState([]);
   const [clusterData, setClusterData] = useState([]);
   const [sortByViewCount, setSortByViewCount] = useState([]);
-  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
+  const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(false);
   const nowAllTen = useSelector(nowAllTenArray);
   const isAnalysis = useSelector(nowAnalysis);
+  const isCluster = useSelector(nowClusterData);
   const isNowVideo = useSelector(nowVideoList);
   
   const isSelectedVideoList = useSelector(nowSelectedVideoList);
   
   const getUserInfo = () => {
     const clusterArray = []
+    const obj = {};
     for (let i=10; i<20; i++){
       const clusterId = isAnalysis.analysisArray.clusters[i].id;
     axios
@@ -40,15 +42,16 @@ function AllFeedBackPage() {
         },
       })
       .then((response) => {
-        var obj = {};
-        obj[clusterId] = response.data
-        clusterArray.push(obj)
-        setClusterData(clusterArray)
+        console.log(response)
+        console.log(i)
+        obj[i-10] = response.data
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       });
     }
+    setClusterData([obj])
+    dispatch(actions.setCluster(clusterData))
   };
 
   async function getFeedBackList() {
@@ -75,29 +78,10 @@ function AllFeedBackPage() {
     let newArr = [...isSelectedCommentArray];
     newArr[number] = !isSelectedCommentArray[number];
     setIsSelectedCommentArray(newArr);
-    let testArr = [...isSelectedCommentArray];
-    setThissData(thissData.concat(testArr));
-    console.log(thissData);
   };
 
-  function sort_by_key(array, key)
-{
- return array.sort(function(a, b)
- {
-  var x = a[key]; var y = b[key];
-  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
- });
-}
-  const sortedClusterData = sort_by_key(clusterData, (Object.keys(clusterData)));
-  console.log(sortedClusterData)
-  console.log((Object.keys(clusterData[0])))
+  
 
-  useEffect(() => {
-    clusterData.map((sortData, j) => {
-      console.log((Object.keys(clusterData[0])))
-      console.log(isAnalysis.analysisArray.clusters[j+10])
-    })
-  },[isAnalysis])
   
   return (
     <Fragment>
@@ -139,7 +123,12 @@ function AllFeedBackPage() {
                         return (
                           <div className={cx("chartWrap")}>
                             <div className={cx("chartLeft")}>{i + 1}.</div>
-                            <div className={cx("chartRight")}>{data.name}</div>
+                            <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
                           </div>
                         );
                       })}
@@ -172,30 +161,44 @@ function AllFeedBackPage() {
                                   <div>원래 댓글</div>
                                   <div>댓글 작성 일자</div>
                                   <div>좋아요</div>
-                                  <div>조회수</div>
                                 </div>
+                                <div>
                                 {clusterData.map((sortData, j) => {
-                                  return (
-                                    <div className={cx("feedBackDetail")}>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {}
+                                  return(
+                                    <div>
+                                  {sortData[i].map((sortedData, j) => {
+                                    console.log(sortedData)
+                                    return (
+                                      <div className={cx("feedBackDetail")}>
+                                        <div>
+                                      {sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.video.title
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                      ? sortedData.text_original
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 15) + "..."
+                      : sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                        </div>
+                                        <div>
+                                      {new Date(sortedData.published_at).getFullYear()}년 {new Date(sortedData.published_at).getMonth()+1}월 {new Date(sortedData.published_at).getDate()}일
+                                        </div>
+                                        <div>
+                                      {sortedData.like_count} 개
+                                        </div>
                                       </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {}
-                                      </div>
-                                      <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {}
-                                      </div>
-                                    </div>
-                                  );
+                                    );
                                 })}
-                                
+                                  </div>
+                                )
+                                })}
+                                </div>
                               </div>
                             ) : null}
                           </>

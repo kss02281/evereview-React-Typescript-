@@ -6,6 +6,7 @@ const initialState = {
   posFiveArray: [],
   negFiveArray: [],
   loading: false,
+  nowClusterData: [],
 };
 
 // Define Actions & Reducer
@@ -13,6 +14,9 @@ const analysisSlice = createSlice({
   name: "analysis",
   initialState,
   reducers: {
+    setCluster(state, action) {
+      state.nowClusterData = action.payload;
+    },
     setAnalysis(state, action) {
       state.analysisArray = action.payload;
     },
@@ -43,5 +47,6 @@ export const nowAnalysis = (state) => state.analysis;
 export const nowAllTenArray = (state) => state.analysis.allTenArray;
 export const nowNegFiveArray = (state) => state.analysis.negFiveArray;
 export const nowPogFiveArray = (state) => state.analysis.posFiveArray;
+export const nowClusterData = (state) => state.nowClusterData;
 export const nowLoading = (state) => state.loading;
 export default analysisSlice.reducer;

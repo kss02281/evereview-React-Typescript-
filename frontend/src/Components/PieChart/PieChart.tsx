@@ -1,5 +1,5 @@
 import "./styles.css";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
 const renderActiveShape = (props: any) => {
@@ -50,7 +50,8 @@ type PieChartDataProps = {
 
 const PieChartC: React.FC<PieChartDataProps> = ({ data }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const Data = data.map((item) => {
+
+  const Data = data.map((item, idx) => {
     return {
       name: item.rank,
       value: item.total_value,

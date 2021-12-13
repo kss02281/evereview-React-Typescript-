@@ -126,7 +126,7 @@ function DashBoard() {
     console.log("분석완료");
     const analysisDataArray = isAnalysis?.analysisArray?.clusters;
     console.log(analysisDataArray);
-    const dataArray = [];
+    var dataArray = [];
     const object = {};
     if (analysisDataArray) {
       dispatch(actions.setLoading(false));
@@ -141,6 +141,11 @@ function DashBoard() {
         };
         dataArray.push(object[i]);
       }
+      dataArray = dataArray.sort((a, b) => b["total_value"] - a["total_value"]);
+      dataArray.map((item, idx) => {
+        item.rank = idx + 1;
+      });
+      console.log(dataArray);
       dispatch(actions.saveContentsFeedBackAnalysis(dataArray));
     } else {
       dispatch(actions.setLoading(true));

@@ -22,10 +22,6 @@ function ContentsFeedBackPage() {
   }, []);
 
   useEffect(() => {
-    if (finishAnalysis === false) alert("Finish Analysis!");
-  }, [finishAnalysis]);
-
-  useEffect(() => {
     console.log(isCategorySelect);
   }, [isCategorySelect]);
 
@@ -45,6 +41,23 @@ function ContentsFeedBackPage() {
           <div className={cx("pieChartFBBox")}>
             <div className={cx("pieChartFB")}>
               <PieChartC data={contentsFeedBackData} />
+            </div>
+            <div className={cx("allBarChart")}>
+              {contentsFeedBackData.map((data, i) => {
+                return (
+                  <div className={cx("chartWrap")}>
+                    <div className={cx("chartLeft")}>{i + 1}.</div>
+                    <div className={cx("chartRight")}>
+                      {data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                        ? data.top_comment_text
+                            .replace(/(<([^>]+)>)/gi, "")
+                            .replace(/\n/, "")
+                            .substring(0, 22) + ".."
+                        : data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

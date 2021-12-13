@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./DashBoard.module.scss";
 import classNames from "classnames/bind";
 import PieChartC from "../../../Components/PieChart/PieChart";
@@ -85,26 +85,10 @@ function DashBoardVideo() {
       box: 10,
     },
   ];
-
-  const gameData = [
-    { name: "배틀그라운드", value: 600 },
-    { name: "리그오브레전드", value: 500 },
-    { name: "카트라이더", value: 40 },
-    { name: "오버워치", value: 40 },
-    { name: "리니지", value: 200 },
-    { name: "서든어택", value: 120 },
-    { name: "로스트아크", value: 120 },
-    { name: "피파 온라인", value: 80 },
-    { name: "메이플스토리", value: 150 },
-    { name: "스타크래프트", value: 100 },
-  ];
-
   const isAllTen = useSelector(nowAllTenArray);
   const isNegFive = useSelector(nowNegFiveArray);
   const isPosFive = useSelector(nowPogFiveArray);
   const feedBackAnalysis = useSelector((state) => state.contentsFeedBack.analysisData);
-
-  console.log(isPosFive, isNegFive, isAllTen);
 
   const goContentsFeedBack = () => {
     history.push(`${ROUTES.CONTENTSFEEDBACK}`);
@@ -149,7 +133,7 @@ function DashBoardVideo() {
                       ? data.top_comment_text
                           .replace(/(<([^>]+)>)/gi, "")
                           .replace(/\n/, "")
-                          .substring(0, 22) + "..."
+                          .substring(0, 22) + ".."
                       : data.top_comment_text.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
                   </div>
                 </div>

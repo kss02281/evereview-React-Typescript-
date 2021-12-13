@@ -31,7 +31,7 @@ function MainPage() {
         <div className={cx("leftContainer")}>
           <div className={cx("mainTitle")}>EveReview</div>
           <div className={cx("mainDescription")}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan placerat tellus, a finibus justo facilisis euismod.
+          EveReview를 통해 사용자의 니즈를 분석하고 파악해보세요!<br/> 구글 로그인 하나로 EveReview의 모든 서비스를 이용하실 수 있습니다.
           </div>
           <div className={cx("startButton")} onClick={handleStart}>
             시작하기

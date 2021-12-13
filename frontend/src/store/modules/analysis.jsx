@@ -8,6 +8,11 @@ const initialState = {
   negFiveArray: [],
   loading: false,
   nowClusterData: [],
+  nowPosClusterData: [],
+  nowNegClusterData: [],
+  nowDateClusterData: [],
+  nowDatePosClusterData: [],
+  nowDateNegClusterData: [],
   allDateTenArray: [],
   posDateFiveArray: [],
   negDateFiveArray: [],
@@ -20,6 +25,21 @@ const analysisSlice = createSlice({
   reducers: {
     setCluster(state, action) {
       state.nowClusterData = action.payload;
+    },
+    setDateCluster(state, action) {
+      state.nowDateClusterData = action.payload;
+    },
+    setPosCluster(state, action) {
+      state.nowPosClusterData = action.payload;
+    },
+    setPosDateCluster(state, action) {
+      state.nowDatePosClusterData = action.payload;
+    },
+    setNegCluster(state, action) {
+      state.nowNegClusterData = action.payload;
+    },
+    setNegDateCluster(state, action) {
+      state.nowDateNegClusterData = action.payload;
     },
     setAnalysis(state, action) {
       state.analysisArray = action.payload;
@@ -67,10 +87,16 @@ export const nowAnalysis = (state) => state.analysis;
 export const nowDateAnalysis = (state) => state.dateAnalysis;
 export const nowAllTenArray = (state) => state.analysis.allTenArray;
 export const nowNegFiveArray = (state) => state.analysis.negFiveArray;
-export const nowPogFiveArray = (state) => state.analysis.posFiveArray;
+export const nowPosFiveArray = (state) => state.analysis.posFiveArray;
 export const nowAllDateTenArray = (state) => state.analysis.allDateTenArray;
 export const nowNegDateFiveArray = (state) => state.analysis.negDateFiveArray;
-export const nowPogDateFiveArray = (state) => state.analysis.posDateFiveArray;
+export const nowPosDateFiveArray = (state) => state.analysis.posDateFiveArray;
 export const nowClusterData = (state) => state.nowClusterData;
+export const nowPosClusterData = (state) => state.nowPosClusterData;
+export const nowNegClusterData = (state) => state.nowNegClusterData;
+export const nowDateClusterData = (state) => state.nowDateClusterData;
+export const nowDatePosClusterData = (state) => state.nowDatePosClusterData;
+export const nowDateNegClusterData = (state) => state.nowDateNegClusterData;
 export const nowLoading = (state) => state.loading;
 export default analysisSlice.reducer;
+

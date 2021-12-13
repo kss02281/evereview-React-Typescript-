@@ -11,16 +11,20 @@ import { nowVideoList, nowNextVideoPage, nowPrevVideoPage } from "../../../store
 import DashBoardVideo from "./DashBoardVideo";
 import DashBoardComment from "./DashBoardComment";
 import axios from "axios";
-import { nowAllTenArray, nowAnalysis, nowNegFiveArray, nowPogFiveArray } from "store/modules/analysis";
+import { nowAllTenArray, nowAnalysis, nowNegFiveArray } from "store/modules/analysis";
 import { Hypnosis } from "react-cssfx-loading";
 
 const cx = classNames.bind(styles);
 
 function DashBoard() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    
+  dispatch(actions.selectCategory('영상별 분석'))
+  }, []);
   const [isloading, setIsLoading] = useState(true);
 
   const [videoString, setVideoString] = useState("");
-  const dispatch = useDispatch();
   const isCategorySelect = useSelector(nowCategory);
   const isAnalysis = useSelector(nowAnalysis);
   const nowLoading = useSelector(nowAnalysis).loading;
@@ -121,12 +125,12 @@ function DashBoard() {
       .catch((error) => {
         console.log(error);
       });
-    } else if ( isCategorySelect.category === "댓글 기간별 분석") {
-      
-      const submitStartDate = `${new Date().getFullYear()}` + '-' + `${new Date().getMonth()+1}`+'-'+`${new Date().getDate()}`
+    } else if ( isCategorySelect.category === "댓글 기간별 분석" && isAnalysis?.dateAnalysisArray?.clusters === undefined) {
+      const newStartDate = new Date();
+      const submitStartDate = `${new Date(newStartDate.setDate(newStartDate.getDate() - 1)).getFullYear()}` + '-' + `${new Date(newStartDate.setDate(newStartDate.getDate() - 1)).getMonth()+1}`+'-'+`${new Date().getDate()-1}`
       const submitEndDate = `${new Date().getFullYear()}` + '-' + `${new Date().getMonth()+1}`+'-'+`${new Date().getDate()}`
+      console.log(new Date(newStartDate.setDate(newStartDate.getDate() - 7)))
       
-      dispatch(actions.setLoading(true));
       dispatch(actions.saveDate({ startDate: submitStartDate, endDate: submitEndDate }));
       
       const analyticDateData = new FormData();
@@ -148,22 +152,33 @@ function DashBoard() {
                       axios
                         .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
                         .then((response) => {
+                          console.log(response.data)
                           console.log("data is fetching..");
                           if (response.data.clusters !== null && response.data.analysis !== null) {
                             dispatch(actions.setDateAnalysis(response.data));
+                            dispatch(actions.setDateAllTen(response.data.clusters.slice(10,20)));
+                            dispatch(actions.setDateNegFive(response.data.clusters.slice(10,15)));
+                            dispatch(actions.setDatePosFive(response.data.clusters.slice(15)));
                             console.log(response.data);
                             clearInterval(thisis);
                             dispatch(actions.setLoading(false));
+                          } else if (response.data.state == 'FAILURE') {
+                            clearInterval(thisis);
+                            dispatch(actions.setLoading(false));
+                            console.log('fail')
                           }
                         })
                         .catch((error) => {
                           console.log(error);
+                          dispatch(actions.setLoading(false));
+                          clearInterval(thisis);
                         });
                     }, 1000);
                   }
                 })
                 .catch((error) => {
                   console.log(error);
+                  dispatch(actions.setLoading(false));
                 });
             })
         }
@@ -202,7 +217,7 @@ function DashBoard() {
 
   useEffect(() => {
     getVideos();
-  }, [isAnalysis]);
+  }, [isCategorySelect.category]);
 
   return (
     <div className={cx("dashBoardContainer")}>

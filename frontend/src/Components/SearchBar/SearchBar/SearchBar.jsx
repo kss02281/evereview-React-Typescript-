@@ -61,7 +61,7 @@ function SearchBar(props) {
                 .then((response) => {
                   console.log(response.data);
                   if (response.data.clusters !== null && response.data.analysis !== null) {
-                    dispatch(actions.setDateAllTen(response.data.clusters.slice(0,10)));
+                    dispatch(actions.setDateAllTen(response.data.clusters.slice(10,20)));
                     dispatch(actions.setDateNegFive(response.data.clusters.slice(10,15)));
                     dispatch(actions.setDatePosFive(response.data.clusters.slice(15)));
                     dispatch(actions.setDateAnalysis(response.data));

@@ -27,31 +27,31 @@ function NegFeedBackPage() {
   const isAnalysis = useSelector(nowAnalysis);
   const isCluster = useSelector(nowClusterData);
   const isNowVideo = useSelector(nowVideoList);
-  
+
   const isSelectedVideoList = useSelector(nowSelectedVideoList);
-  
+
   const getUserInfo = () => {
-    const clusterArray = []
+    const clusterArray = [];
     const obj = {};
-    for (let i=10; i<15; i++){
-      const clusterId = isAnalysis.analysisArray.clusters[i].id;
-    axios
-      .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        console.log(response)
-        console.log(i)
-        obj[i-10] = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+    for (let i = 10; i < 15; i++) {
+      const clusterId = isAnalysis?.analysisArray?.clusters[i].id;
+      axios
+        .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          console.log(i);
+          obj[i - 10] = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    setClusterData([obj])
-    dispatch(actions.setCluster(clusterData))
+    setClusterData([obj]);
+    dispatch(actions.setCluster(clusterData));
   };
 
   async function getFeedBackList() {
@@ -80,9 +80,6 @@ function NegFeedBackPage() {
     setIsSelectedCommentArray(newArr);
   };
 
-  
-
-  
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
@@ -123,12 +120,14 @@ function NegFeedBackPage() {
                         return (
                           <div className={cx("chartWrap")}>
                             <div className={cx("chartLeft")}>{i + 1}.</div>
-                            <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
-                      ? data.name
-                          .replace(/(<([^>]+)>)/gi, "")
-                          .replace(/\n/, "")
-                          .substring(0, 15) + "..."
-                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
+                            <div className={cx("chartRight")}>
+                              {data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                                ? data.name
+                                    .replace(/(<([^>]+)>)/gi, "")
+                                    .replace(/\n/, "")
+                                    .substring(0, 15) + "..."
+                                : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                            </div>
                           </div>
                         );
                       })}
@@ -163,41 +162,41 @@ function NegFeedBackPage() {
                                   <div>좋아요</div>
                                 </div>
                                 <div>
-                                {clusterData.map((sortData, j) => {
-                                  return(
-                                    <div>
-                                  {sortData[i].map((sortedData, j) => {
-                                    console.log(sortedData)
+                                  {clusterData.map((sortData, j) => {
                                     return (
-                                      <div className={cx("feedBackDetail")}>
-                                        <div>
-                                      {sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
-                      ? sortedData.video.title
-                          .replace(/(<([^>]+)>)/gi, "")
-                          .replace(/\n/, "")
-                          .substring(0, 15) + "..."
-                      : sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
-                                        </div>
-                                        <div>
-                                      {sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
-                      ? sortedData.text_original
-                          .replace(/(<([^>]+)>)/gi, "")
-                          .replace(/\n/, "")
-                          .substring(0, 15) + "..."
-                      : sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
-                                        </div>
-                                        <div>
-                                      {new Date(sortedData.published_at).getFullYear()}년 {new Date(sortedData.published_at).getMonth()+1}월 {new Date(sortedData.published_at).getDate()}일
-                                        </div>
-                                        <div>
-                                      {sortedData.like_count} 개
-                                        </div>
+                                      <div>
+                                        {sortData[i].map((sortedData, j) => {
+                                          console.log(sortedData);
+                                          return (
+                                            <div className={cx("feedBackDetail")}>
+                                              <div>
+                                                {sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                                                  ? sortedData.video.title
+                                                      .replace(/(<([^>]+)>)/gi, "")
+                                                      .replace(/\n/, "")
+                                                      .substring(0, 15) + "..."
+                                                  : sortedData.video.title.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                              </div>
+                                              <div>
+                                                {sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 15
+                                                  ? sortedData.text_original
+                                                      .replace(/(<([^>]+)>)/gi, "")
+                                                      .replace(/\n/, "")
+                                                      .substring(0, 15) + "..."
+                                                  : sortedData.text_original.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}
+                                              </div>
+                                              <div>
+                                                {new Date(sortedData.published_at).getFullYear()}년{" "}
+                                                {new Date(sortedData.published_at).getMonth() + 1}월{" "}
+                                                {new Date(sortedData.published_at).getDate()}일
+                                              </div>
+                                              <div>{sortedData.like_count} 개</div>
+                                            </div>
+                                          );
+                                        })}
                                       </div>
                                     );
-                                })}
-                                  </div>
-                                )
-                                })}
+                                  })}
                                 </div>
                               </div>
                             ) : null}

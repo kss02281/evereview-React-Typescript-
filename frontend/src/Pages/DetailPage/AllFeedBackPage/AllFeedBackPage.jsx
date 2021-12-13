@@ -12,19 +12,27 @@ import AllBarChart from "../../../Components/barChart/AllBarChart";
 import AllLineChart from "../../../Components/LineChart/AllLineChart";
 import axios from "axios";
 import { nowAllTenArray, nowAnalysis } from "store/modules/analysis";
+import { nowVideoList } from "store/modules/videos";
+import { nowSelectedVideoList } from "store/modules/selectedVideo";
 
 const cx = classNames.bind(styles);
 
 function AllFeedBackPage() {
   const [thisData, setThisData] = useState([]);
   const [thissData, setThissData] = useState([]);
+  const [clusterData, setClusterData] = useState([]);
   const [sortByViewCount, setSortByViewCount] = useState([]);
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
   const nowAllTen = useSelector(nowAllTenArray);
   const isAnalysis = useSelector(nowAnalysis);
-  const clusterId = isAnalysis.analysisArray.clusters[0].id;
-
+  const isNowVideo = useSelector(nowVideoList);
+  
+  const isSelectedVideoList = useSelector(nowSelectedVideoList);
+  
   const getUserInfo = () => {
+    const clusterArray = []
+    for (let i=10; i<20; i++){
+      const clusterId = isAnalysis.analysisArray.clusters[i].id;
     axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/comments/${clusterId}`, {
         headers: {
@@ -32,21 +40,15 @@ function AllFeedBackPage() {
         },
       })
       .then((response) => {
-        const result = response.data.sort(function (a, b) {
-          return a.video.view_count - b.video.view_count;
-        });
-        let obj = result.reduce((res, curr) => {
-          if (res[curr.video.view_count]) res[curr.video.view_count].push(curr);
-          else Object.assign(res, { [curr.video.view_count]: [curr] });
-          return res;
-        }, {});
-        console.log(result);
-        setSortByViewCount(obj);
-        console.log(obj);
+        var obj = {};
+        obj[clusterId] = response.data
+        clusterArray.push(obj)
+        setClusterData(clusterArray)
       })
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   async function getFeedBackList() {
@@ -73,12 +75,30 @@ function AllFeedBackPage() {
     let newArr = [...isSelectedCommentArray];
     newArr[number] = !isSelectedCommentArray[number];
     setIsSelectedCommentArray(newArr);
-    console.log(newArr);
     let testArr = [...isSelectedCommentArray];
     setThissData(thissData.concat(testArr));
     console.log(thissData);
   };
 
+  function sort_by_key(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+  const sortedClusterData = sort_by_key(clusterData, (Object.keys(clusterData)));
+  console.log(sortedClusterData)
+  console.log((Object.keys(clusterData[0])))
+
+  useEffect(() => {
+    clusterData.map((sortData, j) => {
+      console.log((Object.keys(clusterData[0])))
+      console.log(isAnalysis.analysisArray.clusters[j+10])
+    })
+  },[isAnalysis])
+  
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
@@ -154,28 +174,28 @@ function AllFeedBackPage() {
                                   <div>좋아요</div>
                                   <div>조회수</div>
                                 </div>
-                                {sortByViewCount[thisData[i].top_comment.video.view_count].map((sortData, j) => {
+                                {clusterData.map((sortData, j) => {
                                   return (
                                     <div className={cx("feedBackDetail")}>
                                       <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].video.title}
+                                        {}
                                       </div>
                                       <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].text_original}
+                                        {}
                                       </div>
                                       <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].published_at}
+                                        {}
                                       </div>
                                       <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].like_count}
+                                        {}
                                       </div>
                                       <div style={{ overflow: "hidden", height: "20px" }}>
-                                        {sortByViewCount[thisData[i].top_comment.video.view_count][j].video.view_count}
+                                        {}
                                       </div>
                                     </div>
                                   );
                                 })}
-                                )
+                                
                               </div>
                             ) : null}
                           </>

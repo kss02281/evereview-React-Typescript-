@@ -121,11 +121,16 @@ function DashBoardVideo() {
             <p className={cx("allSquareP")}>댓글 수</p>
           </div>
           <div className={cx("allBarChart")}>
-            {thisData.map((data, i) => {
+            {isAllTen.map((data, i) => {
               return (
                 <div className={cx("chartWrap")}>
                   <div className={cx("chartLeft")}>{i + 1}.</div>
-                  <div className={cx("chartRight")}>{data.name}</div>
+                  <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 22) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
                 </div>
               );
             })}
@@ -164,14 +169,19 @@ function DashBoardVideo() {
               <p className={cx("posSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
-              {thisData.map((data, i) => {
-                return (
-                  <div className={cx("chartWrap")}>
-                    <div className={cx("chartLeft")}>{i + 1}.</div>
-                    <div className={cx("chartRight")}>{data.name}</div>
-                  </div>
-                );
-              })}
+            {isPosFive.map((data, i) => {
+              return (
+                <div className={cx("chartWrap")}>
+                  <div className={cx("chartLeft")}>{i + 1}.</div>
+                  <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 22) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
+                </div>
+              );
+            })}
             </div>
             <div className={cx("allBarGraph")}>
               <PosBarChart />
@@ -189,14 +199,19 @@ function DashBoardVideo() {
               <p className={cx("negSquareP")}>댓글 수</p>
             </div>
             <div className={cx("allBarChart")}>
-              {thisData.map((data, i) => {
-                return (
-                  <div className={cx("chartWrap")}>
-                    <div className={cx("chartLeft")}>{i + 1}.</div>
-                    <div className={cx("chartRight")}>{data.name}</div>
-                  </div>
-                );
-              })}
+            {isNegFive.map((data, i) => {
+              return (
+                <div className={cx("chartWrap")}>
+                  <div className={cx("chartLeft")}>{i + 1}.</div>
+                  <div className={cx("chartRight")}>{data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "").length > 22
+                      ? data.name
+                          .replace(/(<([^>]+)>)/gi, "")
+                          .replace(/\n/, "")
+                          .substring(0, 22) + "..."
+                      : data.name.replace(/(<([^>]+)>)/gi, "").replace(/\n/, "")}</div>
+                </div>
+              );
+            })}
             </div>
             <div className={cx("allBarGraph")}>
               <NegBarChart />

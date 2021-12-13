@@ -6,7 +6,7 @@ import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx';
 import SearchDropdown from '../SearchDropdown/SearchDropdown.jsx';
 import CommentDropdown from '../CommentDropdown/CommentDropdown';
 import { nowSelectedVideoList } from '../../../store/modules/selectedVideo';
-import { nowVideoList } from '../../../store/modules/video';
+import { nowVideoList } from '../../../store/modules/videos';
 import { nowDate } from '../../../store/modules/date';
 import { nowCategory } from '../../../store/modules/category';
 import axios from 'axios';
@@ -49,16 +49,16 @@ function SearchBar(props) {
         analyticData.append('channel_id', channel_id);
         analyticData.append('video_list', selectedVideoArray.join());
 
-        const response = axios.post(process.env.REACT_APP_BACKEND_URL + 'api/analysis/predict', analyticData , config)
+        const response = axios.post(process.env.REACT_APP_BACKEND_URL + '/api/analysis/predict', analyticData , config)
           .then((response) => {
             const analyticDatas = response.data['analysis_id']
-              axios.get(process.env.REACT_APP_BACKEND_URL + `api/analysis/result/${response.data['analysis_id']}` , config)
+              axios.get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${response.data['analysis_id']}` , config)
               .then(response => { 
                 console.log(response.data.analysis)
                 console.log(response.data.clusters)
                   if (response.data.clusters === null && response.data.analysis === null) {
                       const thisis = setInterval(() => {
-                        axios.get(process.env.REACT_APP_BACKEND_URL + `api/analysis/result/${analyticDatas}` , config)
+                        axios.get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}` , config)
                         .then(response => {
                           console.log(response.data.analysis)
                           if (response.data.clusters !== null && response.data.analysis !==null ) {

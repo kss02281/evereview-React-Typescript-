@@ -10,7 +10,7 @@ import PieChartC from "Components/PieChart/PieChart";
 import { AxiosResponse } from "axios";
 import axios from "axios";
 import "./innerTable.css";
-
+import { nowAnalysis } from "store/modules/analysis";
 const cx = classNames.bind(styles);
 
 interface IProps {
@@ -20,6 +20,7 @@ interface IProps {
 
 function ContentsFeedBackPage(props: IProps) {
   const dispatch = useDispatch();
+  const isAnalysis = useSelector(nowAnalysis);
   const isCategorySelect = useSelector(nowCategory);
   const contentsFeedBackData = useSelector((state: ReducerType) => state.contentsFeedBack.analysisData);
   const finishAnalysis = useSelector((state: ReducerType) => state.contentsFeedBack.IsEnter);
@@ -27,6 +28,36 @@ function ContentsFeedBackPage(props: IProps) {
   const [openTableData, setOpenTableData] = useState([] as string[]);
   const [prevId, setPrevId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("분석완료");
+    const analysisDataArray = isAnalysis?.analysisArray?.clusters;
+    console.log(analysisDataArray);
+    var dataArray = [];
+    const object: any = {};
+    if (analysisDataArray) {
+      dispatch(actions.setLoading(false));
+      for (let i = 0; i < 10; i++) {
+        object[i] = {
+          rank: i + 1,
+          cluster_id: analysisDataArray[i].id,
+          total_value: analysisDataArray[i].like_count + analysisDataArray[i].count,
+          total_like: analysisDataArray[i].like_count,
+          total_count: analysisDataArray[i].count,
+          top_comment_text: analysisDataArray[i].top_comment.text_display,
+        };
+        dataArray.push(object[i]);
+      }
+      dataArray = dataArray.sort((a, b) => b["total_value"] - a["total_value"]);
+      dataArray.map((item, idx) => {
+        item.rank = idx + 1;
+      });
+      console.log(dataArray);
+      dispatch(actions.saveContentsFeedBackAnalysis(dataArray));
+    } else {
+      dispatch(actions.setLoading(true));
+    }
+  }, [isAnalysis.analysisArray?.clusters]);
 
   useEffect(() => {
     console.log(window.location.pathname);

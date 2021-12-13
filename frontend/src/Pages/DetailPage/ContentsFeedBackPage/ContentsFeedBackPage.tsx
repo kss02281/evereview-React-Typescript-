@@ -11,6 +11,7 @@ import { AxiosResponse } from "axios";
 import axios from "axios";
 import "./innerTable.css";
 import { nowAnalysis } from "store/modules/analysis";
+import { Hypnosis } from "react-cssfx-loading";
 const cx = classNames.bind(styles);
 
 interface IProps {
@@ -21,6 +22,7 @@ interface IProps {
 function ContentsFeedBackPage(props: IProps) {
   const dispatch = useDispatch();
   const isAnalysis = useSelector(nowAnalysis);
+  const nowLoading = useSelector(nowAnalysis).loading;
   const isCategorySelect = useSelector(nowCategory);
   const contentsFeedBackData = useSelector((state: ReducerType) => state.contentsFeedBack.analysisData);
   const finishAnalysis = useSelector((state: ReducerType) => state.contentsFeedBack.IsEnter);
@@ -170,6 +172,11 @@ function ContentsFeedBackPage(props: IProps) {
 
   return (
     <div className={cx("contentsFeedbackContainer")}>
+      {nowLoading ? (
+        <div className={cx("loadingPage")}>
+          <Hypnosis color="#0000008f" width="200px" height="200px" />
+        </div>
+      ) : null}
       <div className={cx("sideBarContainer")}>
         <Sidebar id={8} />
         <div className={cx("sideLine")}></div>

@@ -146,6 +146,7 @@
               background-color: rgba(216, 236, 195, 0.301);
             }
             .tableBottom {
+              overflow-x: hidden;
               overflow-y: auto;
               height: 90%;
             }
@@ -199,4 +200,16 @@
       }
     }
   }
+}
+.loadingPage {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.63);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  color: #0000008f;
+  display: grid;
+  place-content: center center;
 }

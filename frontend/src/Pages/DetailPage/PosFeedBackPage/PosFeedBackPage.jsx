@@ -12,7 +12,7 @@ import PosBarChart from "../../../Components/barChart/PosBarChart";
 import PosLineChart from "../../../Components/LineChart/PosLineChart";
 import axios from "axios";
 import { nowPogFiveArray, nowAnalysis } from "store/modules/analysis";
-
+import { Hypnosis } from "react-cssfx-loading";
 const cx = classNames.bind(styles);
 
 function PosFeedBackPage() {
@@ -22,6 +22,7 @@ function PosFeedBackPage() {
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState([]);
   const nowPogFive = useSelector(nowPogFiveArray);
   const isAnalysis = useSelector(nowAnalysis);
+  const nowLoading = useSelector(nowAnalysis).loading;
   const clusterId = isAnalysis?.analysisArray?.clusters[0].id;
 
   const getUserInfo = () => {
@@ -82,6 +83,11 @@ function PosFeedBackPage() {
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
+        {nowLoading ? (
+          <div className={cx("loadingPage")}>
+            <Hypnosis color="#0000008f" width="200px" height="200px" />
+          </div>
+        ) : null}
         <Sidebar id={4} />
         <div className={cx("sideLine")}></div>
         <div className={cx("feedBackWrap")}>

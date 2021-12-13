@@ -14,7 +14,7 @@ import { nowAllTenArray, nowAnalysis, nowClusterData, nowNegFiveArray } from "st
 import { nowVideoList } from "store/modules/videos";
 import { nowSelectedVideoList } from "store/modules/selectedVideo";
 import styles from "./NegFeedBackPage.module.scss";
-
+import { Hypnosis } from "react-cssfx-loading";
 const cx = classNames.bind(styles);
 
 function NegFeedBackPage() {
@@ -25,6 +25,7 @@ function NegFeedBackPage() {
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(false);
   const nowNegFive = useSelector(nowNegFiveArray);
   const isAnalysis = useSelector(nowAnalysis);
+  const nowLoading = useSelector(nowAnalysis).loading;
   const isCluster = useSelector(nowClusterData);
   const isNowVideo = useSelector(nowVideoList);
 
@@ -83,6 +84,11 @@ function NegFeedBackPage() {
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
+        {nowLoading ? (
+          <div className={cx("loadingPage")}>
+            <Hypnosis color="#0000008f" width="200px" height="200px" />
+          </div>
+        ) : null}
         <Sidebar id={5} />
         <div className={cx("sideLine")}></div>
         <div className={cx("feedBackWrap")}>

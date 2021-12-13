@@ -14,7 +14,7 @@ import axios from "axios";
 import { nowAllTenArray, nowAnalysis, nowClusterData } from "store/modules/analysis";
 import { nowVideoList } from "store/modules/videos";
 import { nowSelectedVideoList } from "store/modules/selectedVideo";
-
+import { Hypnosis } from "react-cssfx-loading";
 const cx = classNames.bind(styles);
 
 function AllFeedBackPage() {
@@ -25,6 +25,7 @@ function AllFeedBackPage() {
   const [isSelectedCommentArray, setIsSelectedCommentArray] = useState(false);
   const nowAllTen = useSelector(nowAllTenArray);
   const isAnalysis = useSelector(nowAnalysis);
+  const nowLoading = useSelector(nowAnalysis).loading;
   const isCluster = useSelector(nowClusterData);
   const isNowVideo = useSelector(nowVideoList);
 
@@ -83,6 +84,11 @@ function AllFeedBackPage() {
   return (
     <Fragment>
       <div className={cx("feedBackContainer")}>
+        {nowLoading ? (
+          <div className={cx("loadingPage")}>
+            <Hypnosis color="#0000008f" width="200px" height="200px" />
+          </div>
+        ) : null}
         <Sidebar id={3} />
         <div className={cx("sideLine")}></div>
         <div className={cx("feedBackWrap")}>

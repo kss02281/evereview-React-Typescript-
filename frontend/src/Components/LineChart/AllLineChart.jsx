@@ -1,5 +1,5 @@
 import "./styles.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -12,6 +12,9 @@ import {
   Legend,
   ResponsiveContainer  
 } from "recharts";
+import { useDispatch, useSelector } from "react-redux";
+import { nowAllDateTenArray, nowAnalysis, nowDateAnalysis } from "store/modules/analysis";
+import { actions } from "store/modules";
 
 const data = [
   {
@@ -105,6 +108,9 @@ const data = [
     box: 10
   }
 ];
+
+
+
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -130,6 +136,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   };
   
 function AllLineChart() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const [analysisData, setAnalysisData] = useState([]);
+  const isAnalysis = useSelector(nowDateAnalysis)?.analysisArray?.clusters;
+
+  const dataArray = [];
+  const object = {};
+  function sortAnalysis() {
+    
+  }
+
     return (
         <ResponsiveContainer width="90%" height="90%">
         <LineChart data={data} margin={{ top: 10, right: 20, left: 20, bottom: 0 }}>
@@ -157,3 +175,7 @@ function AllLineChart() {
   }
 
   export default AllLineChart
+
+function setAnalysisData(dataArray: any[]) {
+  throw new Error("Function not implemented.");
+}

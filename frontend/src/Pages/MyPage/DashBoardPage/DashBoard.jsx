@@ -39,6 +39,7 @@ function DashBoard() {
   };
 
   async function getVideos() {
+    if (isCategorySelect.category === "영상별 분석") {
     const response = await axios
       .get(process.env.REACT_APP_BACKEND_URL + `/api/videos?channel_id=${channel_id}&page_token=${isNextVideoPage}`, config)
       .then((response) => {
@@ -120,7 +121,54 @@ function DashBoard() {
       .catch((error) => {
         console.log(error);
       });
+    } else if ( isCategorySelect.category === "댓글 기간별 분석") {
+      
+      const submitStartDate = `${new Date().getFullYear()}` + '-' + `${new Date().getMonth()+1}`+'-'+`${new Date().getDate()}`
+      const submitEndDate = `${new Date().getFullYear()}` + '-' + `${new Date().getMonth()+1}`+'-'+`${new Date().getDate()}`
+      
+      dispatch(actions.setLoading(true));
+      dispatch(actions.saveDate({ startDate: submitStartDate, endDate: submitEndDate }));
+      
+      const analyticDateData = new FormData();
+      analyticDateData.append("channel_id", channel_id);
+      analyticDateData.append("day_start", submitStartDate);
+      analyticDateData.append("day_end", submitEndDate);
+      axios
+            .post(process.env.REACT_APP_BACKEND_URL + "/api/analysis/predict", analyticDateData, config)
+            .then((response) => {
+              const analyticDatas = response.data["analysis_id"];
+              axios
+                .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${response.data["analysis_id"]}`, config)
+                .then((response) => {
+                  console.log(response.data.analysis);
+                  console.log(response.data.clusters);
+                  if (response.data.clusters === null && response.data.analysis === null) {
+                    dispatch(actions.setLoading(true));
+                    const thisis = setInterval(() => {
+                      axios
+                        .get(process.env.REACT_APP_BACKEND_URL + `/api/analysis/result/${analyticDatas}`, config)
+                        .then((response) => {
+                          console.log("data is fetching..");
+                          if (response.data.clusters !== null && response.data.analysis !== null) {
+                            dispatch(actions.setDateAnalysis(response.data));
+                            console.log(response.data);
+                            clearInterval(thisis);
+                            dispatch(actions.setLoading(false));
+                          }
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }, 1000);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+        }
   }
+  
 
   useEffect(() => {
     console.log("분석완료");

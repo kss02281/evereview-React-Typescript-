@@ -12,8 +12,6 @@ develop.env.sh
 .DS_Store
 node_modules
 
-/**/*/.ai
-
 .eslintrc
 
 yarn.lock

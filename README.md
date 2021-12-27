@@ -1,5 +1,7 @@
 # 에브리뷰 (EVERYVIEW)
 
+# [프로젝트 기술 소개서](https://www.notion.so/elice/Evereview-ba4dea79a85541baaa918758e9f6f82c)
+
 ## 목차
 1. 웹 서비스 소개
 2. 기술 스택

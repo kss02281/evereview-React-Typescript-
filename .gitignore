@@ -1,4 +1,6 @@
-.gitlab
+.gitlab/
+.vscode/
+evereview/
 
 __pycache__
 venv
